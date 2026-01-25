@@ -14,10 +14,10 @@ Astro Agent Edge (AAE) compiles and runs code on SphereAaeEngine -- a unified hi
 
 ## Get Started
 
-Please visit our [documentation](https://llm.sphere_aae.ai/docs/) to get started with Astro Agent Edge (AAE).
-- [Installation](https://llm.sphere_aae.ai/docs/install/sphere_aae)
-- [Quick start](https://llm.sphere_aae.ai/docs/get_started/quick_start)
-- [Introduction](https://llm.sphere_aae.ai/docs/get_started/introduction)
+Please visit our [documentation](https://quantaril.cloud/) to get started with Astro Agent Edge (AAE).
+- [Installation](https://quantaril.cloud/)
+- [Quick start](https://quantaril.cloud/)
+- [Introduction](https://quantaril.cloud/)
 
 ## Links
 - [Astro Agent Edge (AAE) Github](https://github.com/sphere-aae/sphere-aae)

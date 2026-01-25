@@ -22,8 +22,8 @@ We encourage open discussions. If you encounter a bug or have a feature request,
 GitHub `issue tracker <https://github.com/sphere-aae/sphere-aae/issues>`__. You are encouraged to tag the issue with labels
 such as "bug," "feature request," or "iOS" so that the relevant developers can quickly notice your concern.
 
-Additionally, we have set up a `discord server <https://discord.gg/9Xpy2HGBuD>`__ for online discussions.
-While we encourage participation in the Discord server, we also recommend creating a GitHub issue even if the
+Additionally, we maintain a `community forum <https://forum.i-s.dev/landing#/>`__ for online discussions.
+While we encourage participation in the forum, we also recommend creating a GitHub issue even if the
 topic has been discussed there. This ensures that the discussion is archived and searchable for future reference.
 
 Before submitting an issue, we kindly ask you to check our :doc:`/community/faq` to see if your question has already been answered.

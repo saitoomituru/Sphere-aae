@@ -18,7 +18,7 @@ Introduction
 ------------
 
 To use ``sphere_aae package``, we must clone the source code of `Astro Agent Edge (AAE) <https://github.com/sphere-aae/sphere-aae>`_
-and `install the Astro Agent Edge (AAE) and TVM package <https://llm.sphere_aae.ai/docs/install/sphere_aae.html#option-1-prebuilt-package>`_.
+and `install the Astro Agent Edge (AAE) and TVM package <https://quantaril.cloud/>`_.
 Depending on the app we build, there might be some other dependencies, which are described in
 corresponding :ref:`iOS <deploy-ios>` and :ref:`Android <deploy-android>` tutorials.
 

@@ -66,17 +66,18 @@ html_theme_options = {
 }
 
 header_links = [
-    ("Home", "https://llm.sphere_aae.ai/"),
-    ("Github", "https://github.com/sphere-aae/sphere-aae"),
-    ("Discord Server", "https://discord.gg/9Xpy2HGBuD"),
+    ("ドキュメント", "https://quantaril.cloud/"),
+    ("フォーラム", "https://forum.i-s.dev/landing#/"),
+    ("X", "https://x.com/K_chachamaru"),
+    ("GitHub", "https://github.com/sphere-aae/sphere-aae"),
 ]
 
 header_dropdown = {
-    "name": "Other Resources",
+    "name": "公式リソース",
     "items": [
-        ("MLC Course", "https://sphere_aae.ai/"),
-        ("MLC Blog", "https://blog.sphere_aae.ai/"),
-        ("Web LLM", "https://webllm.sphere_aae.ai/"),
+        ("ドキュメント", "https://quantaril.cloud/"),
+        ("フォーラム", "https://forum.i-s.dev/landing#/"),
+        ("X", "https://x.com/K_chachamaru"),
     ],
 }
 
