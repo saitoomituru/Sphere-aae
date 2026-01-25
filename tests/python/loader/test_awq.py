@@ -22,6 +22,8 @@ logging.enable_logging()
 )
 def test_load_llama(param_path: Union[str, Path]):
     path_params = Path(param_path)
+    if not path_params.exists():
+        pytest.skip(f"Model file not found: {path_params}")
 
     model = MODELS["llama"]
     quantization = QUANTIZATION["q4f16_awq"]

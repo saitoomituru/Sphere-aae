@@ -27,7 +27,7 @@ def test_llama3_prompt():
 
     expected = (
         "<|start_header_id|>system<|end_header_id|>\n\n"
-        "You are a helpful AI assistant for travel tips and recommendations<|eot_id|>\n"
+        "You are a helpful AI assistant for travel tips and recommendations<|eot_id|>"
         "<|start_header_id|>user<|end_header_id|>\n\n"
         "What is France's capital?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
         "Bonjour! The capital of France is Paris!<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n"

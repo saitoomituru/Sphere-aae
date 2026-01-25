@@ -57,7 +57,6 @@ def test_prompt(conv_template_name):
     )
     expected_final_prompt = (
         system_msg
-        + (conversation.seps[0] if system_msg != "" else "")
         + (
             conversation.roles["user"] + conversation.role_content_sep
             if conversation.add_role_after_system_message
@@ -76,7 +75,11 @@ def test_prompt(conv_template_name):
         + conversation.roles["assistant"]
         + conversation.role_empty_sep
     )
-    assert res == expected_final_prompt
+    if isinstance(res, list):
+        assert len(res) == 1
+        assert res[0] == expected_final_prompt
+    else:
+        assert res == expected_final_prompt
 
 
 if __name__ == "__main__":

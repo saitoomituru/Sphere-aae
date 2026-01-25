@@ -1,4 +1,17 @@
 import asyncio
+from pathlib import Path
+
+import importlib.util
+
+import pytest
+
+_HAS_TORCH = importlib.util.find_spec("torch") is not None
+if _HAS_TORCH:
+    import torch
+
+    _HAS_CUDA = torch.cuda.is_available()
+else:
+    _HAS_CUDA = False
 
 from mlc_llm.protocol import openai_api_protocol
 from mlc_llm.router import Router
@@ -10,6 +23,16 @@ model_lib_tp1 = "./dist/lib/Llama-3.2-1B-q0f16-cuda.so"
 model_tp2 = "./dist/Llama-3.2-1B-Instruct-q0f16-MLC-tp2/"
 model_lib_tp2 = "./dist/lib/Llama-3.2-1B-q0f16-cuda-tp2.so"
 # model_lib_tp2 = None
+
+
+if not _HAS_CUDA:
+    pytest.skip("CUDA が利用できないため Router テストをスキップします。", allow_module_level=True)
+
+if not Path(model_tp1).exists() or not Path(model_lib_tp1).exists():
+    pytest.skip("Router テストに必要なモデルが存在しません。", allow_module_level=True)
+
+if not Path(model_tp2).exists() or not Path(model_lib_tp2).exists():
+    pytest.skip("Router テストに必要なモデルが存在しません。", allow_module_level=True)
 
 
 def get_router_1tp1():
