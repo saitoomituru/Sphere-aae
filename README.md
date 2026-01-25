@@ -89,6 +89,32 @@ MLC LLM を使い始めるには、[ドキュメント（documentation）](https
 - [Quick start](https://llm.mlc.ai/docs/get_started/quick_start)
 - [Introduction](https://llm.mlc.ai/docs/get_started/introduction)
 
+## Docker での完全再現ビルド（Build/Test/Docs）
+
+クリーンな Docker 環境で **ビルド → テスト → Sphinx ドキュメント生成** を一括実行できます。
+サブモジュールが必要なので、ホスト側で事前に更新してください。
+
+```bash
+git submodule update --init --recursive
+```
+
+Docker イメージを作成し、検証スクリプトを実行します。
+
+```bash
+docker build -t sphere-mlc:dev .
+docker run --rm -it sphere-mlc:dev
+```
+
+ローカル変更を反映したい場合は、マウントして実行してください。
+
+```bash
+docker run --rm -it -v "$PWD":/workspace/Sphere-mlc sphere-mlc:dev ./scripts/docker_verify.sh
+```
+
+補足:
+- `scripts/docker_verify.sh` は CPU 向け最小構成として GPU バックエンドを OFF にした `build/config.cmake` を生成し、Python 依存は `flashinfer-python` を除外してインストールします（GPU 依存パッケージのため）。必要に応じて導入してください。
+- 生成物は `build/` と `docs/_build/` に出力されます。
+
 ## 引用（Citation）
 
 本プロジェクトが有用であれば、以下の形式で引用（citation）をご検討ください。
