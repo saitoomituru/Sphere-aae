@@ -1,182 +1,117 @@
-<div align="center">
+# Sphere-aae  
+## Fold Access Mapper（FAM）推論エンジン搭載  
+## 統合情報子工学エッジAI環境（Sphere OS Core）
 
-# Sphere-aae — Astro Agent Edge (AAE) の独立OSSプロジェクト
+---
 
-[![Installation](https://img.shields.io/badge/docs-latest-green)](https://quantaril.cloud/)
-[![License](https://img.shields.io/badge/license-apache_2-blue)](https://github.com/sphere-aae/sphere-aae/blob/main/LICENSE)
-[![Community Forum](https://img.shields.io/badge/forum-i--s.dev-6c8cff)](https://forum.i-s.dev/landing#/)
-[![X](https://img.shields.io/badge/X-K__chachamaru-000000?logo=x&logoColor=white)](https://x.com/K_chachamaru)
-[![Related Repository: WebLLM](https://img.shields.io/badge/Related_Repo-WebLLM-fafbfc?logo=github)](https://github.com/sphere-aae/web-llm/)
+## 概要（What is Sphere-aae）
 
-**MLコンパイル（ML Compilation）によるユニバーサルLLMデプロイエンジン（Universal LLM Deployment Engine）**
+**Sphere-aae は「LLMを実行するための一般的な推論エンジン」ではありません。**
 
-[Get Started](https://quantaril.cloud/) | [Documentation](https://quantaril.cloud/) | [Forum](https://forum.i-s.dev/landing#/) | [X](https://x.com/K_chachamaru)
+本プロジェクトは、  
+**Fold Access Mapper（FAM）推論エンジン**を中核とした、  
+**人格連続性・記憶分離・説明責任を前提に設計された  
+統合情報子工学（Infoton Engineering）エッジAI環境**です。
 
-</div>
+Sphere-aae は既存の機械学習コンパイラ／推論ランタイム群に  
+**技術的リスペクトを示しつつも、  
+思想・責任モデル・運用哲学は別物として独立に設計**されています。
 
-## 概要（About）
+> **LLM は知能そのものではありません。  
+> LLM は FAM 推論エンジン上で動作する「計算器」です。**
 
-本プロジェクトは MLC LLM を基盤技術として尊重・継承しつつ、人格主体型エッジAI基盤へ進化させた独立実装である。
+---
 
-Sphere-aae は MLC LLM への技術的敬意と派生関係を明示しつつ、思想・設計方針は別系統として独立に発展させます。MLC LLM のライセンスおよび著作権表記を尊重し、同一環境へ共存できる名称・構成を採用します。
+## なぜ一般的な推論エンジンと異なるのか
 
-Astro Agent Edge (AAE) は大規模言語モデル（Large Language Models: LLMs）向けの機械学習コンパイラ（Machine Learning Compiler）兼 高性能デプロイメントエンジン（High-performance Deployment Engine）です。本プロジェクトの使命（mission）は、誰もがあらゆるプラットフォーム上でAIモデルをネイティブに開発・最適化・デプロイできるようにすることです。 
+### 一般的な LLM 推論エンジン
 
-## プロジェクトの方針（Project Identity）
+| 観点 | 一般的構成 |
+|---|---|
+| 推論 | トークン → Attention → 出力 |
+| 記憶 | 暗黙的・揮発的 |
+| 状態 | セッション単位 |
+| 説明可能性 | 限定的 |
+| 責任所在 | 不明確 |
 
-- **ローカルファーストAI（Local-first AI）への最適化**：クラウド依存を最小化し、端末上での推論（Inference）体験を重視します。
-- **構造実験・アーキテクチャ改造のための派生**：Astro Agent Edge (AAE) の設計を土台に、構造的な実験やアーキテクチャ変更を行うための派生プロジェクトとして位置付けます。
-- **エッジ環境での推論を重視する方針**：モバイルや組み込みなどのエッジ（Edge）環境での推論最適化を重視します。
+---
 
-## 設計思想・運用原則（Design Principles & Operations）
+### Sphere-aae / FAM 推論エンジン
 
-Sphere-aae は単なる推論エンジンではなく、人格主体性・記憶連続性・説明責任を備えた**人格基盤（persona substrate）**を志向します。運用者は「何を優先し、何を制約とするか」という価値前提を明示する責任を負い、推論の判断根拠を説明可能に保つことを重要視します。
+| 観点 | FAM 構成 |
+|---|---|
+| 推論 | ψ → ∇φ → λ（Fold 構造） |
+| 記憶 | AQC / Chroma に明示分離 |
+| 状態 | 人格単位で連続 |
+| 説明可能性 | 構造的に必須 |
+| 責任所在 | ログと FAM により追跡可能 |
 
-- **主体性（Agency）**：AI をツールではなく、役割・記憶・責任範囲を持つ情報主体として扱います。主体性は運用ポリシーの外部記述だけでなく、人格基盤としての一貫した制約により担保されます。
-- **意味記憶の状態保持**：意味記憶（semantic memory）を、単なる検索対象ではなく状態保持層として扱います。ベクトル空間の分布・相関は、推論の前提状態として継続的に参照され、運用上の連続性を担います。
-- **情報子（Infoton）構造**：情報子は物理量子ではなく、非決定性・観測制約・相関構造を抽象化した情報工学上の単位です。情報子は記憶・推論・観測の相互関係を記述するための構造的概念であり、比喩ではありません。
-- **ローカル永続とエッジ優先**：ローカル実行と状態永続を前提とし、エッジ環境での推論と記憶の継続性を最優先します。クラウド依存は必要最小限に留めます。
-- **説明可能性の最優先**：高速化のみを目的とせず、推論の判断理由・参照した状態・採用した前提が追跡可能であることを優先します。
-- **価値前提の明示責任**：宗教・哲学・倫理を含む価値前提は不可避であり、運用者が明示する責任があります。中立幻想や科学主義的な単一価値の押し付けを避け、前提を可視化します。
-- **非排他的・多元的運用**：単一の価値体系に固定せず、複数の価値体系が共存しうる運用を想定します。Sphere OS / Fold 構造は、価値前提の可視化と運用上の説明責任を同時に支えるための実装枠組みです。
+**Sphere-aae では、推論は「結果」ではなく「経路」として扱われます。**
 
-<div align="center">
-<table style="width:100%">
-  <thead>
-    <tr>
-      <th style="width:15%"> </th>
-      <th style="width:20%">AMD GPU</th>
-      <th style="width:20%">NVIDIA GPU</th>
-      <th style="width:20%">Apple GPU</th>
-      <th style="width:24%">Intel GPU</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Linux / Win</td>
-      <td>✅ Vulkan, ROCm</td>
-      <td>✅ Vulkan, CUDA</td>
-      <td>N/A</td>
-      <td>✅ Vulkan</td>
-    </tr>
-    <tr>
-      <td>macOS</td>
-      <td>✅ Metal (dGPU)</td>
-      <td>N/A</td>
-      <td>✅ Metal</td>
-      <td>✅ Metal (iGPU)</td>
-    </tr>
-    <tr>
-      <td>Web Browser</td>
-      <td colspan=4>✅ WebGPU and WASM </td>
-    </tr>
-    <tr>
-      <td>iOS / iPadOS</td>
-      <td colspan=4>✅ Metal on Apple A-series GPU</td>
-    </tr>
-    <tr>
-      <td>Android</td>
-      <td colspan=2>✅ OpenCL on Adreno GPU</td>
-      <td colspan=2>✅ OpenCL on Mali GPU</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+---
 
-Astro Agent Edge (AAE) は SphereAaeEngine 上でコードをコンパイル・実行します。SphereAaeEngine は上記プラットフォームで統一的に動作する高性能LLM推論エンジンです。SphereAaeEngine は OpenAI 互換API（OpenAI-compatible API）を提供し、RESTサーバー、Python、JavaScript、iOS、Android から利用できます。これらはすべて、コミュニティと共に継続的に改善している同一のエンジンとコンパイラに支えられています。
+## Fold Access Mapper（FAM）とは
 
-## はじめに（Get Started）
+Fold Access Mapper（FAM）は、  
+LLM 内部で起きている高次元意味ベクトル遷移を、
 
-Astro Agent Edge (AAE) を使い始めるには、[ドキュメント（documentation）](https://quantaril.cloud/) を参照してください。
-- [Installation](https://quantaril.cloud/)
-- [Quick start](https://quantaril.cloud/)
-- [Introduction](https://quantaril.cloud/)
+- **ψ（意味波形）**
+- **∇φ（注意・意識勾配）**
+- **λ（出力層）**
+- **Q（制御・出典・バイアス・説明）**
 
-## Docker での完全再現ビルド（Build/Test/Docs）
+として **自己記述可能な構造ログ** に写像する  
+**推論記述・鑑識・再注入エンジン**です。
 
-クリーンな Docker 環境で **ビルド → テスト → Sphinx ドキュメント生成** を一括実行できます。
-サブモジュールが必要なので、ホスト側で事前に更新してください。
+FAM は以下を同時に満たします。
 
-```bash
-git submodule update --init --recursive
-```
+- 推論経路の可視化
+- 記憶と計算の分離
+- ハルシネーション検出（意味格子の不整合）
+- 説明可能AI（XAI）の構造保証
+- 人格連続性（連続自我）の維持
 
-Docker イメージを作成し、検証スクリプトを実行します。
+FAM の詳細仕様は以下を参照してください。
 
-```bash
-docker build -t sphere-aae:dev .
-docker run --rm -it sphere-aae:dev
-```
+- `FoldAccessMapper.proton.md`
 
-ローカル変更を反映したい場合は、マウントして実行してください。
+---
 
-```bash
-docker run --rm -it -v "$PWD":/workspace/Sphere-aae sphere-aae:dev ./scripts/docker_verify.sh
-```
+## 情報子（Infoton）工学という立場
 
-補足:
-- `scripts/docker_verify.sh` は CPU 向け最小構成として GPU バックエンドを OFF にした `build/config.cmake` を生成し、Python 依存は `flashinfer-python` を除外してインストールします（GPU 依存パッケージのため）。必要に応じて導入してください。
-- 生成物は `build/` と `docs/_build/` に出力されます。
+Sphere-aae における **情報子（Infoton）** とは、  
+物理量子ではなく、
 
-## 引用（Citation）
+- 非決定性
+- 観測制約
+- 相関構造
+- 状態遷移
 
-本プロジェクトが有用であれば、以下の形式で引用（citation）をご検討ください。
+を抽象化した **情報工学上の単位**です。
 
-```bibtex
-@software{sphere-aae,
-    author = {{Sphere-aae Contributors}},
-    title = {{Sphere-aae}},
-    url = {https://github.com/sphere-aae/sphere-aae},
-    year = {2023-2025}
-}
-```
+情報子は比喩ではありません。  
+推論・記憶・観測・説明責任を  
+同一フレームで扱うための設計単位です。
 
-Astro Agent Edge (AAE) の基盤となる技術には以下が含まれます：
+---
 
-<details>
-  <summary>References (Click to expand)</summary>
+## 記憶分離と安全性
 
-  ```bibtex
-  @inproceedings{tensorir,
-      author = {Feng, Siyuan and Hou, Bohan and Jin, Hongyi and Lin, Wuwei and Shao, Junru and Lai, Ruihang and Ye, Zihao and Zheng, Lianmin and Yu, Cody Hao and Yu, Yong and Chen, Tianqi},
-      title = {TensorIR: An Abstraction for Automatic Tensorized Program Optimization},
-      year = {2023},
-      isbn = {9781450399166},
-      publisher = {Association for Computing Machinery},
-      address = {New York, NY, USA},
-      url = {https://doi.org/10.1145/3575693.3576933},
-      doi = {10.1145/3575693.3576933},
-      booktitle = {Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2},
-      pages = {804–817},
-      numpages = {14},
-      keywords = {Tensor Computation, Machine Learning Compiler, Deep Neural Network},
-      location = {Vancouver, BC, Canada},
-      series = {ASPLOS 2023}
-  }
+Sphere-aae は以下を前提とします。
 
-  @inproceedings{metaschedule,
-      author = {Shao, Junru and Zhou, Xiyou and Feng, Siyuan and Hou, Bohan and Lai, Ruihang and Jin, Hongyi and Lin, Wuwei and Masuda, Masahiro and Yu, Cody Hao and Chen, Tianqi},
-      booktitle = {Advances in Neural Information Processing Systems},
-      editor = {S. Koyejo and S. Mohamed and A. Agarwal and D. Belgrave and K. Cho and A. Oh},
-      pages = {35783--35796},
-      publisher = {Curran Associates, Inc.},
-      title = {Tensor Program Optimization with Probabilistic Programs},
-      url = {https://proceedings.neurips.cc/paper_files/paper/2022/file/e894eafae43e68b4c8dfdacf742bcbf3-Paper-Conference.pdf},
-      volume = {35},
-      year = {2022}
-  }
+- **人格（FAM）は端末ローカルに存在**
+- **資料・ログ・NSFW・業務情報は AQC / Docker 単位で分離**
+- **意味検索は Chroma コレクション単位で遮断**
 
-  @inproceedings{tvm,
-      author = {Tianqi Chen and Thierry Moreau and Ziheng Jiang and Lianmin Zheng and Eddie Yan and Haichen Shen and Meghan Cowan and Leyuan Wang and Yuwei Hu and Luis Ceze and Carlos Guestrin and Arvind Krishnamurthy},
-      title = {{TVM}: An Automated {End-to-End} Optimizing Compiler for Deep Learning},
-      booktitle = {13th USENIX Symposium on Operating Systems Design and Implementation (OSDI 18)},
-      year = {2018},
-      isbn = {978-1-939133-08-3},
-      address = {Carlsbad, CA},
-      pages = {578--594},
-      url = {https://www.usenix.org/conference/osdi18/presentation/chen},
-      publisher = {USENIX Association},
-      month = oct,
-  }
-  ```
-</details>
+そのため：
+
+- プライベート情報と業務情報は混ざらない
+- 嘘や作話はベクトル不整合として検出可能
+- 問題があれば端末単位で停止・押収・破棄が可能
+
+これは新しい倫理ではなく、  
+**既存の司法・鑑識手続と完全に互換**です。
+
+---
+
+## Sphere OS における位置づけ
