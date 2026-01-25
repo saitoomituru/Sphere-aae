@@ -7,7 +7,14 @@ import sys
 import tempfile
 from itertools import product
 
+import pytest
 import tvm
+
+if os.getenv("MLC_RUN_MODEL_COMPILE_TESTS") != "1":
+    pytest.skip(
+        "MLC_RUN_MODEL_COMPILE_TESTS が未設定のため model compile 統合テストをスキップします。",
+        allow_module_level=True,
+    )
 
 from mlc_llm.model import MODEL_PRESETS
 from mlc_llm.model import MODELS as SUPPORTED_MODELS

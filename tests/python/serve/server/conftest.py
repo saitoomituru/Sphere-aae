@@ -11,10 +11,9 @@ from mlc_llm.serve import PopenServer
 def served_model() -> Tuple[str, str]:
     model_lib = os.environ.get("MLC_SERVE_MODEL_LIB")
     if model_lib is None:
-        raise ValueError(
+        pytest.skip(
             'Environment variable "MLC_SERVE_MODEL_LIB" not found. '
-            "Please set it to model lib compiled by MLC LLM "
-            "(e.g., `dist/Llama-2-7b-chat-hf-q0f16-MLC/Llama-2-7b-chat-hf-q0f16-MLC-cuda.so`)."
+            "MLC サーバーテストをスキップします。"
         )
     model = os.path.dirname(model_lib)
     return model, model_lib

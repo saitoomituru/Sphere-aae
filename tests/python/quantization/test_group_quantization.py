@@ -18,6 +18,10 @@ from mlc_llm.quantization.group_quantization import (
 )
 
 
+if tvm.get_global_func("target.build.llvm", allow_missing=True) is None:
+    pytest.skip("LLVM backend が利用できないため量子化テストをスキップします。", allow_module_level=True)
+
+
 def quantize_np(config: GroupQuantize, weight: np.ndarray):
     n, k = weight.shape
     weight_padded = np.pad(

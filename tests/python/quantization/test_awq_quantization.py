@@ -13,6 +13,10 @@ from mlc_llm.loader import QuantizeMapping
 from mlc_llm.quantization import QUANTIZATION, AWQQuantize
 
 
+if tvm.get_global_func("target.build.llvm", allow_missing=True) is None:
+    pytest.skip("LLVM backend が利用できないため AWQ 量子化テストをスキップします。", allow_module_level=True)
+
+
 def dequantize_np(
     config: AWQQuantize,
     weight: np.ndarray,

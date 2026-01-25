@@ -18,6 +18,31 @@
 import pytest
 
 
+def _has_cuda() -> bool:
+    import importlib.util
+
+    if importlib.util.find_spec("torch") is None:
+        return False
+    import torch
+
+    return torch.cuda.is_available()
+
+
+def pytest_collection_modifyitems(config, items):
+    has_cuda = _has_cuda()
+    if not has_cuda:
+        skip_cuda = pytest.mark.skip(reason="CUDA が利用できないため GPU 依存テストをスキップします。")
+        for item in items:
+            if "op_correctness" in item.keywords:
+                item.add_marker(skip_cuda)
+                continue
+            if "engine" in item.keywords or "endpoint" in item.keywords:
+                item.add_marker(skip_cuda)
+                continue
+            if "tests/python/serve" in str(item.fspath):
+                item.add_marker(skip_cuda)
+
+
 def pytest_configure(config):
     """Register markers"""
     config.addinivalue_line(
