@@ -1,7 +1,7 @@
 👋 Astro Agent Edge (AAE) へようこそ
 =====================
 
-`Discord <https://discord.gg/9Xpy2HGBuD>`_ | `GitHub <https://github.com/sphere-aae/sphere-aae>`_
+`ドキュメント <https://quantaril.cloud/>`_ | `フォーラム <https://forum.i-s.dev/landing#/>`_ | `X <https://x.com/K_chachamaru>`_ | `GitHub <https://github.com/sphere-aae/sphere-aae>`_
 
 
 
