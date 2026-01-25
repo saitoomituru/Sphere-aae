@@ -19,7 +19,7 @@
 
 This folder contains Sphere-aae WebAssembly Runtime.
 
-Please refer to https://llm.sphere_aae.ai/docs/install/emcc.html.
+Please refer to https://quantaril.cloud/.
 
 The main step is running `make` under this folder, a step included in `web/prep_emcc_deps.sh`.
 

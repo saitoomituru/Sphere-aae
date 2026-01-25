@@ -2,14 +2,15 @@
 
 # Sphere-aae — Astro Agent Edge (AAE) の独立OSSプロジェクト
 
-[![Installation](https://img.shields.io/badge/docs-latest-green)](https://llm.sphere_aae.ai/docs/)
+[![Installation](https://img.shields.io/badge/docs-latest-green)](https://quantaril.cloud/)
 [![License](https://img.shields.io/badge/license-apache_2-blue)](https://github.com/sphere-aae/sphere-aae/blob/main/LICENSE)
-[![Join Discoard](https://img.shields.io/badge/Join-Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/9Xpy2HGBuD)
+[![Community Forum](https://img.shields.io/badge/forum-i--s.dev-6c8cff)](https://forum.i-s.dev/landing#/)
+[![X](https://img.shields.io/badge/X-K__chachamaru-000000?logo=x&logoColor=white)](https://x.com/K_chachamaru)
 [![Related Repository: WebLLM](https://img.shields.io/badge/Related_Repo-WebLLM-fafbfc?logo=github)](https://github.com/sphere-aae/web-llm/)
 
 **MLコンパイル（ML Compilation）によるユニバーサルLLMデプロイエンジン（Universal LLM Deployment Engine）**
 
-[Get Started](https://llm.sphere_aae.ai/docs/get_started/quick_start) | [Documentation](https://llm.sphere_aae.ai/docs) | [Blog](https://blog.sphere_aae.ai/)
+[Get Started](https://quantaril.cloud/) | [Documentation](https://quantaril.cloud/) | [Forum](https://forum.i-s.dev/landing#/) | [X](https://x.com/K_chachamaru)
 
 </div>
 
@@ -86,10 +87,10 @@ Astro Agent Edge (AAE) は SphereAaeEngine 上でコードをコンパイル・�
 
 ## はじめに（Get Started）
 
-Astro Agent Edge (AAE) を使い始めるには、[ドキュメント（documentation）](https://llm.sphere_aae.ai/docs/) を参照してください。
-- [Installation](https://llm.sphere_aae.ai/docs/install/sphere_aae)
-- [Quick start](https://llm.sphere_aae.ai/docs/get_started/quick_start)
-- [Introduction](https://llm.sphere_aae.ai/docs/get_started/introduction)
+Astro Agent Edge (AAE) を使い始めるには、[ドキュメント（documentation）](https://quantaril.cloud/) を参照してください。
+- [Installation](https://quantaril.cloud/)
+- [Quick start](https://quantaril.cloud/)
+- [Introduction](https://quantaril.cloud/)
 
 ## Docker での完全再現ビルド（Build/Test/Docs）
 

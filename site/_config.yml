@@ -1,7 +1,7 @@
 name: "Astro Agent Edge (AAE)"
 short_name: "Astro Agent Edge (AAE)"
 
-url: https://llm.sphere_aae.ai/
+url: https://quantaril.cloud/
 
 exclude: [README.md, serve_local.sh]
 

@@ -1,7 +1,7 @@
 👋 Astro Agent Edge (AAE) へようこそ
 =====================
 
-`Discord <https://discord.gg/9Xpy2HGBuD>`_ | `GitHub <https://github.com/sphere-aae/sphere-aae>`_
+`ドキュメント <https://quantaril.cloud/>`_ | `フォーラム <https://forum.i-s.dev/landing#/>`_ | `X <https://x.com/K_chachamaru>`_ | `GitHub <https://github.com/sphere-aae/sphere-aae>`_
 
 
 
@@ -79,6 +79,13 @@ Astro Agent Edge (AAE) の全体的なワークフローの紹介とチュート
 
    community/guideline.rst
    community/faq.rst
+
+.. toctree::
+   :maxdepth: 1
+   :caption: API リファレンス（API Reference）
+   :hidden:
+
+   api/index.rst
 
 
 .. toctree::
