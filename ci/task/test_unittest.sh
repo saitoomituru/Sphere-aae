@@ -3,12 +3,12 @@ set -eo pipefail
 set -x
 
 # this scripts only triggers in CI_ENV where these environment variable are passed
-if [[ -n ${MLC_CI_SETUP_DEPS:-} ]]; then
-    echo "MLC_CI_SETUP_DEPS=1 start setup deps.."
+if [[ -n ${SPHERE_AAE_CI_SETUP_DEPS:-} ]]; then
+    echo "SPHERE_AAE_CI_SETUP_DEPS=1 start setup deps.."
     # Install dependency
     pip install --force-reinstall wheels/*.whl
     pip install --quiet pytest
-    pip install --pre -U --no-index -f https://mlc.ai/wheels mlc-ai-nightly-cu128
+    pip install --pre -U --no-index -f https://sphere_aae.ai/wheels sphere-aae-nightly-cu128
     export LD_LIBRARY_PATH=/usr/local/cuda/compat/:$LD_LIBRARY_PATH
 fi
 

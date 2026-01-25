@@ -1,6 +1,6 @@
 import pytest
 
-from mlc_llm.serve import PagedRadixTree
+from sphere_aae.serve import PagedRadixTree
 
 # category "runtime_module"
 pytestmark = [pytest.mark.unittest]

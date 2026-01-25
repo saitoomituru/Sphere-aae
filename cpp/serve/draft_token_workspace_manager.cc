@@ -7,7 +7,7 @@
 
 #include "model.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -74,4 +74,4 @@ void DraftTokenWorkspaceManagerObj::AllocWorkspace(ModelWorkspace* workspace,
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

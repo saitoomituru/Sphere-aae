@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from mlc_llm.support import logging
-from mlc_llm.support.auto_weight import detect_weight
+from sphere_aae.support import logging
+from sphere_aae.support.auto_weight import detect_weight
 
 logging.enable_logging()
 

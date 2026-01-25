@@ -1,24 +1,24 @@
-👋 MLC LLM へようこそ
+👋 Astro Agent Edge (AAE) へようこそ
 =====================
 
-`Discord <https://discord.gg/9Xpy2HGBuD>`_ | `GitHub <https://github.com/mlc-ai/mlc-llm>`_
+`Discord <https://discord.gg/9Xpy2HGBuD>`_ | `GitHub <https://github.com/sphere-aae/sphere-aae>`_
 
 
 
 
-MLC LLM は大規模言語モデル（Large Language Models: LLMs）向けの機械学習コンパイラ（Machine Learning Compiler）
+Astro Agent Edge (AAE) は大規模言語モデル（Large Language Models: LLMs）向けの機械学習コンパイラ（Machine Learning Compiler）
 および高性能デプロイメントエンジン（High-performance Deployment Engine）です。本プロジェクトの使命（mission）は、
 誰もがあらゆるプラットフォーム上でAIモデルをネイティブに開発・最適化・デプロイできるようにすることです。 
 
 クイックスタート（Quick Start）
 -------------------------------
 
-MLC LLM の利用例は :ref:`quick-start` を参照してください。
+Astro Agent Edge (AAE) の利用例は :ref:`quick-start` を参照してください。
 
-MLC LLM の紹介（Introduction）
+Astro Agent Edge (AAE) の紹介（Introduction）
 ------------------------------
 
-MLC LLM の全体的なワークフローの紹介とチュートリアルは :ref:`introduction-to-mlc-llm` を参照してください。
+Astro Agent Edge (AAE) の全体的なワークフローの紹介とチュートリアルは :ref:`introduction-to-sphere-aae` を参照してください。
 
 
 .. toctree::
@@ -41,7 +41,7 @@ MLC LLM の全体的なワークフローの紹介とチュートリアルは :r
    deploy/ios.rst
    deploy/android.rst
    deploy/ide_integration.rst
-   deploy/mlc_chat_config.rst
+   deploy/sphere_aae_chat_config.rst
 
 .. toctree::
    :maxdepth: 1
@@ -60,7 +60,7 @@ MLC LLM の全体的なワークフローの紹介とチュートリアルは :r
    :hidden:
 
    install/tvm.rst
-   install/mlc_llm.rst
+   install/sphere_aae.rst
    install/conda.rst
    install/gpu.rst
    install/emcc.rst

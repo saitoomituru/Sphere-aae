@@ -2,8 +2,8 @@
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/data.h
  */
-#ifndef MLC_LLM_SERVE_DATA_H_
-#define MLC_LLM_SERVE_DATA_H_
+#ifndef SPHERE_AAE_SERVE_DATA_H_
+#define SPHERE_AAE_SERVE_DATA_H_
 
 #include <tvm/ffi/container/array.h>
 #include <tvm/ffi/container/shape.h>
@@ -20,7 +20,7 @@
 
 #include "../tokenizers/tokenizers.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -59,7 +59,7 @@ class DataNode : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const uint32_t _type_child_slots = 3;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.Data", DataNode, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.Data", DataNode, Object);
 };
 
 class Data : public ObjectRef {
@@ -87,7 +87,7 @@ class TextDataNode : public DataNode {
     refl::ObjectDef<TextDataNode>();
   }
 
-  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("mlc.serve.TextData", TextDataNode, DataNode);
+  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("sphere_aae.serve.TextData", TextDataNode, DataNode);
 };
 
 class TextData : public Data {
@@ -113,7 +113,7 @@ class TokenDataNode : public DataNode {
     refl::ObjectDef<TokenDataNode>();
   }
 
-  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("mlc.serve.TokenData", TokenDataNode, DataNode);
+  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("sphere_aae.serve.TokenData", TokenDataNode, DataNode);
 };
 
 class TokenData : public Data {
@@ -142,7 +142,7 @@ class ImageDataNode : public DataNode {
     refl::ObjectDef<ImageDataNode>();
   }
 
-  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("mlc.serve.ImageData", ImageDataNode, DataNode);
+  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("sphere_aae.serve.ImageData", ImageDataNode, DataNode);
 };
 
 class ImageData : public Data {
@@ -227,7 +227,7 @@ class RequestStreamOutputObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.RequestStreamOutput", RequestStreamOutputObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.RequestStreamOutput", RequestStreamOutputObj, Object);
 };
 
 /*!
@@ -250,6 +250,6 @@ class RequestStreamOutput : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_DATA_H_
+#endif  // SPHERE_AAE_SERVE_DATA_H_

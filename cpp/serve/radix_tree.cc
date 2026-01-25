@@ -8,7 +8,7 @@
 #include <tvm/ffi/reflection/registry.h>
 #include <tvm/runtime/logging.h>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -805,41 +805,41 @@ PagedRadixTree PagedRadixTree::Create() {
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def("mlc.serve.PagedRadixTree", []() { return PagedRadixTree::Create(); })
-      .def("mlc.serve.PagedRadixTreeMatchPrefix",
+      .def("sphere_aae.serve.PagedRadixTree", []() { return PagedRadixTree::Create(); })
+      .def("sphere_aae.serve.PagedRadixTreeMatchPrefix",
            [](PagedRadixTree paged_radix_tree, IntTuple tokens) {
              std::vector<int32_t> token_ids{tokens.begin(), tokens.end()};
              auto [offset, seq_ids] = paged_radix_tree->MatchPrefix(token_ids);
              seq_ids.insert(seq_ids.begin(), offset);
              return IntTuple(seq_ids);
            })
-      .def("mlc.serve.PagedRadixTreeExtendSequence",
+      .def("sphere_aae.serve.PagedRadixTreeExtendSequence",
            [](PagedRadixTree paged_radix_tree, int64_t seq_id, IntTuple tokens) {
              std::vector<int32_t> token_ids{tokens.begin(), tokens.end()};
              paged_radix_tree->ExtendSequence(seq_id, std::move(token_ids));
            })
-      .def("mlc.serve.PagedRadixTreeRollBackSequence",
+      .def("sphere_aae.serve.PagedRadixTreeRollBackSequence",
            [](PagedRadixTree paged_radix_tree, int64_t seq_id, int64_t num_tokens) {
              paged_radix_tree->RollBackSequence(seq_id, num_tokens);
            })
-      .def("mlc.serve.PagedRadixTreeForkSequence",
+      .def("sphere_aae.serve.PagedRadixTreeForkSequence",
            [](PagedRadixTree paged_radix_tree, int64_t seq_id, int64_t parent_seq_id,
               uint64_t forked_offset) {
              paged_radix_tree->ForkSequence(seq_id, parent_seq_id, forked_offset);
            })
-      .def_method("mlc.serve.PagedRadixTreeHasSequence", &PagedRadixTreeObj::HasSequence)
-      .def_method("mlc.serve.PagedRadixTreeAddSequence", &PagedRadixTreeObj::AddSequence)
-      .def_method("mlc.serve.PagedRadixTreeRemoveSequence", &PagedRadixTreeObj::RemoveSequence)
-      .def_method("mlc.serve.PagedRadixTreeGetSequence", &PagedRadixTreeObj::GetSequence)
-      .def("mlc.serve.PagedRadixTreeGetSequenceLength",
+      .def_method("sphere_aae.serve.PagedRadixTreeHasSequence", &PagedRadixTreeObj::HasSequence)
+      .def_method("sphere_aae.serve.PagedRadixTreeAddSequence", &PagedRadixTreeObj::AddSequence)
+      .def_method("sphere_aae.serve.PagedRadixTreeRemoveSequence", &PagedRadixTreeObj::RemoveSequence)
+      .def_method("sphere_aae.serve.PagedRadixTreeGetSequence", &PagedRadixTreeObj::GetSequence)
+      .def("sphere_aae.serve.PagedRadixTreeGetSequenceLength",
            [](PagedRadixTree paged_radix_tree, int64_t seq_id) {
              return static_cast<int64_t>(paged_radix_tree->GetSequenceLength(seq_id));
            })
-      .def("mlc.serve.PagedRadixTreeFreeCapacity", [](PagedRadixTree paged_radix_tree) {
+      .def("sphere_aae.serve.PagedRadixTreeFreeCapacity", [](PagedRadixTree paged_radix_tree) {
         return static_cast<int64_t>(paged_radix_tree->FreeCapacity());
       });
 }
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

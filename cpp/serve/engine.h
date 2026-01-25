@@ -1,10 +1,10 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/engine.h
- * \brief The header of serving engine in MLC LLM.
+ * \brief The header of serving engine in Astro Agent Edge (AAE).
  */
-#ifndef MLC_LLM_SERVE_ENGINE_H_
-#define MLC_LLM_SERVE_ENGINE_H_
+#ifndef SPHERE_AAE_SERVE_ENGINE_H_
+#define SPHERE_AAE_SERVE_ENGINE_H_
 
 #include "data.h"
 #include "engine_state.h"
@@ -12,7 +12,7 @@
 #include "request.h"
 #include "request_state.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -31,7 +31,7 @@ struct EngineCreationOutput {
 };
 
 /*!
- * \brief The engine interface for request serving in MLC LLM.
+ * \brief The engine interface for request serving in Astro Agent Edge (AAE).
  * The engine can run one or multiple LLM models internally for
  * text generation. Usually, when there are multiple models,
  * speculative inference will be activated, where the first model
@@ -121,6 +121,6 @@ void AbortRequestImpl(EngineState estate, const Array<Model>& models, const Stri
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_ENGINE_H_
+#endif  // SPHERE_AAE_SERVE_ENGINE_H_

@@ -2,8 +2,8 @@
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/prefix_cache.h
  */
-#ifndef MLC_LLM_SERVE_PREFIX_CACHE_H_
-#define MLC_LLM_SERVE_PREFIX_CACHE_H_
+#ifndef SPHERE_AAE_SERVE_PREFIX_CACHE_H_
+#define SPHERE_AAE_SERVE_PREFIX_CACHE_H_
 #include <tvm/ffi/container/shape.h>
 #include <tvm/ffi/reflection/registry.h>
 #include <tvm/runtime/object.h>
@@ -17,7 +17,7 @@
 #include "radix_tree.h"
 #include "request_state.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -129,7 +129,7 @@ class PrefixCacheObj : public Object {
   }
 
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.PrefixCache", PrefixCacheObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.PrefixCache", PrefixCacheObj, Object);
 };
 
 class PrefixCache : public ObjectRef {
@@ -151,6 +151,6 @@ class PrefixCache : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_PREFIX_CACHE_H_
+#endif  // SPHERE_AAE_SERVE_PREFIX_CACHE_H_

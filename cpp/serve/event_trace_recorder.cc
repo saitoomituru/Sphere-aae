@@ -16,7 +16,7 @@
 #include <utility>
 #include <vector>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -116,7 +116,7 @@ class EventTraceRecorderImpl : public EventTraceRecorderObj {
     return picojson::value(event_array).serialize();
   }
 
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.EventTraceRecorder", EventTraceRecorderImpl,
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.EventTraceRecorder", EventTraceRecorderImpl,
                               EventTraceRecorderObj);
 
  private:
@@ -151,13 +151,13 @@ TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   EventTraceRecorderImpl::RegisterReflection();
   refl::GlobalDef()
-      .def("mlc.serve.EventTraceRecorder", []() { return EventTraceRecorder::Create(); })
-      .def("mlc.serve.EventTraceRecorderAddEvent",
+      .def("sphere_aae.serve.EventTraceRecorder", []() { return EventTraceRecorder::Create(); })
+      .def("sphere_aae.serve.EventTraceRecorderAddEvent",
            [](const EventTraceRecorder& trace_recorder, const String& request_id,
               const std::string& event) { trace_recorder->AddEvent(request_id, event); })
-      .def_method("mlc.serve.EventTraceRecorderDumpJSON", &EventTraceRecorderObj::DumpJSON);
+      .def_method("sphere_aae.serve.EventTraceRecorderDumpJSON", &EventTraceRecorderObj::DumpJSON);
 }
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

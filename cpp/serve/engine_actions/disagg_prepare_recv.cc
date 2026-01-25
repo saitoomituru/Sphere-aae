@@ -9,7 +9,7 @@
 #include "../sampler/sampler.h"
 #include "batch_prefill_base.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -438,4 +438,4 @@ EngineAction EngineAction::DisaggPrepareReceive(Array<Model> models, EngineConfi
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

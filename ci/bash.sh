@@ -47,8 +47,8 @@ else
     COMMAND=("$@")
 fi
 
-if [[ -n ${MLC_CI_SETUP_DEPS:-} ]]; then
-    DOCKER_ENV="${DOCKER_ENV} -e MLC_CI_SETUP_DEPS=${MLC_CI_SETUP_DEPS}"
+if [[ -n ${SPHERE_AAE_CI_SETUP_DEPS:-} ]]; then
+    DOCKER_ENV="${DOCKER_ENV} -e SPHERE_AAE_CI_SETUP_DEPS=${SPHERE_AAE_CI_SETUP_DEPS}"
 fi
 
 # Use nvidia-docker if the container is GPU.

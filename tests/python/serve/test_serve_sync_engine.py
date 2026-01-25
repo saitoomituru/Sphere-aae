@@ -4,10 +4,10 @@ from typing import Callable, List, Optional
 
 import numpy as np
 
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve import Request, RequestStreamOutput, data
-from mlc_llm.serve.sync_engine import EngineConfig, SyncMLCEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve import Request, RequestStreamOutput, data
+from sphere_aae.serve.sync_engine import EngineConfig, SyncSphereAaeEngine
+from sphere_aae.testing import require_test_model
 
 prompts = [
     "What is the meaning of life?",
@@ -24,7 +24,7 @@ prompts = [
 
 
 def create_requests(
-    engine: SyncMLCEngine,
+    engine: SyncSphereAaeEngine,
     num_requests: int,
     stop_token_id: Optional[int] = None,
     temperature: float = 0.8,
@@ -53,7 +53,7 @@ def create_requests(
     return requests
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_basic(model: str):
     """Test engine **without continuous batching**.
 
@@ -82,7 +82,7 @@ def test_engine_basic(model: str):
             outputs[int(request_id)] += stream_outputs[0].delta_token_ids
 
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         request_stream_callback=fcallback,
@@ -112,7 +112,7 @@ def test_engine_basic(model: str):
         print(f"Output {req_id}:{engine.tokenizer.decode(output)}\n")
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_continuous_batching_1(model: str):
     """Test engine **with continuous batching**.
 
@@ -157,7 +157,7 @@ def test_engine_continuous_batching_1(model: str):
 
     # Create engine
     timer = CallbackTimer()
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         request_stream_callback=timer.callback_getter(),
@@ -192,7 +192,7 @@ def test_engine_continuous_batching_1(model: str):
         ), f"finish time = {fin_time}, max tokens = {request.generation_config.max_tokens - 1}"
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_continuous_batching_2(model: str):
     """Test engine **with continuous batching**.
 
@@ -237,7 +237,7 @@ def test_engine_continuous_batching_2(model: str):
 
     # Create engine
     timer = CallbackTimer()
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         request_stream_callback=timer.callback_getter(),
@@ -272,7 +272,7 @@ def test_engine_continuous_batching_2(model: str):
         print(f"Output {req_id}:{engine.tokenizer.decode(output)}\n")
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_continuous_batching_3(model: str):
     """Test engine **with continuous batching**.
 
@@ -322,7 +322,7 @@ def test_engine_continuous_batching_3(model: str):
 
     # Create engine
     timer = CallbackTimer()
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         request_stream_callback=timer.callback_getter(),
@@ -360,10 +360,10 @@ def test_engine_continuous_batching_3(model: str):
         print(f"Output {req_id}:{engine.tokenizer.decode(output)}\n")
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_generate(model: str):
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(max_total_sequence_length=4096),
@@ -385,7 +385,7 @@ def test_engine_generate(model: str):
                 print(f"Output {req_id}({i}):{output}\n")
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_hybrid_prefill(model: str):
     """Test engine **with hybrid prefill**.
 
@@ -429,7 +429,7 @@ def test_engine_hybrid_prefill(model: str):
 
     # Create engine
     timer = CallbackTimer()
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         request_stream_callback=timer.callback_getter(),

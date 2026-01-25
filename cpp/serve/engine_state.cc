@@ -4,7 +4,7 @@
  */
 #include "engine_state.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -51,4 +51,4 @@ const std::vector<RequestStateEntry>& EngineStateObj::GetRunningRequestStateEntr
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

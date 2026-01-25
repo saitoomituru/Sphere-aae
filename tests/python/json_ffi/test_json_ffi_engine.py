@@ -4,8 +4,8 @@ from typing import Dict, List, Optional
 import pytest
 from pydantic import BaseModel
 
-from mlc_llm.json_ffi import JSONFFIEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.json_ffi import JSONFFIEngine
+from sphere_aae.testing import require_test_model
 
 # test category "engine_feature"
 pytestmark = [pytest.mark.engine_feature]
@@ -148,7 +148,7 @@ def run_json_schema_function_calling(
                 print(f"Output {req_id}({i}):{output}\n")
 
 
-@require_test_model("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_chat_completion(model):
     # Create engine.
     engine = JSONFFIEngine(model)
@@ -165,7 +165,7 @@ def test_chat_completion(model):
     engine.terminate()
 
 
-@require_test_model("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_reload_reset_unload(model):
     # Create engine.
     engine = JSONFFIEngine(model)
@@ -181,7 +181,7 @@ def test_reload_reset_unload(model):
     engine.terminate()
 
 
-@require_test_model("Hermes-2-Pro-Mistral-7B-q4f16_1-MLC")
+@require_test_model("Hermes-2-Pro-Mistral-7B-q4f16_1-AAE")
 def test_json_schema_with_system_prompt(model):
     engine = JSONFFIEngine(model)
 

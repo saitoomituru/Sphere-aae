@@ -3,8 +3,8 @@ import json
 import pytest
 import tvm
 
-from mlc_llm.json_ffi import JSONFFIEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.json_ffi import JSONFFIEngine
+from sphere_aae.testing import require_test_model
 
 # test category "unittest"
 pytestmark = [pytest.mark.unittest]
@@ -34,7 +34,7 @@ def check_error_handling(engine, expect_str, **params):
 
 # NOTE: we only need tokenizers in folder
 # launch time of mock test is fast so we can put it in unittest
-@require_test_model("Llama-3-8B-Instruct-q4f16_1-MLC")
+@require_test_model("Llama-3-8B-Instruct-q4f16_1-AAE")
 def test_chat_completion_misuse(model: str):
     engine = JSONFFIEngine(model, tvm.cpu(), model_lib="mock://echo")
     # Test malformed requests.
@@ -93,7 +93,7 @@ def check_n_generation(engine):
         assert i in hit_set, f"{i} not in n generation"
 
 
-@require_test_model("Llama-3-8B-Instruct-q4f16_1-MLC")
+@require_test_model("Llama-3-8B-Instruct-q4f16_1-AAE")
 def test_chat_completion_api(model: str):
     engine = JSONFFIEngine(model, tvm.cpu(), model_lib="mock://echo")
     check_normal_param_passing(engine)

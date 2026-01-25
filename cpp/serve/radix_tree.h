@@ -2,8 +2,8 @@
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/radix_tree.h
  */
-#ifndef MLC_LLM_SERVE_RADIX_TREE_H_
-#define MLC_LLM_SERVE_RADIX_TREE_H_
+#ifndef SPHERE_AAE_SERVE_RADIX_TREE_H_
+#define SPHERE_AAE_SERVE_RADIX_TREE_H_
 #include <tvm/ffi/container/shape.h>
 #include <tvm/ffi/reflection/registry.h>
 #include <tvm/runtime/int_tuple.h>
@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -114,7 +114,7 @@ class PagedRadixTreeObj : public Object {
   }
 
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.PagedRadixTree", PagedRadixTreeObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.PagedRadixTree", PagedRadixTreeObj, Object);
 };
 
 class PagedRadixTree : public ObjectRef {
@@ -128,6 +128,6 @@ class PagedRadixTree : public ObjectRef {
 };
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_RADIX_TREE_H_
+#endif  // SPHERE_AAE_SERVE_RADIX_TREE_H_

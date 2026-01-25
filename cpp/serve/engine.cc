@@ -1,7 +1,7 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/engine.cc
- * \brief The implementation for runtime module of serving engine module in MLC LLM.
+ * \brief The implementation for runtime module of serving engine module in Astro Agent Edge (AAE).
  */
 #include "engine.h"
 
@@ -36,7 +36,7 @@
 #include "request_state.h"
 #include "sampler/sampler.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -49,7 +49,7 @@ class EngineModule;
 // get tokenizer info from model config
 inline std::optional<TokenizerInfo> GetTokenizerInfo(const picojson::object& model_config) {
   if (model_config.count("tokenizer_info") == 0) {
-    LOG(WARNING) << "Tokenizer info not found in mlc-chat-config.json. "
+    LOG(WARNING) << "Tokenizer info not found in sphere-aae-chat-config.json. "
                  << "Trying to automatically detect the tokenizer info";
     return std::nullopt;
   }
@@ -69,8 +69,8 @@ inline std::optional<TokenizerInfo> GetTokenizerInfo(const picojson::object& mod
 }
 
 inline std::pair<std::optional<std::string>, int> GetEnvSocketHostPort() {
-  char* host_str = std::getenv("MLC_SOCKET_HOST");
-  char* port_str = std::getenv("MLC_SOCKET_PORT");
+  char* host_str = std::getenv("SPHERE_AAE_SOCKET_HOST");
+  char* port_str = std::getenv("SPHERE_AAE_SOCKET_PORT");
   if (host_str == nullptr || port_str == nullptr) {
     return {std::nullopt, -1};
   }
@@ -380,7 +380,7 @@ class EngineImpl : public Engine {
       Result<picojson::object> model_config_res = Model::LoadModelConfig(model_str);
       if (model_config_res.IsErr()) {
         return TResult::Error("Model " + std::to_string(i) +
-                              " has invalid mlc-chat-config.json: " + model_config_res.UnwrapErr());
+                              " has invalid sphere-aae-chat-config.json: " + model_config_res.UnwrapErr());
       }
       model_libs.push_back(model_lib);
       model_configs.push_back(model_config_res.Unwrap());
@@ -408,9 +408,9 @@ class EngineImpl : public Engine {
     n->estate_->disaggregation = n->models_[0]->GetMetadata().disaggregation;
     if (n->estate_->disaggregation) {
       LOG(INFO) << "Intiailizing NVSHMEM";
-      char* nvshmem_init_config_json_char = std::getenv("MLC_NVSHMEM_INIT_CONFIG_JSON_STR");
+      char* nvshmem_init_config_json_char = std::getenv("SPHERE_AAE_NVSHMEM_INIT_CONFIG_JSON_STR");
       CHECK(nvshmem_init_config_json_char != nullptr)
-          << "The environment variables MLC_NVSHMEM_INIT_CONFIG_JSON_STR should be set.";
+          << "The environment variables SPHERE_AAE_NVSHMEM_INIT_CONFIG_JSON_STR should be set.";
       std::string f_name = "runtime.disco.nvshmem.init_nvshmem_wrapper";
       if (session != nullptr) {
         n->DebugCallFuncOnAllAllWorker(f_name, String(nvshmem_init_config_json_char));
@@ -814,11 +814,11 @@ class EngineImpl : public Engine {
     Optional<Session> session = std::nullopt;
     int num_workers = num_shards * max_num_stages;
     if (num_workers > 1) {
-#ifndef MLC_SINGLE_GPU_ONLY
+#ifndef SPHERE_AAE_SINGLE_GPU_ONLY
       constexpr const char* f_create_process_pool = "runtime.disco.create_process_pool";
       if (!Function::GetGlobal(f_create_process_pool).has_value()) {
         LOG(FATAL) << "Cannot find process launcher `" << f_create_process_pool << "`. "
-                   << "Multi-GPU inference depends on MLC LLM Python API to launch process.";
+                   << "Multi-GPU inference depends on Astro Agent Edge (AAE) Python API to launch process.";
       }
       std::string ccl;
       if (device.device_type == kDLCUDA) {
@@ -842,12 +842,12 @@ class EngineImpl : public Engine {
         // Use SocketSession when pipeline parallelism enabled and socket host and port are set.
         CHECK_GT(socket_port, 0)
             << "Invalid MLC socket port " << socket_port
-            << ". Please set a valid port value in environment variable \"MLC_SOCKET_PORT\".";
+            << ". Please set a valid port value in environment variable \"SPHERE_AAE_SOCKET_PORT\".";
         LOG(INFO) << "Creating MLC socket session with socket host " << socket_host.value()
                   << " and port " << socket_port;
         LOG(INFO) << "Please launch " << green_text_begin << max_num_stages - 1 << colored_text_end
                   << " remote socket node(s) with the following command to proceed:\n\t"
-                  << green_text_begin << "python -m mlc_llm.cli.disco_remote_socket_session "
+                  << green_text_begin << "python -m sphere_aae.cli.disco_remote_socket_session "
                   << (socket_host.value() == "0.0.0.0" ? "<YOUR_NODE_IP>" : socket_host.value())
                   << " " << socket_port << " " << num_shards << colored_text_end;
         static Function f_create_socket_sess =
@@ -863,17 +863,17 @@ class EngineImpl : public Engine {
               << yellow_text_begin
               << "Model is enabled with \"pipeline_parallel_stages\" but the socket host/port is "
                  "not set. If you intend to run the model on multiple nodes, please set "
-                 "environment variable \"MLC_SOCKET_HOST\" and \"MLC_SOCKET_PORT\" and run again."
+                 "environment variable \"SPHERE_AAE_SOCKET_HOST\" and \"SPHERE_AAE_SOCKET_PORT\" and run again."
               << colored_text_end;
         }
         // Use ProcessSession otherwise.
         session = Session::ProcessSession(num_workers, max_num_stages, f_create_process_pool,
-                                          "mlc_llm.cli.worker");
+                                          "sphere_aae.cli.worker");
       }
       session.value()->InitCCL(ccl, Shape(device_ids));
 #else
-      LOG(FATAL) << "MLC_SINGLE_GPU_ONLY is specified. Multi-GPU is not enabled.";
-#endif  // MLC_SINGLE_GPU_ONLY
+      LOG(FATAL) << "SPHERE_AAE_SINGLE_GPU_ONLY is specified. Multi-GPU is not enabled.";
+#endif  // SPHERE_AAE_SINGLE_GPU_ONLY
     }
     return {session, num_shards, model_num_pipeline_stages};
   }
@@ -1025,7 +1025,7 @@ void ClearGlobalMemoryManager() {
 
 class EngineModule : public ffi::ModuleObj {
  public:
-  TVM_MODULE_VTABLE_BEGIN("mlc.serve.engine");
+  TVM_MODULE_VTABLE_BEGIN("sphere_aae.serve.engine");
   TVM_MODULE_VTABLE_ENTRY("init", &EngineModule::Init);
   TVM_MODULE_VTABLE_ENTRY("add_request", &EngineModule::AddRequest);
   TVM_MODULE_VTABLE_ENTRY("create_request", &EngineModule::CreateRequest);
@@ -1089,9 +1089,9 @@ class EngineModule : public ffi::ModuleObj {
 
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
-  refl::GlobalDef().def("mlc.serve.create_engine", EngineModule::Create);
+  refl::GlobalDef().def("sphere_aae.serve.create_engine", EngineModule::Create);
 }
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

@@ -21,7 +21,7 @@
 #include "./../support/encoding.h"
 #include "./../support/load_bytes_from_file.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 TVM_FFI_STATIC_INIT_BLOCK() {
@@ -29,7 +29,7 @@ TVM_FFI_STATIC_INIT_BLOCK() {
   TokenizerObj::RegisterReflection();
 }
 
-#ifndef COMPILE_MLC_WASM_RUNTIME
+#ifndef COMPILE_SPHERE_AAE_WASM_RUNTIME
 
 String TokenizerInfoNode::AsJSONString() const {
   picojson::object obj;
@@ -441,7 +441,7 @@ std::vector<std::string> Tokenizer::PostProcessTokenTable(
   return post_processed_token_table;
 }
 
-#ifndef COMPILE_MLC_WASM_RUNTIME
+#ifndef COMPILE_SPHERE_AAE_WASM_RUNTIME
 const std::vector<std::string>& TokenizerObj::PostProcessedTokenTable() {
   if (!post_processed_token_table_.empty()) {
     return post_processed_token_table_;
@@ -461,13 +461,13 @@ const std::vector<std::string>& TokenizerObj::PostProcessedTokenTable() {
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def("mlc.tokenizers.Tokenizer", [](const String& path) { return Tokenizer::FromPath(path); })
-      .def("mlc.tokenizers.TokenizerEncode",
+      .def("sphere_aae.tokenizers.Tokenizer", [](const String& path) { return Tokenizer::FromPath(path); })
+      .def("sphere_aae.tokenizers.TokenizerEncode",
            [](const Tokenizer& tokenizer, const String& text) {
              std::vector<int32_t> token_ids = tokenizer->Encode(text);
              return IntTuple{token_ids.begin(), token_ids.end()};
            })
-      .def("mlc.tokenizers.TokenizerEncodeBatch",
+      .def("sphere_aae.tokenizers.TokenizerEncodeBatch",
            [](const Tokenizer& tokenizer, const Array<String>& texts) {
              std::vector<std::vector<int32_t>> results = tokenizer->EncodeBatch(texts);
              Array<IntTuple> ret;
@@ -477,11 +477,11 @@ TVM_FFI_STATIC_INIT_BLOCK() {
              }
              return ret;
            })
-      .def("mlc.tokenizers.TokenizerDecode",
+      .def("sphere_aae.tokenizers.TokenizerDecode",
            [](const Tokenizer& tokenizer, const IntTuple& token_ids) {
              return tokenizer->Decode({token_ids->data, token_ids->data + token_ids->size});
            })
-      .def("mlc.tokenizers.DetectTokenizerInfo",
+      .def("sphere_aae.tokenizers.DetectTokenizerInfo",
            [](const String& path) { return Tokenizer::DetectTokenizerInfo(path)->AsJSONString(); });
 }
 
@@ -490,7 +490,7 @@ TVM_FFI_STATIC_INIT_BLOCK() {
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def_packed("mlc.tokenizers.PostProcessTokenTable",
+      .def_packed("sphere_aae.tokenizers.PostProcessTokenTable",
                   [](tvm::ffi::PackedArgs args, tvm::ffi::Any* rv) {
                     Array<String> token_table_arr = args[0].cast<Array<String>>();
                     std::string token_postproc_method = args[args.size() - 1].cast<String>();
@@ -508,11 +508,11 @@ TVM_FFI_STATIC_INIT_BLOCK() {
                     }
                     *rv = processed_token_table_tvm;
                   })
-      .def("mlc.tokenizers.PostProcessToken",
+      .def("sphere_aae.tokenizers.PostProcessToken",
            [](const String& token, const String& token_postproc_method) {
              return PostProcessToken(token, token_postproc_method);
            });
 }
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

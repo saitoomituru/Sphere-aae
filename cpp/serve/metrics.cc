@@ -9,7 +9,7 @@
 
 #include <sstream>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -182,4 +182,4 @@ void EngineMetrics::Reset() {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

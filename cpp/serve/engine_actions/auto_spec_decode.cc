@@ -10,7 +10,7 @@
 #include "../config.h"
 #include "action.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -87,4 +87,4 @@ EngineAction EngineAction::AutoSpecDecode(std::vector<EngineAction> spec_decode_
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

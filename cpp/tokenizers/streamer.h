@@ -1,11 +1,11 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file streamer.h
- * \brief Header of streamers in MLC LLM.
+ * \brief Header of streamers in Astro Agent Edge (AAE).
  */
 
-#ifndef MLC_LLM_STREAMER_H_
-#define MLC_LLM_STREAMER_H_
+#ifndef SPHERE_AAE_STREAMER_H_
+#define SPHERE_AAE_STREAMER_H_
 
 #include <tvm/ffi/container/array.h>
 #include <tvm/ffi/reflection/registry.h>
@@ -14,7 +14,7 @@
 
 #include "tokenizers.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 using namespace tvm::runtime;
@@ -53,7 +53,7 @@ class TextStreamerObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.TextStreamer", TextStreamerObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.TextStreamer", TextStreamerObj, Object);
 
  private:
   Tokenizer tokenizer_;
@@ -77,7 +77,7 @@ class TextStreamer : public ObjectRef {
 /****************** StopStrHandler ******************/
 
 /*!
- * \brief The stop string handler in MLC LLM, which takes input delta tokens
+ * \brief The stop string handler in Astro Agent Edge (AAE), which takes input delta tokens
  * one at a time, and return the output delta token before stopping due to
  * stop strings.
  */
@@ -114,7 +114,7 @@ class StopStrHandlerObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("mlc.StopStrHandler", StopStrHandlerObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("sphere_aae.StopStrHandler", StopStrHandlerObj, Object);
 
  private:
   /*! \brief The stop strings. */
@@ -153,6 +153,6 @@ class StopStrHandler : public ObjectRef {
 };
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_STREAMER_H_
+#endif  // SPHERE_AAE_STREAMER_H_

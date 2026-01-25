@@ -1,4 +1,4 @@
-# Node/Javascript/Typescript Access Examples for mlc_llm REST APIs
+# Node/Javascript/Typescript Access Examples for sphere_aae REST APIs
 
 Please make sure you are running v18.17.x of node (and npm v9.6.7)  --  v20.x currently has some compatibility problems with typescript used in the langchain example.
 

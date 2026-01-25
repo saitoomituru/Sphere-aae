@@ -1,4 +1,4 @@
-# MLC-LLM ドキュメント（Documentation）
+# Sphere-aae ドキュメント（Documentation）
 
 このドキュメントは [Sphinx](https://www.sphinx-doc.org/en/master/) により構築されています。
 

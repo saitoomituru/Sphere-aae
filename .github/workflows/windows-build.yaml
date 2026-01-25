@@ -27,7 +27,7 @@ jobs:
         submodules: 'recursive'
     - uses: conda-incubator/setup-miniconda@v3
       with:
-        activate-environment: mlc-llm-build
+        activate-environment: sphere-aae-build
         channel-priority: strict
         environment-file: ci/build-environment.yaml
         auto-activate-base: false
@@ -36,6 +36,6 @@ jobs:
         conda info
         conda list
         python --version
-    - name: Build MLC-LLM
+    - name: Build Sphere-aae
       run: >-
         ci/task/build_win.bat

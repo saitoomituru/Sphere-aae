@@ -1,10 +1,10 @@
 """MLC Engine Python example."""
 
-from mlc_llm import MLCEngine
+from sphere_aae import SphereAaeEngine
 
 # Create engine
-model = "HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC"  # pylint: disable=invalid-name
-engine = MLCEngine(model)
+model = "HF://sphere-aae/Llama-3-8B-Instruct-q4f16_1-AAE"  # pylint: disable=invalid-name
+engine = SphereAaeEngine(model)
 
 # Run chat completion in OpenAI API.
 for response in engine.chat.completions.create(

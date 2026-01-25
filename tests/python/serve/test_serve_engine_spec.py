@@ -4,10 +4,10 @@ from typing import Callable, List, Optional
 
 import numpy as np
 
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve import Request, RequestStreamOutput, data
-from mlc_llm.serve.sync_engine import EngineConfig, SyncMLCEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve import Request, RequestStreamOutput, data
+from sphere_aae.serve.sync_engine import EngineConfig, SyncSphereAaeEngine
+from sphere_aae.testing import require_test_model
 
 prompts = [
     "What is the meaning of life?",
@@ -53,8 +53,8 @@ def create_requests(
 
 
 @require_test_model(
-    "Llama-2-7b-chat-hf-q0f16-MLC",
-    "Llama-2-7b-chat-hf-q4f16_1-MLC",
+    "Llama-2-7b-chat-hf-q0f16-AAE",
+    "Llama-2-7b-chat-hf-q4f16_1-AAE",
 )
 def test_engine_basic(model: str, small_model: str):
     """Test engine **without continuous batching**.
@@ -84,7 +84,7 @@ def test_engine_basic(model: str, small_model: str):
             outputs[int(request_id)] += stream_outputs[0].delta_token_ids
 
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -118,7 +118,7 @@ def test_engine_basic(model: str, small_model: str):
         print(f"Output {req_id}:{engine.tokenizer.decode(output)}\n")
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_eagle_basic(model: str):
     """Test engine **without continuous batching**.
 
@@ -148,9 +148,9 @@ def test_engine_eagle_basic(model: str):
             outputs[int(request_id)] += stream_outputs[0].delta_token_ids
 
     # Create engine
-    small_model = "dist/Eagle-llama2-7b-chat-q0f16-MLC"
-    small_model_lib = "dist/Eagle-llama2-7b-chat-q0f16-MLC/Eagle-llama2-7b-chat-q0f16-MLC-cuda.so"
-    engine = SyncMLCEngine(
+    small_model = "dist/Eagle-llama2-7b-chat-q0f16-AAE"
+    small_model_lib = "dist/Eagle-llama2-7b-chat-q0f16-AAE/Eagle-llama2-7b-chat-q0f16-AAE-cuda.so"
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -186,8 +186,8 @@ def test_engine_eagle_basic(model: str):
 
 
 @require_test_model(
-    "Llama-2-7b-chat-hf-q0f16-MLC",
-    "Llama-2-7b-chat-hf-q4f16_1-MLC",
+    "Llama-2-7b-chat-hf-q0f16-AAE",
+    "Llama-2-7b-chat-hf-q4f16_1-AAE",
 )
 def test_engine_continuous_batching_1(model: str, small_model: str):
     """Test engine **with continuous batching**.
@@ -233,7 +233,7 @@ def test_engine_continuous_batching_1(model: str, small_model: str):
 
     # Create engine
     timer = CallbackTimer()
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -270,7 +270,7 @@ def test_engine_continuous_batching_1(model: str, small_model: str):
         # assert fin_time == request.generation_config.max_tokens - 1
 
 
-@require_test_model("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_engine_eagle_continuous_batching_1(model: str):
     """Test engine **with continuous batching**.
 
@@ -314,12 +314,12 @@ def test_engine_eagle_continuous_batching_1(model: str):
             self.timer += 1
 
     # Create engine
-    small_model = "dist/Eagle-llama2-7b-chat-q4f16_1-MLC"
+    small_model = "dist/Eagle-llama2-7b-chat-q4f16_1-AAE"
     small_model_lib = (
-        "dist/Eagle-llama2-7b-chat-q4f16_1-MLC/Eagle-llama2-7b-chat-q4f16_1-MLC-cuda.so"
+        "dist/Eagle-llama2-7b-chat-q4f16_1-AAE/Eagle-llama2-7b-chat-q4f16_1-AAE-cuda.so"
     )
     timer = CallbackTimer()
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -369,12 +369,12 @@ def compare_output_text(output_text1, output_text2):
 
 
 @require_test_model(
-    "Llama-2-7b-chat-hf-q0f16-MLC",
-    "Llama-2-7b-chat-hf-q4f16_1-MLC",
+    "Llama-2-7b-chat-hf-q0f16-AAE",
+    "Llama-2-7b-chat-hf-q4f16_1-AAE",
 )
 def test_engine_generate(model: str, small_model: str, compare_precision=False):
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -393,7 +393,7 @@ def test_engine_generate(model: str, small_model: str, compare_precision=False):
         generation_config = GenerationConfig(
             temperature=0.0, top_p=0, max_tokens=1024, stop_token_ids=[2], n=1
         )
-        engine_single_model = SyncMLCEngine(
+        engine_single_model = SyncSphereAaeEngine(
             model=model,
             mode="server",
             engine_config=EngineConfig(
@@ -429,14 +429,14 @@ def test_engine_generate(model: str, small_model: str, compare_precision=False):
             print(f"Accuracy verification failed\n")
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_eagle_generate(model: str):
     # Create engine
-    small_model = "dist/Eagle-llama2-7b-chat-q4f16_1-MLC"
+    small_model = "dist/Eagle-llama2-7b-chat-q4f16_1-AAE"
     small_model_lib = (
-        "dist/Eagle-llama2-7b-chat-q4f16_1-MLC/Eagle-llama2-7b-chat-q4f16_1-MLC-cuda.so"
+        "dist/Eagle-llama2-7b-chat-q4f16_1-AAE/Eagle-llama2-7b-chat-q4f16_1-AAE-cuda.so"
     )
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -462,7 +462,7 @@ def test_engine_eagle_generate(model: str):
                 print(f"Output {req_id}({i}):{output}\n")
 
 
-@require_test_model("Llama-2-13b-chat-hf-q4f16_1-MLC")
+@require_test_model("Llama-2-13b-chat-hf-q4f16_1-AAE")
 def test_engine_efficiency(model: str):
     """Test engine speculative decoding efficiency."""
 
@@ -484,7 +484,7 @@ def test_engine_efficiency(model: str):
             outputs[int(request_id)] += stream_outputs[0].delta_token_ids
 
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(max_total_sequence_length=4096),
@@ -519,8 +519,8 @@ def test_engine_efficiency(model: str):
 
 
 @require_test_model(
-    "Llama-2-13b-chat-hf-q4f16_1-MLC",
-    "Llama-2-7b-chat-hf-q4f16_1-MLC",
+    "Llama-2-13b-chat-hf-q4f16_1-AAE",
+    "Llama-2-7b-chat-hf-q4f16_1-AAE",
 )
 def test_engine_spec_efficiency(model: str, small_model: str):
     """Test engine speculative decoding efficiency."""
@@ -543,7 +543,7 @@ def test_engine_spec_efficiency(model: str, small_model: str):
             outputs[int(request_id)] += stream_outputs[0].delta_token_ids
 
     # Create engine
-    spec_engine = SyncMLCEngine(
+    spec_engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -587,7 +587,7 @@ def test_engine_spec_efficiency(model: str, small_model: str):
         print()
 
 
-@require_test_model("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_engine_eagle_spec_efficiency(model: str):
     """Test engine speculative decoding efficiency."""
 
@@ -609,9 +609,9 @@ def test_engine_eagle_spec_efficiency(model: str):
             outputs[int(request_id)] += stream_outputs[0].delta_token_ids
 
     # Create engine
-    small_model = "dist/Eagle-llama2-7b-chat-q0f16-MLC"
-    small_model_lib = "dist/Eagle-llama2-7b-chat-q0f16-MLC/Eagle-llama2-7b-chat-q0f16-MLC-cuda.so"
-    spec_engine = SyncMLCEngine(
+    small_model = "dist/Eagle-llama2-7b-chat-q0f16-AAE"
+    small_model_lib = "dist/Eagle-llama2-7b-chat-q0f16-AAE/Eagle-llama2-7b-chat-q0f16-AAE-cuda.so"
+    spec_engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(

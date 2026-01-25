@@ -1,10 +1,10 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/threaded_engine.h
- * \brief The header of threaded serving engine in MLC LLM.
+ * \brief The header of threaded serving engine in Astro Agent Edge (AAE).
  */
-#ifndef MLC_LLM_SERVE_THREADED_ENGINE_H_
-#define MLC_LLM_SERVE_THREADED_ENGINE_H_
+#ifndef SPHERE_AAE_SERVE_THREADED_ENGINE_H_
+#define SPHERE_AAE_SERVE_THREADED_ENGINE_H_
 
 #include <picojson.h>
 
@@ -12,14 +12,14 @@
 #include "engine.h"
 #include "request.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
 using namespace tvm::runtime;
 
 /*!
- * \brief The interface threaded engine in MLC LLM.
+ * \brief The interface threaded engine in Astro Agent Edge (AAE).
  * The threaded engine keeps running a background request processing
  * loop on a standalone thread. Ensuring thread safety, it exposes
  * `AddRequest` and `AbortRequest` to receive new requests or
@@ -87,6 +87,6 @@ class ThreadedEngine {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_THREADED_ENGINE_H_
+#endif  // SPHERE_AAE_SERVE_THREADED_ENGINE_H_

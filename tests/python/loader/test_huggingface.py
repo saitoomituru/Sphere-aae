@@ -5,9 +5,9 @@ from typing import Union
 import pytest
 import tvm
 
-from mlc_llm.loader import HuggingFaceLoader
-from mlc_llm.model import MODELS
-from mlc_llm.support import logging, tqdm
+from sphere_aae.loader import HuggingFaceLoader
+from sphere_aae.model import MODELS
+from sphere_aae.support import logging, tqdm
 
 logging.enable_logging()
 

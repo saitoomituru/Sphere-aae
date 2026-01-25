@@ -21,12 +21,12 @@
 #include "../support/utils.h"
 #include "sampler/sampler.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
 Optional<IntTuple> GetDiscoWorkerCPUBinding(int num_workers) {
-  const char* raw_cpu_binding = std::getenv("MLC_DISCO_WORKER_CPU_BINDING");
+  const char* raw_cpu_binding = std::getenv("SPHERE_AAE_DISCO_WORKER_CPU_BINDING");
   if (raw_cpu_binding == nullptr) {
     return std::nullopt;
   }
@@ -38,11 +38,11 @@ Optional<IntTuple> GetDiscoWorkerCPUBinding(int num_workers) {
     try {
       cpu_ids.push_back(std::stol(cpu_id_str));
     } catch (std::invalid_argument const& ex) {
-      LOG(FATAL) << "Invalid MLC_DISCO_WORKER_CPU_BINDING \"" << cpu_binding_str << "\"";
+      LOG(FATAL) << "Invalid SPHERE_AAE_DISCO_WORKER_CPU_BINDING \"" << cpu_binding_str << "\"";
     }
   }
   if (static_cast<int>(cpu_ids.size()) < num_workers) {
-    LOG(FATAL) << "Insufficient number of specified CPU workers in MLC_DISCO_WORKER_CPU_BINDING, "
+    LOG(FATAL) << "Insufficient number of specified CPU workers in SPHERE_AAE_DISCO_WORKER_CPU_BINDING, "
                   "expecting at least "
                << num_workers << "CPU ids but only " << cpu_ids.size() << " are given.";
   }
@@ -169,9 +169,9 @@ ObjectRef FunctionTable::LoadParams(const std::string& model_path, Device device
           loader_create(metadata_path, tensor_cache_metadata, "", this->disco_mod).cast<DRef>();
       params = loader_load_all(loader).cast<DRef>();
     } else {
-      auto load_func_name = getenv("MLC_INTERNAL_PRESHARD_NUM") == nullptr
-                                ? "mlc.multi_gpu.LoadMultiGPU"
-                                : "mlc.multi_gpu.LoadMultiGPUPresharded";
+      auto load_func_name = getenv("SPHERE_AAE_INTERNAL_PRESHARD_NUM") == nullptr
+                                ? "sphere_aae.multi_gpu.LoadMultiGPU"
+                                : "sphere_aae.multi_gpu.LoadMultiGPUPresharded";
       Function loader = this->get_global_func(load_func_name);
       params = loader(model_path, this->disco_mod, picojson::value(this->model_config).serialize())
                    .cast<DRef>();
@@ -277,12 +277,12 @@ void FunctionTable::_InitFunctions() {
   }
   this->nd_view_func_ = get_global_func("vm.builtin.reshape");
   this->nd_get_shape_func_ = get_global_func("vm.builtin.shape_of");
-  this->nd_copy_embedding_to_offset_func_ = get_global_func("mlc.copy_embedding_to_offset");
+  this->nd_copy_embedding_to_offset_func_ = get_global_func("sphere_aae.copy_embedding_to_offset");
   support_backtracking_kv_ = true;
   this->tuple_getitem_func_ = get_global_func("vm.builtin.tuple_getitem");
   if (use_disco) {
     this->last_group_send_to_worker_0_ =
-        get_global_func("mlc.multi_gpu.SendFromLastGroupToWorker0");
+        get_global_func("sphere_aae.multi_gpu.SendFromLastGroupToWorker0");
   }
 
   this->gather_probs_func_ = mod->GetFunction("gather_probs", true).value_or(Function(nullptr));
@@ -365,4 +365,4 @@ void FunctionTable::DebugCallFuncOnAllAllWorker(const String& func_name,
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

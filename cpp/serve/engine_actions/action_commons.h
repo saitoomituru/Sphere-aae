@@ -3,8 +3,8 @@
  * \file serve/engine_actions/action_commons.h
  * \brief Common functions that may be used in multiple EngineActions.
  */
-#ifndef MLC_LLM_SERVE_ENGINE_ACTIONS_ACTION_COMMONS_H_
-#define MLC_LLM_SERVE_ENGINE_ACTIONS_ACTION_COMMONS_H_
+#ifndef SPHERE_AAE_SERVE_ENGINE_ACTIONS_ACTION_COMMONS_H_
+#define SPHERE_AAE_SERVE_ENGINE_ACTIONS_ACTION_COMMONS_H_
 
 #include <tvm/ffi/container/array.h>
 
@@ -16,7 +16,7 @@
 #include "../model.h"
 #include "action.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -110,6 +110,6 @@ std::pair<Tensor, std::vector<SampleResult>> ApplyLogitProcessorAndSample(
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_ENGINE_ACTIONS_ACTION_COMMONS_H_
+#endif  // SPHERE_AAE_SERVE_ENGINE_ACTIONS_ACTION_COMMONS_H_

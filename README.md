@@ -1,33 +1,35 @@
 <div align="center">
 
-# Sphere-mlc — MLC LLM を基盤としたローカルAIシステム向け派生プロジェクト
+# Sphere-aae — Astro Agent Edge (AAE) の独立OSSプロジェクト
 
-[![Installation](https://img.shields.io/badge/docs-latest-green)](https://llm.mlc.ai/docs/)
-[![License](https://img.shields.io/badge/license-apache_2-blue)](https://github.com/mlc-ai/mlc-llm/blob/main/LICENSE)
+[![Installation](https://img.shields.io/badge/docs-latest-green)](https://llm.sphere_aae.ai/docs/)
+[![License](https://img.shields.io/badge/license-apache_2-blue)](https://github.com/sphere-aae/sphere-aae/blob/main/LICENSE)
 [![Join Discoard](https://img.shields.io/badge/Join-Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/9Xpy2HGBuD)
-[![Related Repository: WebLLM](https://img.shields.io/badge/Related_Repo-WebLLM-fafbfc?logo=github)](https://github.com/mlc-ai/web-llm/)
+[![Related Repository: WebLLM](https://img.shields.io/badge/Related_Repo-WebLLM-fafbfc?logo=github)](https://github.com/sphere-aae/web-llm/)
 
 **MLコンパイル（ML Compilation）によるユニバーサルLLMデプロイエンジン（Universal LLM Deployment Engine）**
 
-[Get Started](https://llm.mlc.ai/docs/get_started/quick_start) | [Documentation](https://llm.mlc.ai/docs) | [Blog](https://blog.mlc.ai/)
+[Get Started](https://llm.sphere_aae.ai/docs/get_started/quick_start) | [Documentation](https://llm.sphere_aae.ai/docs) | [Blog](https://blog.sphere_aae.ai/)
 
 </div>
 
 ## 概要（About）
 
-Sphere-mlc は MLC LLM (https://github.com/mlc-ai/mlc-llm) を基盤とした派生OSSであり、本家のライセンスおよび著作権表記を尊重しつつ発展させることを目的としています。
+本プロジェクトは MLC LLM を基盤技術として尊重・継承しつつ、人格主体型エッジAI基盤へ進化させた独立実装である。
 
-MLC LLM は大規模言語モデル（Large Language Models: LLMs）向けの機械学習コンパイラ（Machine Learning Compiler）兼 高性能デプロイメントエンジン（High-performance Deployment Engine）です。本プロジェクトの使命（mission）は、誰もがあらゆるプラットフォーム上でAIモデルをネイティブに開発・最適化・デプロイできるようにすることです。 
+Sphere-aae は MLC LLM への技術的敬意と派生関係を明示しつつ、思想・設計方針は別系統として独立に発展させます。MLC LLM のライセンスおよび著作権表記を尊重し、同一環境へ共存できる名称・構成を採用します。
+
+Astro Agent Edge (AAE) は大規模言語モデル（Large Language Models: LLMs）向けの機械学習コンパイラ（Machine Learning Compiler）兼 高性能デプロイメントエンジン（High-performance Deployment Engine）です。本プロジェクトの使命（mission）は、誰もがあらゆるプラットフォーム上でAIモデルをネイティブに開発・最適化・デプロイできるようにすることです。 
 
 ## プロジェクトの方針（Project Identity）
 
 - **ローカルファーストAI（Local-first AI）への最適化**：クラウド依存を最小化し、端末上での推論（Inference）体験を重視します。
-- **構造実験・アーキテクチャ改造のための派生**：MLC LLM の設計を土台に、構造的な実験やアーキテクチャ変更を行うための派生プロジェクトとして位置付けます。
+- **構造実験・アーキテクチャ改造のための派生**：Astro Agent Edge (AAE) の設計を土台に、構造的な実験やアーキテクチャ変更を行うための派生プロジェクトとして位置付けます。
 - **エッジ環境での推論を重視する方針**：モバイルや組み込みなどのエッジ（Edge）環境での推論最適化を重視します。
 
 ## 設計思想・運用原則（Design Principles & Operations）
 
-Sphere-mlc は単なる推論エンジンではなく、人格主体性・記憶連続性・説明責任を備えた**人格基盤（persona substrate）**を志向します。運用者は「何を優先し、何を制約とするか」という価値前提を明示する責任を負い、推論の判断根拠を説明可能に保つことを重要視します。
+Sphere-aae は単なる推論エンジンではなく、人格主体性・記憶連続性・説明責任を備えた**人格基盤（persona substrate）**を志向します。運用者は「何を優先し、何を制約とするか」という価値前提を明示する責任を負い、推論の判断根拠を説明可能に保つことを重要視します。
 
 - **主体性（Agency）**：AI をツールではなく、役割・記憶・責任範囲を持つ情報主体として扱います。主体性は運用ポリシーの外部記述だけでなく、人格基盤としての一貫した制約により担保されます。
 - **意味記憶の状態保持**：意味記憶（semantic memory）を、単なる検索対象ではなく状態保持層として扱います。ベクトル空間の分布・相関は、推論の前提状態として継続的に参照され、運用上の連続性を担います。
@@ -80,14 +82,14 @@ Sphere-mlc は単なる推論エンジンではなく、人格主体性・記憶
 </table>
 </div>
 
-MLC LLM は MLCEngine 上でコードをコンパイル・実行します。MLCEngine は上記プラットフォームで統一的に動作する高性能LLM推論エンジンです。MLCEngine は OpenAI 互換API（OpenAI-compatible API）を提供し、RESTサーバー、Python、JavaScript、iOS、Android から利用できます。これらはすべて、コミュニティと共に継続的に改善している同一のエンジンとコンパイラに支えられています。
+Astro Agent Edge (AAE) は SphereAaeEngine 上でコードをコンパイル・実行します。SphereAaeEngine は上記プラットフォームで統一的に動作する高性能LLM推論エンジンです。SphereAaeEngine は OpenAI 互換API（OpenAI-compatible API）を提供し、RESTサーバー、Python、JavaScript、iOS、Android から利用できます。これらはすべて、コミュニティと共に継続的に改善している同一のエンジンとコンパイラに支えられています。
 
 ## はじめに（Get Started）
 
-MLC LLM を使い始めるには、[ドキュメント（documentation）](https://llm.mlc.ai/docs/) を参照してください。
-- [Installation](https://llm.mlc.ai/docs/install/mlc_llm)
-- [Quick start](https://llm.mlc.ai/docs/get_started/quick_start)
-- [Introduction](https://llm.mlc.ai/docs/get_started/introduction)
+Astro Agent Edge (AAE) を使い始めるには、[ドキュメント（documentation）](https://llm.sphere_aae.ai/docs/) を参照してください。
+- [Installation](https://llm.sphere_aae.ai/docs/install/sphere_aae)
+- [Quick start](https://llm.sphere_aae.ai/docs/get_started/quick_start)
+- [Introduction](https://llm.sphere_aae.ai/docs/get_started/introduction)
 
 ## Docker での完全再現ビルド（Build/Test/Docs）
 
@@ -101,14 +103,14 @@ git submodule update --init --recursive
 Docker イメージを作成し、検証スクリプトを実行します。
 
 ```bash
-docker build -t sphere-mlc:dev .
-docker run --rm -it sphere-mlc:dev
+docker build -t sphere-aae:dev .
+docker run --rm -it sphere-aae:dev
 ```
 
 ローカル変更を反映したい場合は、マウントして実行してください。
 
 ```bash
-docker run --rm -it -v "$PWD":/workspace/Sphere-mlc sphere-mlc:dev ./scripts/docker_verify.sh
+docker run --rm -it -v "$PWD":/workspace/Sphere-aae sphere-aae:dev ./scripts/docker_verify.sh
 ```
 
 補足:
@@ -120,15 +122,15 @@ docker run --rm -it -v "$PWD":/workspace/Sphere-mlc sphere-mlc:dev ./scripts/doc
 本プロジェクトが有用であれば、以下の形式で引用（citation）をご検討ください。
 
 ```bibtex
-@software{mlc-llm,
-    author = {{MLC team}},
-    title = {{MLC-LLM}},
-    url = {https://github.com/mlc-ai/mlc-llm},
+@software{sphere-aae,
+    author = {{Sphere-aae Contributors}},
+    title = {{Sphere-aae}},
+    url = {https://github.com/sphere-aae/sphere-aae},
     year = {2023-2025}
 }
 ```
 
-MLC LLM の基盤となる技術には以下が含まれます：
+Astro Agent Edge (AAE) の基盤となる技術には以下が含まれます：
 
 <details>
   <summary>References (Click to expand)</summary>

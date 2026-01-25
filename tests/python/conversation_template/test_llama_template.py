@@ -1,6 +1,6 @@
 import pytest
 
-from mlc_llm.conversation_template import ConvTemplateRegistry
+from sphere_aae.conversation_template import ConvTemplateRegistry
 
 pytestmark = [pytest.mark.runtime_unittest]
 

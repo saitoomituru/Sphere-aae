@@ -1,13 +1,13 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file json_ffi/openai_api_protocol.cc
- * \brief The implementation of OpenAI API Protocol in MLC LLM.
+ * \brief The implementation of OpenAI API Protocol in Astro Agent Edge (AAE).
  */
 #include "openai_api_protocol.h"
 
 #include "../support/json_parser.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json_ffi {
 
@@ -537,4 +537,4 @@ picojson::object ChatCompletionStreamResponse::AsJSON() const {
 
 }  // namespace json_ffi
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

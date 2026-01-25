@@ -4,10 +4,10 @@ from typing import Any, AsyncGenerator
 
 import aiohttp  # pylint: disable=import-error
 
-from mlc_llm.interface.router import serve
-from mlc_llm.protocol import openai_api_protocol
-from mlc_llm.router import Router
-from mlc_llm.serve.entrypoints import microserving_entrypoints
+from sphere_aae.interface.router import serve
+from sphere_aae.protocol import openai_api_protocol
+from sphere_aae.router import Router
+from sphere_aae.serve.entrypoints import microserving_entrypoints
 
 
 class CustomRouter(Router):

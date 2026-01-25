@@ -3,8 +3,8 @@ from typing import Dict, List, Optional
 
 import requests
 
-from mlc_llm.json_ffi import JSONFFIEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.json_ffi import JSONFFIEngine
+from sphere_aae.testing import require_test_model
 
 
 def base64_encode_image(url: str) -> str:
@@ -77,7 +77,7 @@ def run_chat_completion(
                 print(f"Output {req_id}({i}):{output}\n")
 
 
-@require_test_model("llava-1.5-7b-hf-q4f16_1-MLC")
+@require_test_model("llava-1.5-7b-hf-q4f16_1-AAE")
 def test_chat_completion():
     # Create engine.
     engine = JSONFFIEngine(

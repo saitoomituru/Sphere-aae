@@ -1,7 +1,7 @@
 import pytest
 
-from mlc_llm.conversation_template import ConvTemplateRegistry
-from mlc_llm.protocol.conversation_protocol import Conversation, MessagePlaceholders
+from sphere_aae.conversation_template import ConvTemplateRegistry
+from sphere_aae.protocol.conversation_protocol import Conversation, MessagePlaceholders
 
 
 def get_conv_templates():

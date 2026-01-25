@@ -17,7 +17,7 @@
 #include "config.h"
 #include "logit_processor.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -37,7 +37,7 @@ Model Model::Create(String reload_lib_path, String model_path, const picojson::o
 Result<picojson::object> Model::LoadModelConfig(const String& model_path) {
   using TResult = Result<picojson::object>;
   picojson::object model_config;
-  std::ifstream config_istream((model_path + "/mlc-chat-config.json").c_str());
+  std::ifstream config_istream((model_path + "/sphere-aae-chat-config.json").c_str());
   std::ostringstream config_ostream;
   ICHECK(config_istream);
   config_ostream << config_istream.rdbuf();
@@ -1119,7 +1119,7 @@ class ModelImpl : public ModelObj {
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef().def(
-      "mlc.copy_embedding_to_offset", [](Tensor embedding, Tensor dst, int offset) {
+      "sphere_aae.copy_embedding_to_offset", [](Tensor embedding, Tensor dst, int offset) {
         // embedding: (m, hidden_size)
         // dst: (prefill_chunk_size, hidden_size)
         ICHECK_EQ(embedding->ndim, 2);
@@ -1138,4 +1138,4 @@ TVM_FFI_STATIC_INIT_BLOCK() {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

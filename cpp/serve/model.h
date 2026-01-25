@@ -4,8 +4,8 @@
  * \brief The header for runtime module of LLM functions (prefill/decode/etc.)
  */
 
-#ifndef MLC_LLM_SERVE_MODEL_H_
-#define MLC_LLM_SERVE_MODEL_H_
+#ifndef SPHERE_AAE_SERVE_MODEL_H_
+#define SPHERE_AAE_SERVE_MODEL_H_
 
 #include <picojson.h>
 #include <tvm/ffi/string.h>
@@ -20,7 +20,7 @@
 #include "logit_processor.h"
 #include "sampler/sampler.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -372,7 +372,7 @@ class ModelObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.Model", ModelObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.Model", ModelObj, Object);
 };
 
 class Model : public ObjectRef {
@@ -406,6 +406,6 @@ class Model : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_MODEL_H_
+#endif  // SPHERE_AAE_SERVE_MODEL_H_

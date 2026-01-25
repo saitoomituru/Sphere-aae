@@ -4,15 +4,15 @@ from typing import Tuple
 
 import pytest
 
-from mlc_llm.serve import PopenServer
+from sphere_aae.serve import PopenServer
 
 
 @pytest.fixture(scope="session")
 def served_model() -> Tuple[str, str]:
-    model_lib = os.environ.get("MLC_SERVE_MODEL_LIB")
+    model_lib = os.environ.get("SPHERE_AAE_SERVE_MODEL_LIB")
     if model_lib is None:
         pytest.skip(
-            'Environment variable "MLC_SERVE_MODEL_LIB" not found. '
+            'Environment variable "SPHERE_AAE_SERVE_MODEL_LIB" not found. '
             "MLC サーバーテストをスキップします。"
         )
     model = os.path.dirname(model_lib)

@@ -1,7 +1,7 @@
 Install Conda
 =============
 
-MLC LLM does not depend on, but generally recommends conda as a generic dependency manager, primarily because it creates unified cross-platform experience to make windows/Linux/macOS development equally easy. Moreover, conda is python-friendly and provides all the python packages needed for MLC LLM, such as numpy.
+Astro Agent Edge (AAE) does not depend on, but generally recommends conda as a generic dependency manager, primarily because it creates unified cross-platform experience to make windows/Linux/macOS development equally easy. Moreover, conda is python-friendly and provides all the python packages needed for Astro Agent Edge (AAE), such as numpy.
 
 .. contents:: Table of Contents
     :depth: 2
@@ -32,7 +32,7 @@ Install Miniconda
 Validate installation
 ---------------------
 
-**Step 1. Check conda-arch mismatch.** Nowadays macOS runs on two different architectures: arm64 and x86_64, which could particularly lead to many misuses in MLC LLM, where the error message hints about "architecture mismatch". Use the following command to make sure particular conda architecture is installed accordingly:
+**Step 1. Check conda-arch mismatch.** Nowadays macOS runs on two different architectures: arm64 and x86_64, which could particularly lead to many misuses in Astro Agent Edge (AAE), where the error message hints about "architecture mismatch". Use the following command to make sure particular conda architecture is installed accordingly:
 
 .. code-block:: bash
    :caption: Check conda architecture
@@ -49,18 +49,18 @@ Validate installation
    :caption: Check conda virtual environment (macOS, Linux)
 
    >>> echo $CONDA_PREFIX
-   /.../miniconda3/envs/mlc-doc-venv
+   /.../miniconda3/envs/sphere-aae-doc-venv
    >>> which python
-   /.../miniconda3/envs/mlc-doc-venv/bin/python
+   /.../miniconda3/envs/sphere-aae-doc-venv/bin/python
    >>> which pip
-   /.../miniconda3/envs/mlc-doc-venv/bin/pip
+   /.../miniconda3/envs/sphere-aae-doc-venv/bin/pip
 
 .. code-block:: bat
    :caption: Check conda virtual environment (Windows)
 
    >>> echo $Env:CONDA_PREFIX
-   \...\miniconda3\envs\mlc-doc-venv
+   \...\miniconda3\envs\sphere-aae-doc-venv
    >>> Get-Command python.exe
-   \...\miniconda3\envs\mlc-doc-venv\bin\python.exe
+   \...\miniconda3\envs\sphere-aae-doc-venv\bin\python.exe
    >>> Get-Command pip.exe
-   \...\miniconda3\envs\mlc-doc-venv\bin\pip.exe
+   \...\miniconda3\envs\sphere-aae-doc-venv\bin\pip.exe

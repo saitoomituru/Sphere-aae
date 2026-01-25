@@ -3,8 +3,8 @@
  * \file support/dynamic_bitset.h
  * \brief The header for utilities used in grammar-guided generation.
  */
-#ifndef MLC_LLM_SUPPORT_DYNAMIC_BITSET_H_
-#define MLC_LLM_SUPPORT_DYNAMIC_BITSET_H_
+#ifndef SPHERE_AAE_SUPPORT_DYNAMIC_BITSET_H_
+#define SPHERE_AAE_SUPPORT_DYNAMIC_BITSET_H_
 
 #include <tvm/runtime/logging.h>
 
@@ -12,7 +12,7 @@
 #include <cstring>
 #include <vector>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 /*!
@@ -141,6 +141,6 @@ class DynamicBitset {
 };
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_DYNAMIC_BITSET_H_
+#endif  // SPHERE_AAE_SUPPORT_DYNAMIC_BITSET_H_

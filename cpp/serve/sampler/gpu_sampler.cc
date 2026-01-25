@@ -11,7 +11,7 @@
 #include "../../support/random.h"
 #include "sampler.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -751,4 +751,4 @@ Sampler Sampler::CreateGPUSampler(int max_num_sample, int vocab_size, FunctionTa
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

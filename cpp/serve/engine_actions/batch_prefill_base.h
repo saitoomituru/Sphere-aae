@@ -10,7 +10,7 @@
 #include "action.h"
 #include "action_commons.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -143,4 +143,4 @@ bool HasPrefillSpace(int num_required_pages, bool sliding_window_enabled, int ne
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

@@ -4,8 +4,8 @@ import os
 import random
 from typing import List, Tuple
 
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve.sync_engine import EngineConfig, SyncMLCEngine
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve.sync_engine import EngineConfig, SyncSphereAaeEngine
 
 
 def _parse_args():
@@ -41,7 +41,7 @@ def benchmark(args: argparse.Namespace):
     random.seed(args.seed)
 
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=args.model,
         device=args.device,
         model_lib=args.model_lib,

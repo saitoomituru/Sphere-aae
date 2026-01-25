@@ -1,12 +1,12 @@
-"""Streamer tests in MLC LLM.
+"""Streamer tests in Astro Agent Edge (AAE).
 
 Please specify the local path to llama2 tokenizer via environment
 variable before running this test.
 The recommended way to run the tests is to use the following command:
-  MLC_LLAMA_TOKENIZER_PATH="path/to/llama/tokenizer" \
+  SPHERE_AAE_LLAMA_TOKENIZER_PATH="path/to/llama/tokenizer" \
   pytest -vv tests/python/support/test_text_streamer_stop_handler.py
 
-Here "MLC_LLAMA_TOKENIZER_PATH" can be chosen from
+Here "SPHERE_AAE_LLAMA_TOKENIZER_PATH" can be chosen from
 - a llama2 weight directory (e.g., "path/to/Llama-2-7b-chat-hf"),
 - a sentencepiece llama2 tokenizer path
   (e.g., "path/to/Llama-2-7b-chat-hf/tokenizer.model").
@@ -21,8 +21,8 @@ from typing import List, Tuple
 
 import pytest
 
-from mlc_llm.testing import require_test_tokenizers
-from mlc_llm.tokenizers import StopStrHandler, TextStreamer, Tokenizer
+from sphere_aae.testing import require_test_tokenizers
+from sphere_aae.tokenizers import StopStrHandler, TextStreamer, Tokenizer
 
 # test category "unittest"
 pytestmark = [pytest.mark.unittest]
@@ -54,7 +54,7 @@ DECODED_PARAGRAPH = (
 # fmt: on
 
 
-@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_text_streamer(llama_tokenizer_path: str):  # pylint: disable=redefined-outer-name
     text_streamer = TextStreamer(Tokenizer(llama_tokenizer_path))
     total_text = ""
@@ -80,7 +80,7 @@ def stop_handler_process_tokens(
     return tokenizer.decode(returned_tokens)
 
 
-@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_stop_str_handler_stop(llama_tokenizer_path: str):  # pylint: disable=redefined-outer-name
     stop_strs = [" 🤔"]
     tokenizer = Tokenizer(llama_tokenizer_path)
@@ -96,7 +96,7 @@ def test_stop_str_handler_stop(llama_tokenizer_path: str):  # pylint: disable=re
     assert total_text == expected_text
 
 
-@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_stop_str_handler_not_stop(
     llama_tokenizer_path: str,  # pylint: disable=redefined-outer-name
 ):
@@ -108,7 +108,7 @@ def test_stop_str_handler_not_stop(
     assert total_text == DECODED_PARAGRAPH
 
 
-@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_stop_str_handler_return_cached_tokens(
     llama_tokenizer_path: str,  # pylint: disable=redefined-outer-name
 ):
@@ -126,7 +126,7 @@ def test_stop_str_handler_return_cached_tokens(
     assert total_text == expected_text
 
 
-@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_stop_str_handler_throughput(
     llama_tokenizer_path: str,  # pylint: disable=redefined-outer-name
 ):
@@ -167,7 +167,7 @@ emoji_tokens_expected_result = [
 
 
 @pytest.mark.parametrize("tokens_and_results", emoji_tokens_expected_result)
-@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_tokenizers("Llama-2-7b-chat-hf-q4f16_1-AAE")
 def test_text_streamer_emojis(
     llama_tokenizer_path: str, tokens_and_results: Tuple[List[int], Tuple[str]]
 ):  # pylint: disable=redefined-outer-name

@@ -1,4 +1,4 @@
-name: mlc-llm-build
+name: sphere-aae-build
 
 channels:
   - conda-forge

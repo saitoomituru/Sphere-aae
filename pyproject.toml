@@ -16,12 +16,12 @@
 # under the License.
 
 [project]
-name = "mlc_llm"
+name = "sphere_aae"
 # Note: Call version.py to update the version before building the wheel
 version = "0.20.0.dev0"
-description = "MLC LLM: an universal LLM deployment engine via ML compilation."
+description = "Astro Agent Edge (AAE): an universal LLM deployment engine via ML compilation."
 
-authors = [{ name = "MLC LLM Contributors" }]
+authors = [{ name = "Astro Agent Edge (AAE) Contributors" }]
 readme = "README.md"
 license = { text = "Apache 2.0" }
 classifiers = [
@@ -55,10 +55,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://llm.mlc.ai/"
-Documentation = "https://llm.mlc.ai/docs/"
-Repository = "https://github.com/mlc-ai/mlc-llm"
-"Bug Tracker" = "https://github.com/mlc-ai/mlc-llm/issues"
+Homepage = "https://llm.sphere_aae.ai/"
+Documentation = "https://llm.sphere_aae.ai/docs/"
+Repository = "https://github.com/sphere-aae/sphere-aae"
+"Bug Tracker" = "https://github.com/sphere-aae/sphere-aae/issues"
 
 
 
@@ -78,11 +78,11 @@ wheel.py-api = "py3"
 build-dir = "build"
 
 # CMake configuration - ensure proper installation paths
-cmake.args = ["-DMLC_LLM_BUILD_PYTHON_MODULE=ON"]
+cmake.args = ["-DSPHERE_AAE_BUILD_PYTHON_MODULE=ON"]
 
 # Wheel configuration
-wheel.packages = ["python/mlc_llm"]
-wheel.install-dir = "mlc_llm"
+wheel.packages = ["python/sphere_aae"]
+wheel.install-dir = "sphere_aae"
 
 # Source distribution configuration
 sdist.include = [
@@ -97,7 +97,7 @@ sdist.include = [
     "/src/**/*.h",
 
     # Python source
-    "/python/mlc_llm/**/*.py",
+    "/python/sphere_aae/**/*.py",
 
     # Documentation and metadata
     "/docs/**/*",
@@ -132,7 +132,7 @@ logging.level = "INFO"
 
 [tool.isort]
 profile = "black"
-src_paths = ["python/mlc_llm"]
+src_paths = ["python/sphere_aae"]
 known_third_party = ["numpy", "tvm", "tqdm", "torch", "transformers"]
 
 [tool.black]

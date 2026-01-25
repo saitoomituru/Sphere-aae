@@ -7,8 +7,8 @@ output processing options are passed correctly
 import pytest
 import tvm
 
-from mlc_llm.serve import MLCEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.serve import SphereAaeEngine
+from sphere_aae.testing import require_test_model
 
 # test category "unittest"
 pytestmark = [pytest.mark.unittest]
@@ -16,9 +16,9 @@ pytestmark = [pytest.mark.unittest]
 
 # NOTE: we only need tokenizers in folder
 # launch time of mock test is fast so we can put it in unittest
-@require_test_model("Llama-3-8B-Instruct-q4f16_1-MLC")
+@require_test_model("Llama-3-8B-Instruct-q4f16_1-AAE")
 def test_completion_api(model: str):
-    engine = MLCEngine(model, tvm.cpu(), model_lib="mock://echo")
+    engine = SphereAaeEngine(model, tvm.cpu(), model_lib="mock://echo")
     param_dict = {
         "top_p": 0.6,
         "temperature": 0.9,

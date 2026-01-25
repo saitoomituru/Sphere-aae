@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 void CalculateResizeShape(tvm::runtime::Tensor image_data, std::string model_type,
@@ -55,4 +55,4 @@ void CalculateCropShape(tvm::runtime::Tensor image_data, std::string model_type,
 }
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

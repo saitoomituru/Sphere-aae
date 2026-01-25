@@ -4,7 +4,7 @@ GPU Drivers and SDKs
 .. contents:: Table of Contents
     :depth: 2
 
-MLC LLM is a universal deployment solution that allows efficient CPU/GPU code generation without AutoTVM-based performance tuning. This section focuses on generic GPU environment setup and troubleshooting.
+Astro Agent Edge (AAE) is a universal deployment solution that allows efficient CPU/GPU code generation without AutoTVM-based performance tuning. This section focuses on generic GPU environment setup and troubleshooting.
 
 CUDA
 ----
@@ -31,7 +31,7 @@ ROCm is required to compile and run models with ROCm backend.
 Installation
 ^^^^^^^^^^^^
 
-Right now MLC LLM only supports ROCm 6.1/6.2.
+Right now Astro Agent Edge (AAE) only supports ROCm 6.1/6.2.
 If you have AMD GPU and you want to use models compiled with ROCm
 backend, you should install ROCm from `here <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.2.0/install/quick-start.html>`__.
 
@@ -105,7 +105,7 @@ After installation, you can run ``vulkaninfo`` in command line and see if you ca
 Vulkan SDK
 ----------
 
-Vulkan SDK is required for compiling models to Vulkan backend. To build TVM compiler from source, you will need to install Vulkan SDK as a dependency, but our :doc:`pre-built wheels <../install/mlc_llm>` already ships with Vulkan SDK.
+Vulkan SDK is required for compiling models to Vulkan backend. To build TVM compiler from source, you will need to install Vulkan SDK as a dependency, but our :doc:`pre-built wheels <../install/sphere_aae>` already ships with Vulkan SDK.
 
 Check Vulkan SDK installation guide according to your platform:
 

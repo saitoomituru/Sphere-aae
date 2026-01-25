@@ -7,7 +7,7 @@
 #include <tvm/ffi/function.h>
 #include <tvm/runtime/nvtx.h>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -438,4 +438,4 @@ PrefixCache PrefixCache::CreateNoPrefixCache() {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

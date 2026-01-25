@@ -16,7 +16,7 @@
 #include "../support/utils.h"
 #include "data.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -31,7 +31,7 @@ uint64_t TotalDetectGlobalMemory(DLDevice device) {
   DeviceAPI::Get(device)->GetAttr(device, DeviceAttrKind::kTotalGlobalMemory, &rv);
   int64_t gpu_size_bytes = rv.cast<int64_t>();
   // Since the memory size returned by the OpenCL runtime is smaller than the actual available
-  // memory space, we set a best available space so that MLC LLM can run 7B or 8B models on Android
+  // memory space, we set a best available space so that Astro Agent Edge (AAE) can run 7B or 8B models on Android
   // with OpenCL.
   if (device.device_type == kDLOpenCL) {
     int64_t min_size_bytes = 5LL * 1024 * 1024 * 1024;  //  Minimum size is 5 GB
@@ -739,9 +739,9 @@ Result<MemUsageEstimationResult> EstimateMemoryUsageOnMode(
         " MB).\n"
         "1. You can set a larger \"gpu_memory_utilization\" value.\n"
         "2. If the model weight size is too large, please enable tensor parallelism by passing "
-        "`--tensor-parallel-shards $NGPU` to `mlc_llm gen_config` or use quantization.\n"
+        "`--tensor-parallel-shards $NGPU` to `sphere_aae gen_config` or use quantization.\n"
         "3. If the temporary buffer size is too large, please use a smaller `--prefill-chunk-size` "
-        "in `mlc_llm gen_config`.");
+        "in `sphere_aae gen_config`.");
   }
   if (device.device_type == DLDeviceType::kDLMetal) {
     // NOTE: Metal runtime has severe performance issues with large buffers.
@@ -1024,7 +1024,7 @@ Result<InferrableEngineConfig> InferrableEngineConfig::InferForRNNState(
         " MB). "
         "If the model weight size is too large, please use quantization. "
         "If the temporary buffer size is too large, please use a smaller `--prefill-chunk-size` in "
-        "`mlc_llm gen_config`.");
+        "`sphere_aae gen_config`.");
   }
   if (!init_config.max_history_size.has_value()) {
     inferred_config.max_history_size = model_max_history_size;
@@ -1073,4 +1073,4 @@ Result<bool> ModelsUseKVCache(const std::vector<picojson::object>& model_configs
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

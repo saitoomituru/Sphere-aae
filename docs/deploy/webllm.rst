@@ -7,16 +7,16 @@ WebLLM Javascript SDK
    :local:
    :depth: 2
 
-`WebLLM <https://www.npmjs.com/package/@mlc-ai/web-llm>`_ is a high-performance in-browser LLM
+`WebLLM <https://www.npmjs.com/package/@sphere-aae/web-llm>`_ is a high-performance in-browser LLM
 inference engine, aiming to be the backend of AI-powered web applications and agents.
 
-It provides a specialized runtime for the web backend of MLCEngine, leverages
+It provides a specialized runtime for the web backend of SphereAaeEngine, leverages
 `WebGPU <https://www.w3.org/TR/webgpu/>`_ for local acceleration, offers OpenAI-compatible API,
 and provides built-in support for web workers to separate heavy computation from the UI flow.
 
-Please checkout the `WebLLM repo <https://github.com/mlc-ai/web-llm>`__ on how to use WebLLM to build
+Please checkout the `WebLLM repo <https://github.com/sphere-aae/web-llm>`__ on how to use WebLLM to build
 web application in Javascript/Typescript. Here we only provide a high-level idea and discuss how to
-use MLC-LLM to compile your own model to run with WebLLM.
+use Sphere-aae to compile your own model to run with WebLLM.
 
 Getting Started
 ---------------
@@ -28,11 +28,11 @@ A WebGPU-compatible browser is needed to run WebLLM-powered web applications.
 You can download the latest Google Chrome and use `WebGPU Report <https://webgpureport.org/>`__
 to verify the functionality of WebGPU on your browser.
 
-WebLLM is available as an `npm package <https://www.npmjs.com/package/@mlc-ai/web-llm>`_ and is
+WebLLM is available as an `npm package <https://www.npmjs.com/package/@sphere-aae/web-llm>`_ and is
 also CDN-delivered. Try a simple chatbot example in
 `this JSFiddle example <https://jsfiddle.net/neetnestor/4nmgvsa2/>`__ without setup.
 
-You can also checkout `existing examples <https://github.com/mlc-ai/web-llm/tree/main/examples>`__
+You can also checkout `existing examples <https://github.com/sphere-aae/web-llm/tree/main/examples>`__
 on more advanced usage of WebLLM such as JSON mode, streaming, and more.
 
 Model Records in WebLLM
@@ -40,17 +40,17 @@ Model Records in WebLLM
 
 Each of the model in `WebLLM Chat <https://chat.webllm.ai>`__ is registered as an instance of
 ``ModelRecord`` and can be accessed at
-`webllm.prebuiltAppConfig.model_list <https://github.com/mlc-ai/web-llm/blob/main/src/config.ts#L293>`__.
+`webllm.prebuiltAppConfig.model_list <https://github.com/sphere-aae/web-llm/blob/main/src/config.ts#L293>`__.
 
-Looking at the most straightforward example `get-started <https://github.com/mlc-ai/web-llm/blob/main/examples/get-started/src/get_started.ts>`__,
+Looking at the most straightforward example `get-started <https://github.com/sphere-aae/web-llm/blob/main/examples/get-started/src/get_started.ts>`__,
 there are two ways to run a model.
 
 One can either use the prebuilt model by simply calling ``reload()`` with the ``model_id``:
 
 .. code:: typescript
 
-  const selectedModel = "Llama-3-8B-Instruct-q4f32_1-MLC";
-  const engine = await webllm.CreateMLCEngine(selectedModel);
+  const selectedModel = "Llama-3-8B-Instruct-q4f32_1-AAE";
+  const engine = await webllm.CreateSphereAaeEngine(selectedModel);
 
 Or one can specify their own model to run by creating a model record:
 
@@ -59,8 +59,8 @@ Or one can specify their own model to run by creating a model record:
   const appConfig: webllm.AppConfig = {
     model_list: [
       {
-        model: "https://huggingface.co/mlc-ai/Llama-3-8B-Instruct-q4f32_1-MLC",
-        model_id: "Llama-3-8B-Instruct-q4f32_1-MLC",
+        model: "https://huggingface.co/sphere-aae/Llama-3-8B-Instruct-q4f32_1-AAE",
+        model_id: "Llama-3-8B-Instruct-q4f32_1-AAE",
         model_lib:
           webllm.modelLibURLPrefix +
           webllm.modelVersion +
@@ -69,40 +69,40 @@ Or one can specify their own model to run by creating a model record:
       // Add your own models here...
     ],
   };
-  const selectedModel = "Llama-3-8B-Instruct-q4f32_1-MLC";
-  const engine: webllm.MLCEngineInterface = await webllm.CreateMLCEngine(
+  const selectedModel = "Llama-3-8B-Instruct-q4f32_1-AAE";
+  const engine: webllm.SphereAaeEngineInterface = await webllm.CreateSphereAaeEngine(
     selectedModel,
     { appConfig: appConfig },
   );
 
-Looking at the code above, we find that, just like any other platforms supported by MLC-LLM, to
+Looking at the code above, we find that, just like any other platforms supported by Sphere-aae, to
 run a model on WebLLM, you need:
 
-1. **Model weights** converted to MLC format (e.g. `Llama-3-8B-Instruct-q4f32_1-MLC
-   <https://huggingface.co/mlc-ai/Llama-3-8B-Instruct-q4f32_1-MLC/tree/main>`_.): downloaded through the url ``ModelRecord.model``
-2. **Model library** that comprises the inference logic (see repo `binary-mlc-llm-libs <https://github.com/mlc-ai/binary-mlc-llm-libs/tree/main/web-llm-models>`__): downloaded through the url ``ModelRecord.model_lib``.
+1. **Model weights** converted to MLC format (e.g. `Llama-3-8B-Instruct-q4f32_1-AAE
+   <https://huggingface.co/sphere-aae/Llama-3-8B-Instruct-q4f32_1-AAE/tree/main>`_.): downloaded through the url ``ModelRecord.model``
+2. **Model library** that comprises the inference logic (see repo `binary-sphere-aae-libs <https://github.com/sphere-aae/binary-sphere-aae-libs/tree/main/web-llm-models>`__): downloaded through the url ``ModelRecord.model_lib``.
 
 In sections below, we walk you through two examples on how to add your own model besides the ones in
-`webllm.prebuiltAppConfig.model_list <https://github.com/mlc-ai/web-llm/blob/main/src/config.ts#L293>`__.
-Before proceeding, please verify installation of ``mlc_llm`` and ``tvm``.
+`webllm.prebuiltAppConfig.model_list <https://github.com/sphere-aae/web-llm/blob/main/src/config.ts#L293>`__.
+Before proceeding, please verify installation of ``sphere_aae`` and ``tvm``.
 
 Verify Installation for Adding Models
 -------------------------------------
 
-**Step 1. Verify mlc_llm**
+**Step 1. Verify sphere_aae**
 
-We use the python package ``mlc_llm`` to compile models. This can be installed by
-following :ref:`install-mlc-packages`, either by building from source, or by
-installing the prebuilt package. Verify ``mlc_llm`` installation in command line via:
+We use the python package ``sphere_aae`` to compile models. This can be installed by
+following :ref:`install-sphere-aae-packages`, either by building from source, or by
+installing the prebuilt package. Verify ``sphere_aae`` installation in command line via:
 
 .. code:: bash
 
-    $ mlc_llm --help
+    $ sphere_aae --help
     # You should see help information with this line
-    usage: MLC LLM Command Line Interface. [-h] {compile,convert_weight,gen_config}
+    usage: Astro Agent Edge (AAE) Command Line Interface. [-h] {compile,convert_weight,gen_config}
 
 .. note::
-    If it runs into error ``command not found: mlc_llm``, try ``python -m mlc_llm --help``.
+    If it runs into error ``command not found: sphere_aae``, try ``python -m sphere_aae --help``.
 
 **Step 2. Verify TVM**
 
@@ -128,19 +128,19 @@ model, we only need to convert weights and reuse existing model library. For ins
 
 
 In this section, we walk you through adding ``WizardMath-7B-V1.1-q4f16_1`` to the
-`get-started <https://github.com/mlc-ai/web-llm/tree/main/examples/get-started>`__ example.
+`get-started <https://github.com/sphere-aae/web-llm/tree/main/examples/get-started>`__ example.
 According to the model's ``config.json`` on `its Huggingface repo <https://huggingface.co/WizardLM/WizardMath-7B-V1.1/blob/main/config.json>`_,
 it reuses the Mistral model architecture.
 
 .. note::
 
-  This section largely replicates :ref:`convert-weights-via-MLC`.
+  This section largely replicates :ref:`convert-weights-via-AAE`.
   See that page for more details. Note that the weights are shared across
   all platforms in MLC.
 
 **Step 1 Clone from HF and convert_weight**
 
-You can be under the mlc-llm repo, or your own working directory. Note that all platforms
+You can be under the sphere-aae repo, or your own working directory. Note that all platforms
 can share the same compiled/quantized weights. See :ref:`compile-command-specification`
 for specification of ``convert_weight``.
 
@@ -153,23 +153,23 @@ for specification of ``convert_weight``.
     git clone https://huggingface.co/WizardLM/WizardMath-7B-V1.1
     cd ../..
     # Convert weight
-    mlc_llm convert_weight ./dist/models/WizardMath-7B-V1.1/ \
+    sphere_aae convert_weight ./dist/models/WizardMath-7B-V1.1/ \
         --quantization q4f16_1 \
-        -o dist/WizardMath-7B-V1.1-q4f16_1-MLC
+        -o dist/WizardMath-7B-V1.1-q4f16_1-AAE
 
 **Step 2 Generate MLC Chat Config**
 
-Use ``mlc_llm gen_config`` to generate ``mlc-chat-config.json`` and process tokenizers.
+Use ``sphere_aae gen_config`` to generate ``sphere-aae-chat-config.json`` and process tokenizers.
 See :ref:`compile-command-specification` for specification of ``gen_config``.
 
 .. code:: shell
 
-    mlc_llm gen_config ./dist/models/WizardMath-7B-V1.1/ \
+    sphere_aae gen_config ./dist/models/WizardMath-7B-V1.1/ \
         --quantization q4f16_1 --conv-template wizard_coder_or_math \
-        -o dist/WizardMath-7B-V1.1-q4f16_1-MLC/
+        -o dist/WizardMath-7B-V1.1-q4f16_1-AAE/
 
-For the ``conv-template``, `conversation_template.py <https://github.com/mlc-ai/mlc-llm/tree/main/python/mlc_llm/conversation_template>`__
-contains a full list of conversation templates that MLC provides. You can also manually modify the ``mlc-chat-config.json`` to
+For the ``conv-template``, `conversation_template.py <https://github.com/sphere-aae/sphere-aae/tree/main/python/sphere_aae/conversation_template>`__
+contains a full list of conversation templates that MLC provides. You can also manually modify the ``sphere-aae-chat-config.json`` to
 add your customized conversation template.
 
 **Step 3 Upload weights to HF**
@@ -181,19 +181,19 @@ add your customized conversation template.
     git lfs install
     git clone https://huggingface.co/my-huggingface-account/my-wizardMath-weight-huggingface-repo
     cd my-wizardMath-weight-huggingface-repo
-    cp path/to/mlc-llm/dist/WizardMath-7B-V1.1-q4f16_1-MLC/* .
+    cp path/to/sphere-aae/dist/WizardMath-7B-V1.1-q4f16_1-AAE/* .
     git add . && git commit -m "Add wizardMath model weights"
     git push origin main
 
 After successfully following all steps, you should end up with a Huggingface repo similar to
-`WizardMath-7B-V1.1-q4f16_1-MLC <https://huggingface.co/mlc-ai/WizardMath-7B-V1.1-q4f16_1-MLC>`__,
-which includes the converted/quantized weights, the ``mlc-chat-config.json``, and tokenizer files.
+`WizardMath-7B-V1.1-q4f16_1-AAE <https://huggingface.co/sphere-aae/WizardMath-7B-V1.1-q4f16_1-AAE>`__,
+which includes the converted/quantized weights, the ``sphere-aae-chat-config.json``, and tokenizer files.
 
 
 **Step 4 Register as a ModelRecord**
 
 Finally, we modify the code snippet for
-`get-started <https://github.com/mlc-ai/web-llm/blob/main/examples/get-started/src/get_started.ts>`__
+`get-started <https://github.com/sphere-aae/web-llm/blob/main/examples/get-started/src/get_started.ts>`__
 pasted above.
 
 We simply specify the Huggingface link as ``model``, while reusing the ``model_lib`` for
@@ -204,8 +204,8 @@ We simply specify the Huggingface link as ``model``, while reusing the ``model_l
   const appConfig: webllm.AppConfig = {
     model_list: [
       {
-        model: "https://huggingface.co/mlc-ai/WizardMath-7B-V1.1-q4f16_1-MLC",
-        model_id: "WizardMath-7B-V1.1-q4f16_1-MLC",
+        model: "https://huggingface.co/sphere-aae/WizardMath-7B-V1.1-q4f16_1-AAE",
+        model_id: "WizardMath-7B-V1.1-q4f16_1-AAE",
         model_lib:
           webllm.modelLibURLPrefix +
           webllm.modelVersion +
@@ -216,13 +216,13 @@ We simply specify the Huggingface link as ``model``, while reusing the ``model_l
   };
 
   const selectedModel = "WizardMath-7B-V1.1-q4f16_1"
-  const engine: webllm.MLCEngineInterface = await webllm.CreateMLCEngine(
+  const engine: webllm.SphereAaeEngineInterface = await webllm.CreateSphereAaeEngine(
     selectedModel,
     { appConfig: appConfig },
   );
 
 Now, running the ``get-started`` example will use the ``WizardMath`` model you just added.
-See `get-started's README <https://github.com/mlc-ai/web-llm/tree/main/examples/get-started#webllm-get-started-app>`__
+See `get-started's README <https://github.com/sphere-aae/web-llm/tree/main/examples/get-started#webllm-get-started-app>`__
 on how to run it.
 
 
@@ -242,14 +242,14 @@ metadata spec, or even a different model architecture), you need to build your
 own model library.
 
 In this section, we walk you through adding ``RedPajama-INCITE-Chat-3B-v1`` to the
-`get-started <https://github.com/mlc-ai/web-llm/tree/main/examples/get-started>`__ example.
+`get-started <https://github.com/sphere-aae/web-llm/tree/main/examples/get-started>`__ example.
 
 This section largely replicates :ref:`compile-model-libraries`. See that page for
 more details, specifically the ``WebGPU`` option.
 
 **Step 0. Install dependencies**
 
-To compile model libraries for webgpu, you need to :ref:`build mlc_llm from source <mlcchat_build_from_source>`.
+To compile model libraries for webgpu, you need to :ref:`build sphere_aae from source <aaechat_build_from_source>`.
 Besides, you also need to follow :ref:`install-web-build`. Otherwise, it would run into error:
 
 .. code:: text
@@ -258,7 +258,7 @@ Besides, you also need to follow :ref:`install-web-build`. Otherwise, it would r
 
 **Step 1. Clone from HF and convert_weight**
 
-You can be under the mlc-llm repo, or your own working directory. Note that all platforms
+You can be under the sphere-aae repo, or your own working directory. Note that all platforms
 can share the same compiled/quantized weights.
 
 .. code:: shell
@@ -270,11 +270,11 @@ can share the same compiled/quantized weights.
     git clone https://huggingface.co/togethercomputer/RedPajama-INCITE-Chat-3B-v1
     cd ../..
     # Convert weight
-    mlc_llm convert_weight ./dist/models/RedPajama-INCITE-Chat-3B-v1/ \
+    sphere_aae convert_weight ./dist/models/RedPajama-INCITE-Chat-3B-v1/ \
         --quantization q4f16_1 \
-        -o dist/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC
+        -o dist/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE
 
-**Step 2. Generate mlc-chat-config and compile**
+**Step 2. Generate sphere-aae-chat-config and compile**
 
 A model library is specified by:
 
@@ -283,16 +283,16 @@ A model library is specified by:
  - Metadata (e.g. ``context_window_size``, ``sliding_window_size``, ``prefill-chunk-size``), which affects memory planning
  - Platform (e.g. ``cuda``, ``webgpu``, ``iOS``)
 
-All these knobs are specified in ``mlc-chat-config.json`` generated by ``gen_config``.
+All these knobs are specified in ``sphere-aae-chat-config.json`` generated by ``gen_config``.
 
 .. code:: shell
 
-    # 1. gen_config: generate mlc-chat-config.json and process tokenizers
-    mlc_llm gen_config ./dist/models/RedPajama-INCITE-Chat-3B-v1/ \
+    # 1. gen_config: generate sphere-aae-chat-config.json and process tokenizers
+    sphere_aae gen_config ./dist/models/RedPajama-INCITE-Chat-3B-v1/ \
         --quantization q4f16_1 --conv-template redpajama_chat \
-        -o dist/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC/
-    # 2. compile: compile model library with specification in mlc-chat-config.json
-    mlc_llm compile ./dist/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC/mlc-chat-config.json \
+        -o dist/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE/
+    # 2. compile: compile model library with specification in sphere-aae-chat-config.json
+    sphere_aae compile ./dist/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE/sphere-aae-chat-config.json \
         --device webgpu -o dist/libs/RedPajama-INCITE-Chat-3B-v1-q4f16_1-webgpu.wasm
 
 .. note::
@@ -311,11 +311,11 @@ After following the steps above, you should end up with:
 
 .. code:: shell
 
-    ~/mlc-llm > ls dist/libs
+    ~/sphere-aae > ls dist/libs
       RedPajama-INCITE-Chat-3B-v1-q4f16_1-webgpu.wasm  # ===> the model library
 
-    ~/mlc-llm > ls dist/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC
-      mlc-chat-config.json                             # ===> the chat config
+    ~/sphere-aae > ls dist/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE
+      sphere-aae-chat-config.json                             # ===> the chat config
       tensor-cache.json                               # ===> the model weight info
       params_shard_0.bin                               # ===> the model weights
       params_shard_1.bin
@@ -324,8 +324,8 @@ After following the steps above, you should end up with:
       tokenizer_config.json
 
 Upload the ``RedPajama-INCITE-Chat-3B-v1-q4f16_1-webgpu.wasm`` to a github repository (for us,
-it is in `binary-mlc-llm-libs <https://github.com/mlc-ai/binary-mlc-llm-libs>`__). Then
-upload the ``RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC`` to a Huggingface repo:
+it is in `binary-sphere-aae-libs <https://github.com/sphere-aae/binary-sphere-aae-libs>`__). Then
+upload the ``RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE`` to a Huggingface repo:
 
 .. code:: shell
 
@@ -334,16 +334,16 @@ upload the ``RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC`` to a Huggingface repo:
     git lfs install
     git clone https://huggingface.co/my-huggingface-account/my-redpajama3b-weight-huggingface-repo
     cd my-redpajama3b-weight-huggingface-repo
-    cp path/to/mlc-llm/dist/RedPajama-INCITE-Instruct-3B-v1-q4f16_1-MLC/* .
+    cp path/to/sphere-aae/dist/RedPajama-INCITE-Instruct-3B-v1-q4f16_1-AAE/* .
     git add . && git commit -m "Add redpajama-3b instruct model weights"
     git push origin main
 
-This would result in something like `RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC
-<https://huggingface.co/mlc-ai/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC/tree/main>`_.
+This would result in something like `RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE
+<https://huggingface.co/sphere-aae/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE/tree/main>`_.
 
 **Step 4. Register as a ModelRecord**
 
-Finally, we are able to run the model we added in WebLLM's `get-started <https://github.com/mlc-ai/web-llm/tree/main/examples/get-started>`__:
+Finally, we are able to run the model we added in WebLLM's `get-started <https://github.com/sphere-aae/web-llm/tree/main/examples/get-started>`__:
 
 .. code:: typescript
 
@@ -360,11 +360,11 @@ Finally, we are able to run the model we added in WebLLM's `get-started <https:/
   }
 
   const selectedModel = "RedPajama-INCITE-Instruct-3B-v1";
-  const engine: webllm.MLCEngineInterface = await webllm.CreateMLCEngine(
+  const engine: webllm.SphereAaeEngineInterface = await webllm.CreateSphereAaeEngine(
     selectedModel,
     { appConfig: appConfig },
   );
 
 Now, running the ``get-started`` example will use the ``RedPajama`` model you just added.
-See `get-started's README <https://github.com/mlc-ai/web-llm/tree/main/examples/get-started#webllm-get-started-app>`__
+See `get-started's README <https://github.com/sphere-aae/web-llm/tree/main/examples/get-started#webllm-get-started-app>`__
 on how to run it.

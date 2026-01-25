@@ -3,9 +3,9 @@
 import asyncio
 from typing import List
 
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve import AsyncMLCEngine, EngineConfig
-from mlc_llm.testing import require_test_model
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve import AsyncSphereAaeEngine, EngineConfig
+from sphere_aae.testing import require_test_model
 
 prompts = [
     "What is the meaning of life?",
@@ -22,12 +22,12 @@ prompts = [
 
 
 @require_test_model(
-    "Llama-2-7b-chat-hf-q0f16-MLC",
-    "Llama-2-7b-chat-hf-q4f16_1-MLC",
+    "Llama-2-7b-chat-hf-q0f16-AAE",
+    "Llama-2-7b-chat-hf-q4f16_1-AAE",
 )
 async def test_engine_generate(model: str, small_model: str):
     # Create engine
-    async_engine = AsyncMLCEngine(
+    async_engine = AsyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -45,7 +45,7 @@ async def test_engine_generate(model: str, small_model: str):
     ]
 
     async def generate_task(
-        async_engine: AsyncMLCEngine,
+        async_engine: AsyncSphereAaeEngine,
         prompt: str,
         generation_cfg: GenerationConfig,
         request_id: str,

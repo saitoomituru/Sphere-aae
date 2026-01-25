@@ -16,7 +16,7 @@ from langchain.vectorstores import Chroma
 # Note that Langchain support for embedding documents using MLC is currently blocked on
 # https://github.com/langchain-ai/langchain/pull/7815
 # We have subclassed `OpenAIEmbeddings` in the meantime to get around this dependency.
-from mlc_llm.contrib.embeddings.openai import MLCEmbeddings
+from sphere_aae.contrib.embeddings.openai import MLCEmbeddings
 
 # First set the following in your environment:
 # export OPENAI_API_BASE=http://127.0.0.1:8000/v1
@@ -114,7 +114,7 @@ def retrieval_qa_sotu_example():
         print()
 
 
-def retrieval_qa_mlc_docs_example():
+def retrieval_qa_sphere_aae_docs_example():
     prompt_template = """Use only the following pieces of context to answer the question at the end. Don't use any other knowledge.
 
     {context}
@@ -165,4 +165,4 @@ def retrieval_qa_mlc_docs_example():
 # llm_chain_example()
 # load_qa_chain_example()
 # retrieval_qa_sotu_example()
-# retrieval_qa_mlc_docs_example()
+# retrieval_qa_sphere_aae_docs_example()

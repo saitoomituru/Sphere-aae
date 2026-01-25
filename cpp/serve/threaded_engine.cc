@@ -1,7 +1,7 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/threaded_engine.cc
- * \brief The implementation for threaded serving engine in MLC LLM.
+ * \brief The implementation for threaded serving engine in Astro Agent Edge (AAE).
  */
 #include "threaded_engine.h"
 
@@ -19,7 +19,7 @@
 #include "engine.h"
 #include "request.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -382,7 +382,7 @@ class ThreadedEngineImpl : public ThreadedEngine {
 /*! \brief The implementation of ThreadedEngine. */
 class ThreadedEngineModule : public ThreadedEngineImpl, public ffi::ModuleObj {
  public:
-  TVM_MODULE_VTABLE_BEGIN("mlc.serve.async_threaded_engine");
+  TVM_MODULE_VTABLE_BEGIN("sphere_aae.serve.async_threaded_engine");
   TVM_MODULE_VTABLE_ENTRY("init_threaded_engine", &ThreadedEngineImpl::InitThreadedEngine);
   TVM_MODULE_VTABLE_ENTRY("reload", &ThreadedEngineImpl::Reload);
   TVM_MODULE_VTABLE_ENTRY("add_request", &ThreadedEngineImpl::AddRequest);
@@ -402,7 +402,7 @@ class ThreadedEngineModule : public ThreadedEngineImpl, public ffi::ModuleObj {
 
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
-  refl::GlobalDef().def("mlc.serve.create_threaded_engine",
+  refl::GlobalDef().def("sphere_aae.serve.create_threaded_engine",
                         []() { return Module(tvm::ffi::make_object<ThreadedEngineModule>()); });
 }
 
@@ -413,4 +413,4 @@ std::unique_ptr<ThreadedEngine> ThreadedEngine::Create() {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

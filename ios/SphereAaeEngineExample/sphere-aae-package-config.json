@@ -1,0 +1,12 @@
+{
+    "device": "iphone",
+    "model_list": [
+        {
+            "model": "HF://sphere-aae/Llama-3-8B-Instruct-q3f16_1-AAE",
+            "model_id": "Llama-3-8B-Instruct-q3f16_1-AAE",
+            "estimated_vram_bytes": 3316000000,
+            "bundle_weight": true,
+            "model_lib": "llama_q3f16_1"
+        }
+    ]
+}

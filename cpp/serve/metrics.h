@@ -3,8 +3,8 @@
  * \file serve/metric.h
  * \brief Metrics of serving engine/requests.
  */
-#ifndef MLC_LLM_SERVE_METRICS_H_
-#define MLC_LLM_SERVE_METRICS_H_
+#ifndef SPHERE_AAE_SERVE_METRICS_H_
+#define SPHERE_AAE_SERVE_METRICS_H_
 
 #include <picojson.h>
 #include <tvm/runtime/logging.h>
@@ -12,7 +12,7 @@
 #include <chrono>
 #include <string>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -259,6 +259,6 @@ struct EngineMetrics {
 };
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_METRIC_H_
+#endif  // SPHERE_AAE_SERVE_METRIC_H_

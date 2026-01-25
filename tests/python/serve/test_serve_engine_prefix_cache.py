@@ -1,7 +1,7 @@
-from mlc_llm.protocol.debug_protocol import DebugConfig
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve.sync_engine import EngineConfig, SyncMLCEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.protocol.debug_protocol import DebugConfig
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve.sync_engine import EngineConfig, SyncSphereAaeEngine
+from sphere_aae.testing import require_test_model
 
 prompts = [
     "The meaning of life is",
@@ -71,10 +71,10 @@ def test_engine_multi_round(engine):
     assert metrics["prefill_tokens_sum"] == sum_prefill_tokens + 2 * num_requests
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_basic_engine_system_prompt(model: str):
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="local",
         engine_config=EngineConfig(
@@ -85,10 +85,10 @@ def test_basic_engine_system_prompt(model: str):
     test_engine_system_prompt(engine)
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_basic_engine_multi_round(model: str):
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(max_total_sequence_length=4096),
@@ -97,12 +97,12 @@ def test_basic_engine_multi_round(model: str):
 
 
 @require_test_model(
-    "Llama-2-7b-chat-hf-q0f16-MLC",
-    "Llama-2-7b-chat-hf-q4f16_1-MLC",
+    "Llama-2-7b-chat-hf-q0f16-AAE",
+    "Llama-2-7b-chat-hf-q4f16_1-AAE",
 )
 def test_engine_spec_multi_round(model: str, small_model: str):
     # Create engine
-    engine = SyncMLCEngine(
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -115,12 +115,12 @@ def test_engine_spec_multi_round(model: str, small_model: str):
     test_engine_multi_round(engine)
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_eagle_multi_round(model: str):
     # Create engine
-    small_model = "dist/Eagle-llama2-7b-chat-q0f16-MLC"
-    small_model_lib = "dist/Eagle-llama2-7b-chat-q0f16-MLC/Eagle-llama2-7b-chat-q0f16-MLC-cuda.so"
-    engine = SyncMLCEngine(
+    small_model = "dist/Eagle-llama2-7b-chat-q0f16-AAE"
+    small_model_lib = "dist/Eagle-llama2-7b-chat-q0f16-AAE/Eagle-llama2-7b-chat-q0f16-AAE-cuda.so"
+    engine = SyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(

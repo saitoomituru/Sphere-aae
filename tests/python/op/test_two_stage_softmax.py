@@ -9,7 +9,7 @@ pytestmark = [pytest.mark.op_correctness]
 
 
 def test_two_stage_softmax():
-    from mlc_llm.compiler_pass.rewrite_softmax import _get_lse_and_softmax_func
+    from sphere_aae.compiler_pass.rewrite_softmax import _get_lse_and_softmax_func
 
     chunk_size = 4096
     target = tvm.target.Target("cuda")

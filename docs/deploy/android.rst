@@ -14,14 +14,14 @@ The demo APK below is built for Samsung S23 with Snapdragon 8 Gen 2 chip.
 
 .. image:: https://seeklogo.com/images/D/download-android-apk-badge-logo-D074C6882B-seeklogo.com.png
   :width: 135
-  :target: https://github.com/mlc-ai/binary-mlc-llm-libs/releases/download/Android-09262024/mlc-chat.apk
+  :target: https://github.com/sphere-aae/binary-sphere-aae-libs/releases/download/Android-09262024/sphere-aae-chat.apk
 
 Prerequisite
 ------------
 
 **Rust** (`install <https://www.rust-lang.org/tools/install>`__) is needed to cross-compile HuggingFace tokenizers to Android. Make sure rustc, cargo, and rustup are available in ``$PATH``.
 
-**Android Studio** (`install <https://developer.android.com/studio>`__) with NDK and CMake. To install NDK and CMake, on the Android Studio welcome page, click "Projects → SDK Manager → SDK Tools". If you have already installed NDK in your development environment, please update your NDK to avoid build android package fail(`#2696 <https://github.com/mlc-ai/mlc-llm/issues/2696>`__). The current demo Android APK is built with NDK 27.0.11718014. Once you have installed or updated the NDK, set up the following environment variables:
+**Android Studio** (`install <https://developer.android.com/studio>`__) with NDK and CMake. To install NDK and CMake, on the Android Studio welcome page, click "Projects → SDK Manager → SDK Tools". If you have already installed NDK in your development environment, please update your NDK to avoid build android package fail(`#2696 <https://github.com/sphere-aae/sphere-aae/issues/2696>`__). The current demo Android APK is built with NDK 27.0.11718014. Once you have installed or updated the NDK, set up the following environment variables:
 
 
 - ``ANDROID_NDK`` so that ``$ANDROID_NDK/build/cmake/android.toolchain.cmake`` is available.
@@ -52,13 +52,13 @@ Set up the following environment variable:
 
 Please ensure that the JDK versions for Android Studio and JAVA_HOME are the same.
 
-**TVM runtime** is placed under `3rdparty/tvm <https://github.com/mlc-ai/mlc-llm/tree/main/3rdparty>`__ in MLC LLM, so there is no need to install anything extra. Set up the following environment variable:
+**TVM runtime** is placed under `3rdparty/tvm <https://github.com/sphere-aae/sphere-aae/tree/main/3rdparty>`__ in Astro Agent Edge (AAE), so there is no need to install anything extra. Set up the following environment variable:
 
-- ``export TVM_SOURCE_DIR=/path/to/mlc-llm/3rdparty/tvm``.
+- ``export TVM_SOURCE_DIR=/path/to/sphere-aae/3rdparty/tvm``.
 
-Please follow :doc:`/install/mlc_llm` to obtain a binary build of mlc_llm package. Note that this
-is independent from mlc-llm source code that we use for android package build in the following up section.
-Once you installed this package, you do not need to build mlc llm from source.
+Please follow :doc:`/install/sphere_aae` to obtain a binary build of sphere_aae package. Note that this
+is independent from sphere-aae source code that we use for android package build in the following up section.
+Once you installed this package, you do not need to build Sphere-aae from source.
 
 .. note::
     ❗ Whenever using Python, it is highly recommended to use **conda** to manage an isolated Python environment to avoid missing dependencies, incompatible versions, and package conflicts.
@@ -105,13 +105,13 @@ This section shows how we can build the app from the source.
 Step 1. Install Build Dependencies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-First and foremost, please clone the `MLC LLM GitHub repository <https://github.com/mlc-ai/mlc-llm>`_.
+First and foremost, please clone the `Astro Agent Edge (AAE) GitHub repository <https://github.com/sphere-aae/sphere-aae>`_.
 After cloning, go to the ``android/`` directory.
 
 .. code:: bash
 
-   git clone https://github.com/mlc-ai/mlc-llm.git
-   cd mlc-llm
+   git clone https://github.com/sphere-aae/sphere-aae.git
+   cd sphere-aae
    git submodule update --init --recursive
    cd android
 
@@ -121,7 +121,7 @@ After cloning, go to the ``android/`` directory.
 Step 2. Build Runtime and Model Libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The models to be built for the Android app are specified in ``MLCChat/mlc-package-config.json``:
+The models to be built for the Android app are specified in ``SphereAaeChat/sphere-aae-package-config.json``:
 in the ``model_list``, ``model`` points to the Hugging Face repository which
 
 * ``model`` points to the Hugging Face repository which contains the pre-converted model weights. The Android app will download model weights from the Hugging Face URL.
@@ -135,13 +135,13 @@ We have a one-line command to build and prepare all the model libraries:
 
 .. code:: bash
 
-   cd /path/to/MLCChat  # e.g., "android/MLCChat"
-   export MLC_LLM_SOURCE_DIR=/path/to/mlc-llm  # has to be absolute path, ../.. does not work
-   mlc_llm package
+   cd /path/to/SphereAaeChat  # e.g., "android/SphereAaeChat"
+   export SPHERE_AAE_SOURCE_DIR=/path/to/sphere-aae  # has to be absolute path, ../.. does not work
+   sphere_aae package
 
 This command mainly executes the following two steps:
 
-1. **Compile models.** We compile each model in ``model_list`` of ``MLCChat/mlc-package-config.json`` into a binary model library.
+1. **Compile models.** We compile each model in ``model_list`` of ``SphereAaeChat/sphere-aae-package-config.json`` into a binary model library.
 2. **Build runtime and tokenizer.** In addition to the model itself, a lightweight runtime and tokenizer are required to actually run the LLM.
 
 The command creates a ``./dist/`` directory that contains the runtime and model build output.
@@ -151,7 +151,7 @@ Please make sure all the following files exist in ``./dist/``.
 
    dist
    └── lib
-       └── mlc4j
+       └── sphereaae4j
            ├── build.gradle
            ├── output
            │   ├── arm64-v8a
@@ -163,20 +163,20 @@ Please make sure all the following files exist in ``./dist/``.
                └── main
                    ├── AndroidManifest.xml
                    ├── assets
-                   │   └── mlc-app-config.json
+                   │   └── sphere-aae-app-config.json
                    └── java
                        └── ...
 
 The model execution logic in mobile GPUs is incorporated into ``libtvm4j_runtime_packed.so``,
 while ``tvm4j_core.jar`` is a lightweight (~60 kb) `Java binding <https://tvm.apache.org/docs/reference/api/javadoc/>`_
-to it. ``dist/lib/mlc4j`` is a gradle subproject that you should include in your app
-so the Android project can reference the mlc4j (MLC LLM java library).
+to it. ``dist/lib/sphereaae4j`` is a gradle subproject that you should include in your app
+so the Android project can reference the sphereaae4j (Astro Agent Edge (AAE) java library).
 This library packages the dependent model libraries and necessary runtime to execute the model.
 
 .. code::
 
-   include ':mlc4j'
-   project(':mlc4j').projectDir = file('dist/lib/mlc4j')
+   include ':sphereaae4j'
+   project(':sphereaae4j').projectDir = file('dist/lib/sphereaae4j')
 
 
 .. note::
@@ -184,36 +184,36 @@ This library packages the dependent model libraries and necessary runtime to exe
    We leverage a local JIT cache to avoid repetitive compilation of the same input.
    However, sometimes it is helpful to force rebuild when we have a new compiler update
    or when something goes wrong with the cached library.
-   You can do so by setting the environment variable ``MLC_JIT_POLICY=REDO``
+   You can do so by setting the environment variable ``SPHERE_AAE_JIT_POLICY=REDO``
 
    .. code:: bash
 
-      MLC_JIT_POLICY=REDO mlc_llm package
+      SPHERE_AAE_JIT_POLICY=REDO sphere_aae package
 
 
 Step 3. Build Android App
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Open folder ``./android/MLCChat`` as an Android Studio Project.
+Open folder ``./android/SphereAaeChat`` as an Android Studio Project.
 Connect your Android device to your machine.
 In the menu bar of Android Studio, click **"Build → Make Project"**.
 Once the build is finished, click **"Run → Run 'app'"** and you will see the app launched on your phone.
 
 .. note::
-    ❗ This app cannot be run in an emulator and thus a physical phone is required, because MLC LLM needs an actual mobile GPU to meaningfully run at an accelerated speed.
+    ❗ This app cannot be run in an emulator and thus a physical phone is required, because Astro Agent Edge (AAE) needs an actual mobile GPU to meaningfully run at an accelerated speed.
 
 
 Customize the App
 -----------------
 
-We can customize the models built in the Android app by customizing `MLCChat/mlc-package-config.json <https://github.com/mlc-ai/mlc-llm/blob/main/android/MLCChat/mlc-package-config.json>`_.
+We can customize the models built in the Android app by customizing `SphereAaeChat/sphere-aae-package-config.json <https://github.com/sphere-aae/sphere-aae/blob/main/android/SphereAaeChat/sphere-aae-package-config.json>`_.
 We introduce each field of the JSON file here.
 
 Each entry in ``"model_list"`` of the JSON file has the following fields:
 
 ``model``
    (Required) The path to the MLC-converted model to be built into the app.
-   It is a Hugging Face URL (e.g., ``"model": "HF://mlc-ai/phi-2-q4f16_1-MLC"```) that contains
+   It is a Hugging Face URL (e.g., ``"model": "HF://sphere-aae/phi-2-q4f16_1-AAE"```) that contains
    the pre-converted model weights.
 
 ``model_id``
@@ -236,8 +236,8 @@ Each entry in ``"model_list"`` of the JSON file has the following fields:
          "device": "android",
          "model_list": [
             {
-                  "model": "HF://mlc-ai/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
-                  "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
+                  "model": "HF://sphere-aae/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
+                  "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
                   "estimated_vram_bytes": 1948348579,
                   "overrides": {
                      "context_window_size": 512,
@@ -260,8 +260,8 @@ Each entry in ``"model_list"`` of the JSON file has the following fields:
          "device": "android",
          "model_list": [
             {
-                  "model": "HF://mlc-ai/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
-                  "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
+                  "model": "HF://sphere-aae/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
+                  "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
                   "estimated_vram_bytes": 1948348579,
                   "model_lib": "gpt_neox_q4f16_1"
             }
@@ -269,12 +269,12 @@ Each entry in ``"model_list"`` of the JSON file has the following fields:
       }
 
 
-Besides ``model_list`` in ``MLCChat/mlc-package-config.json``,
+Besides ``model_list`` in ``SphereAaeChat/sphere-aae-package-config.json``,
 you can also **optionally** specify a dictionary of ``"model_lib_path_for_prepare_libs"``,
 **if you want to use model libraries that are manually compiled**.
 The keys of this dictionary should be the ``model_lib`` that specified in model list,
 and the values of this dictionary are the paths (absolute, or relative) to the manually compiled model libraries.
-The model libraries specified in ``"model_lib_path_for_prepare_libs"`` will be built into the app when running ``mlc_llm package``.
+The model libraries specified in ``"model_lib_path_for_prepare_libs"`` will be built into the app when running ``sphere_aae package``.
 Example:
 
 .. code:: json
@@ -283,8 +283,8 @@ Example:
       "device": "android",
       "model_list": [
          {
-               "model": "HF://mlc-ai/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
-               "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
+               "model": "HF://sphere-aae/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
+               "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
                "estimated_vram_bytes": 1948348579,
                "model_lib": "gpt_neox_q4f16_1"
          }
@@ -299,15 +299,15 @@ Example:
 Bundle Model Weights
 --------------------
 
-Instructions have been provided to build an Android App with MLC LLM in previous sections,
+Instructions have been provided to build an Android App with Astro Agent Edge (AAE) in previous sections,
 but it requires run-time weight downloading from HuggingFace,
-as configured in ``MLCChat/mlc-package-config.json``.
+as configured in ``SphereAaeChat/sphere-aae-package-config.json``.
 However, it could be desirable to bundle weights together into the app to avoid downloading over the network.
 In this section, we provide a simple ADB-based walkthrough that hopefully helps with further development.
 
 **Enable weight bundle**.
 Set the field ``"bundle_weight": true`` for any model you want to bundle weights
-in ``MLCChat/mlc-package-config.json``, and run ``mlc_llm package`` again.
+in ``SphereAaeChat/sphere-aae-package-config.json``, and run ``sphere_aae package`` again.
 Below is an example:
 
 .. code:: json
@@ -316,27 +316,27 @@ Below is an example:
       "device": "android",
       "model_list": [
          {
-            "model": "HF://mlc-ai/gemma-2b-it-q4f16_1-MLC",
-            "model_id": "gemma-2b-q4f16_1-MLC",
+            "model": "HF://sphere-aae/gemma-2b-it-q4f16_1-AAE",
+            "model_id": "gemma-2b-q4f16_1-AAE",
             "estimated_vram_bytes": 3000000000,
             "bundle_weight": true
          }
       ]
    }
 
-The outcome of running ``mlc_llm package`` should be as follows:
+The outcome of running ``sphere_aae package`` should be as follows:
 
 .. code::
 
    dist
    ├── bundle
    │   ├── gemma-2b-q4f16_1   # The model weights that will be bundled into the app.
-   │   └── mlc-app-config.json
+   │   └── sphere-aae-app-config.json
    └── ...
 
 
 **Generating APK**. Enter Android Studio, and click **"Build → Generate Signed Bundle/APK"** to build an APK for release. If it is the first time you generate an APK, you will need to create a key according to `the official guide from Android <https://developer.android.com/studio/publish/app-signing#generate-key>`_.
-This APK will be placed under ``android/MLCChat/app/release/app-release.apk``.
+This APK will be placed under ``android/SphereAaeChat/app/release/app-release.apk``.
 
 **Install ADB and USB debugging**. Enable "USB debugging" in the developer mode in your phone settings.
 In "SDK manager - SDK Tools", install `Android SDK Platform-Tools <https://developer.android.com/studio/releases/platform-tools>`_.
@@ -349,12 +349,12 @@ Run the following commands, and if ADB is installed correctly, your phone will a
 
 **Install the APK and weights to your phone**.
 Run the commands below to install the app, and push the local weights to the app data directory on your device.
-Once it finishes, you can start the MLCChat app on your device.
+Once it finishes, you can start the SphereAaeChat app on your device.
 The models with ``bundle_weight`` set to true will have their weights already on device.
 
 .. code-block:: bash
 
-  cd /path/to/MLCChat  # e.g., "android/MLCChat"
+  cd /path/to/SphereAaeChat  # e.g., "android/SphereAaeChat"
   python bundle_weight.py --apk-path app/release/app-release.apk
 
 Known issues
@@ -364,4 +364,4 @@ One known issue that has been observed on Android devices equipped with Adreno G
 It has been observed that models with a ``_0`` suffix do not experience this issue.
 The two suffixes denote the layouts of weights in the models that differ by a transpose operation.
 In case you encounter the freeze issue, the workaround to avoid this problem is to use a model in the ``_0`` weight layout.
-For more details, please consult `issue #3363 <https://github.com/mlc-ai/mlc-llm/issues/3363>`_.
+For more details, please consult `issue #3363 <https://github.com/sphere-aae/sphere-aae/issues/3363>`_.

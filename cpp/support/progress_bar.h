@@ -3,13 +3,13 @@
  * \file support/progress_bar.h
  * \brief A simple progress bar in C++.
  */
-#ifndef MLC_LLM_SUPPORT_PROGRESS_BAR_H_
-#define MLC_LLM_SUPPORT_PROGRESS_BAR_H_
+#ifndef SPHERE_AAE_SUPPORT_PROGRESS_BAR_H_
+#define SPHERE_AAE_SUPPORT_PROGRESS_BAR_H_
 
 #include <iostream>
 #include <string>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 class ProgressBar {
@@ -44,6 +44,6 @@ class ProgressBar {
 };
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_PROGRESS_BAR_H_
+#endif  // SPHERE_AAE_SUPPORT_PROGRESS_BAR_H_

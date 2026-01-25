@@ -1,6 +1,6 @@
 ---
 name: "️️⚙️  Model Request"
-about: Request a new model in MLC-LLM
+about: Request a new model in Sphere-aae
 title: '[Model Request] '
 labels: ['new-models']
 assignees: ''
@@ -10,7 +10,7 @@ assignees: ''
 ## ⚙️  Request New Models
 
 - Link to an existing implementation (e.g. Hugging Face/Github): <!-- Link to the model -->
-- Is this model architecture supported by MLC-LLM? (the list of [supported models](https://llm.mlc.ai/docs/prebuilt_models.html)) <!-- Yes/No -->
+- Is this model architecture supported by Sphere-aae? (the list of [supported models](https://llm.sphere_aae.ai/docs/prebuilt_models.html)) <!-- Yes/No -->
 
 ## Additional context
 

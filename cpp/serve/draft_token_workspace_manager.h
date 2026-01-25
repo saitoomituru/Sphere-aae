@@ -3,8 +3,8 @@
  * \file serve/draft_token_workspace_manager.h
  */
 
-#ifndef MLC_LLM_SERVE_DRAFT_TOKEN_WORKSPACE_MANAGER_H_
-#define MLC_LLM_SERVE_DRAFT_TOKEN_WORKSPACE_MANAGER_H_
+#ifndef SPHERE_AAE_SERVE_DRAFT_TOKEN_WORKSPACE_MANAGER_H_
+#define SPHERE_AAE_SERVE_DRAFT_TOKEN_WORKSPACE_MANAGER_H_
 #include <tvm/ffi/reflection/registry.h>
 #include <tvm/runtime/device_api.h>
 
@@ -14,7 +14,7 @@
 
 #include "data.h"
 #include "function_table.h"
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -82,7 +82,7 @@ class DraftTokenWorkspaceManagerObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("mlc.serve.DraftTokenWorkspaceManager",
+  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("sphere_aae.serve.DraftTokenWorkspaceManager",
                                     DraftTokenWorkspaceManagerObj, Object);
 
  private:
@@ -110,6 +110,6 @@ class DraftTokenWorkspaceManager : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_DRAFT_TOKEN_WORKSPACE_MANAGER_H_
+#endif  // SPHERE_AAE_SERVE_DRAFT_TOKEN_WORKSPACE_MANAGER_H_

@@ -3,8 +3,8 @@
  * \file serve/request_state.h
  * \brief The data structure maintaining the generation states of user requests.
  */
-#ifndef MLC_LLM_SERVE_REQUEST_STATE_H_
-#define MLC_LLM_SERVE_REQUEST_STATE_H_
+#ifndef SPHERE_AAE_SERVE_REQUEST_STATE_H_
+#define SPHERE_AAE_SERVE_REQUEST_STATE_H_
 
 #include <tvm/ffi/container/array.h>
 #include <tvm/runtime/object.h>
@@ -19,7 +19,7 @@
 #include "metrics.h"
 #include "request.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -27,7 +27,7 @@ using namespace tvm::runtime;
 
 /*!
  * \brief The state of a request with regard to some single model.
- * \details In MLC LLM, the serving engine may leverage multiple models
+ * \details In Astro Agent Edge (AAE), the serving engine may leverage multiple models
  * to fulfill a user generation request (e.g., use speculation decoding).
  * For each request, we isolate its states (e.g. the generated tokens)
  * on each model. This is to say, we use RequestModelState to store
@@ -123,7 +123,7 @@ class RequestModelStateNode : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.RequestModelState", RequestModelStateNode, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.RequestModelState", RequestModelStateNode, Object);
 };
 
 class RequestModelState : public ObjectRef {
@@ -259,7 +259,7 @@ class RequestStateEntryNode : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("mlc.serve.RequestStateEntry", RequestStateEntryNode, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("sphere_aae.serve.RequestStateEntry", RequestStateEntryNode, Object);
 };
 
 class RequestStateEntry : public ObjectRef {
@@ -293,7 +293,7 @@ class RequestStateNode : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("mlc.serve.RequestState", RequestStateNode, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("sphere_aae.serve.RequestState", RequestStateNode, Object);
 };
 
 class RequestState : public ObjectRef {
@@ -311,6 +311,6 @@ class RequestState : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_REQUEST_STATE_H_
+#endif  // SPHERE_AAE_SERVE_REQUEST_STATE_H_

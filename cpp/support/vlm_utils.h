@@ -3,14 +3,14 @@
  * \file support/vlm_utils.h
  * \brief Tools for debug purposes.
  */
-#ifndef MLC_LLM_SUPPORT_VLM_UTILS_H_
-#define MLC_LLM_SUPPORT_VLM_UTILS_H_
+#ifndef SPHERE_AAE_SUPPORT_VLM_UTILS_H_
+#define SPHERE_AAE_SUPPORT_VLM_UTILS_H_
 
 #include <tvm/runtime/tensor.h>
 
 #include <string>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 /*!
@@ -43,6 +43,6 @@ void CalculateCropShape(tvm::runtime::Tensor image_data, std::string model_type,
                         int* p_crop_width);
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_IMAGE_UTILS_H_
+#endif  // SPHERE_AAE_SUPPORT_IMAGE_UTILS_H_

@@ -2,13 +2,13 @@ Implement LLM Cross-engine Orchestration Patterns
 ======================================================================
 
 In this tutorial, we will introduce how to implement LLM cross-engine
-orchestration patterns, like prefill-decode disaggregation, in MLC-LLM
+orchestration patterns, like prefill-decode disaggregation, in Sphere-aae
 via microserving API. Aiming to make disaggregated serving programmable,
 MicroServing provides a new RISC-style approach to design LLM serving
 API at sub-request level. It enables programmable cross-engine serving
 patterns in a few lines of python code. For more information of
 microserving API, check out
-https://blog.mlc.ai/2025/01/07/microserving-llm-engines.
+https://blog.sphere_aae.ai/2025/01/07/microserving-llm-engines.
 
 Below is an example of prefill-decode disaggregation implementation. An
 LLM cross-engine orchestration pattern is implemented in a router, which
@@ -23,11 +23,11 @@ the CustomRouter and 2 engines, each of which has tensor parallel degree
 
 .. code:: python
 
-   from mlc_llm.router import Router
-   from mlc_llm.protocol import openai_api_protocol
+   from sphere_aae.router import Router
+   from sphere_aae.protocol import openai_api_protocol
    from typing import Any, AsyncGenerator
-   from mlc_llm.serve.entrypoints import microserving_entrypoints
-   from mlc_llm.interface.router import serve
+   from sphere_aae.serve.entrypoints import microserving_entrypoints
+   from sphere_aae.interface.router import serve
 
    import aiohttp
 
@@ -134,11 +134,11 @@ Bringing everything together, the complete code is as below:
 
 .. code:: python
 
-   from mlc_llm.router import Router
-   from mlc_llm.protocol import openai_api_protocol
+   from sphere_aae.router import Router
+   from sphere_aae.protocol import openai_api_protocol
    from typing import Any, AsyncGenerator
-   from mlc_llm.serve.entrypoints import microserving_entrypoints
-   from mlc_llm.interface.router import serve
+   from sphere_aae.serve.entrypoints import microserving_entrypoints
+   from sphere_aae.interface.router import serve
 
    import aiohttp
    class CustomRouter(Router):

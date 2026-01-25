@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from mlc_llm.support import logging
-from mlc_llm.support.auto_config import detect_config
+from sphere_aae.support import logging
+from sphere_aae.support.auto_config import detect_config
 
 logging.enable_logging()
 

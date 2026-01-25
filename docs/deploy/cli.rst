@@ -9,30 +9,30 @@ MLC Chat CLI is the command line tool to run MLC-compiled LLMs out of the box in
   :local:
   :depth: 2
 
-Install MLC-LLM Package
+Install Sphere-aae Package
 ------------------------
 
-Chat CLI is a part of the MLC-LLM package.
-To use the chat CLI, first install MLC LLM by following the instructions :ref:`here <install-mlc-packages>`.
-Once you have install the MLC-LLM package, you can run the following command to check if the installation was successful:
+Chat CLI is a part of the Sphere-aae package.
+To use the chat CLI, first install Astro Agent Edge (AAE) by following the instructions :ref:`here <install-sphere-aae-packages>`.
+Once you have install the Sphere-aae package, you can run the following command to check if the installation was successful:
 
 .. code:: bash
 
-   mlc_llm chat --help
+   sphere_aae chat --help
 
 You should see serve help message if the installation was successful.
 
 Quick Start
 ------------
 
-This section provides a quick start guide to work with MLC-LLM chat CLI.
+This section provides a quick start guide to work with Sphere-aae chat CLI.
 To launch the CLI session, run the following command:
 
 .. code:: bash
 
-   mlc_llm chat MODEL [--model-lib PATH-TO-MODEL-LIB]
+   sphere_aae chat MODEL [--model-lib PATH-TO-MODEL-LIB]
 
-where ``MODEL`` is the model folder after compiling with :ref:`MLC-LLM build process <compile-model-libraries>`. Information about other arguments can be found in the next section.
+where ``MODEL`` is the model folder after compiling with :ref:`Sphere-aae build process <compile-model-libraries>`. Information about other arguments can be found in the next section.
 
 Once the chat CLI is ready, you can enter the prompt to interact with the model.
 
@@ -59,20 +59,20 @@ If you want to enable tensor parallelism to run LLMs on multiple GPUs, please sp
 
 .. code:: shell
 
-  mlc_llm chat HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC --overrides "tensor_parallel_shards=2"
+  sphere_aae chat HF://sphere-aae/Llama-3-8B-Instruct-q4f16_1-AAE --overrides "tensor_parallel_shards=2"
 
 
-The ``mlc_llm chat`` Command
+The ``sphere_aae chat`` Command
 ----------------------------
 
 We provide the list of chat CLI interface for reference.
 
 .. code:: bash
 
-   mlc_llm chat MODEL [--model-lib PATH-TO-MODEL-LIB] [--device DEVICE] [--overrides OVERRIDES]
+   sphere_aae chat MODEL [--model-lib PATH-TO-MODEL-LIB] [--device DEVICE] [--overrides OVERRIDES]
 
 
-MODEL                  The model folder after compiling with MLC-LLM build process. The parameter
+MODEL                  The model folder after compiling with Sphere-aae build process. The parameter
                        can either be the model name with its quantization scheme
                        (e.g. ``Llama-2-7b-chat-hf-q4f16_1``), or a full path to the model
                        folder. In the former case, we will use the provided name to search

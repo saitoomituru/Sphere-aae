@@ -3,7 +3,7 @@ import pytest
 import tvm
 import tvm.testing
 
-from mlc_llm.op.batch_spec_verify import batch_spec_verify
+from sphere_aae.op.batch_spec_verify import batch_spec_verify
 
 # test category "op_correctness"
 pytestmark = [pytest.mark.op_correctness]

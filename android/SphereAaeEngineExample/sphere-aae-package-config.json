@@ -1,0 +1,13 @@
+{
+    "device": "android",
+    "model_list": [
+        {
+            "model": "HF://sphere-aae/phi-2-q4f16_1-AAE",
+            "estimated_vram_bytes": 2036816936,
+            "model_id": "phi-2-q4f16_1-AAE",
+            "overrides": {
+                "prefill_chunk_size": 1024
+            }
+        }
+    ]
+}

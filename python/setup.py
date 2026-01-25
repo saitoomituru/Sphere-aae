@@ -1,5 +1,5 @@
 # pylint: disable=invalid-name, exec-used
-"""Setup MLC LLM package."""
+"""Setup Astro Agent Edge (AAE) package."""
 import os
 import shutil
 
@@ -13,7 +13,7 @@ CONDA_BUILD = os.getenv("CONDA_BUILD") is not None
 def get_lib_path():
     """Get library path, name and version"""
     # Directly exec libinfo to get the right setup
-    libinfo_py = os.path.join(CURRENT_DIR, "./mlc_llm/libinfo.py")
+    libinfo_py = os.path.join(CURRENT_DIR, "./sphere_aae/libinfo.py")
     libinfo = {"__file__": libinfo_py}
     with open(libinfo_py, "rb") as f:
         exec(compile(f.read(), libinfo_py, "exec"), libinfo, libinfo)
@@ -22,8 +22,8 @@ def get_lib_path():
     # conda installs libraries into env instead of packaging with pip
     if not CONDA_BUILD:
         libs = [
-            libinfo["find_lib_path"]("mlc_llm")[0],
-            libinfo["find_lib_path"]("mlc_llm_module")[0],
+            libinfo["find_lib_path"]("sphere_aae")[0],
+            libinfo["find_lib_path"]("sphere_aae_module")[0],
         ]
     else:
         libs = None
@@ -91,17 +91,17 @@ def main():
         with open("MANIFEST.in", "w", encoding="utf-8") as fo:
             for path in LIB_LIST:
                 if os.path.isfile(path):
-                    shutil.copy(path, os.path.join(CURRENT_DIR, "mlc_llm"))
+                    shutil.copy(path, os.path.join(CURRENT_DIR, "sphere_aae"))
                     _, libname = os.path.split(path)
-                    fo.write(f"include mlc_llm/{libname}\n")
+                    fo.write(f"include sphere_aae/{libname}\n")
         setup_kwargs = {"include_package_data": True}
 
     setup(
-        name="mlc_llm",
+        name="sphere_aae",
         version=__version__,
-        description="MLC LLM: an universal LLM deployment engine via ML compilation.",
-        url="https://llm.mlc.ai/",
-        author="MLC LLM Contributors",
+        description="Astro Agent Edge (AAE): an universal LLM deployment engine via ML compilation.",
+        url="https://llm.sphere_aae.ai/",
+        author="Astro Agent Edge (AAE) Contributors",
         license="Apache 2.0",
         # See https://pypi.org/classifiers/
         classifiers=[
@@ -115,9 +115,9 @@ def main():
         zip_safe=False,
         packages=find_packages(),
         entry_points={
-            "console_scripts": ["mlc_llm = mlc_llm.__main__:main"],
+            "console_scripts": ["sphere_aae = sphere_aae.__main__:main"],
         },
-        package_dir={"mlc_llm": "mlc_llm"},
+        package_dir={"sphere_aae": "sphere_aae"},
         install_requires=parse_requirements("requirements.txt")[0],
         distclass=BinaryDistribution,
         **setup_kwargs,
@@ -135,7 +135,7 @@ def main():
         os.remove("MANIFEST.in")
         for path in LIB_LIST:
             _, libname = os.path.split(path)
-            _remove_path(f"mlc_llm/{libname}")
+            _remove_path(f"sphere_aae/{libname}")
 
 
 main()

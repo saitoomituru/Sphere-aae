@@ -6,13 +6,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json_ffi {
 
 using namespace tvm::runtime;
 
-class MemoryBufferStream : public dmlc::Stream {
+class MemoryBufferStream : public dsphere_aae::Stream {
  public:
   MemoryBufferStream(const char* data, size_t size) : data_(data), size_(size), pos_(0) {}
 
@@ -153,4 +153,4 @@ Tensor ClipPreprocessor(Tensor image_data, int target_size, DLDevice device) {
 
 }  // namespace json_ffi
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

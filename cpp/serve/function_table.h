@@ -4,8 +4,8 @@
  * \brief The header for function table in serving for distributed inference.
  */
 
-#ifndef MLC_LLM_SERVE_FUNCTION_TABLE_H_
-#define MLC_LLM_SERVE_FUNCTION_TABLE_H_
+#ifndef SPHERE_AAE_SERVE_FUNCTION_TABLE_H_
+#define SPHERE_AAE_SERVE_FUNCTION_TABLE_H_
 
 #include <picojson.h>
 #include <tvm/ffi/container/map.h>
@@ -20,7 +20,7 @@
 
 #include "../metadata/model.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -144,6 +144,6 @@ struct FunctionTable {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_FUNCTION_TABLE_H_
+#endif  // SPHERE_AAE_SERVE_FUNCTION_TABLE_H_

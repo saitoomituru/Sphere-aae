@@ -1,9 +1,9 @@
 # pylint: disable=invalid-name,missing-docstring
 import pytest
 
-from mlc_llm.model import MODEL_PRESETS, MODELS
-from mlc_llm.quantization import QUANTIZATION
-from mlc_llm.quantization.group_quantization import (
+from sphere_aae.model import MODEL_PRESETS, MODELS
+from sphere_aae.quantization import QUANTIZATION
+from sphere_aae.quantization.group_quantization import (
     GroupQuantizeEmbedding,
     GroupQuantizeLinear,
 )

@@ -2,8 +2,8 @@
  * \file support/json_parser.h
  * \brief Helps to parse JSON strings and objects.
  */
-#ifndef MLC_LLM_SUPPORT_JSON_PARSER_H_
-#define MLC_LLM_SUPPORT_JSON_PARSER_H_
+#ifndef SPHERE_AAE_SUPPORT_JSON_PARSER_H_
+#define SPHERE_AAE_SUPPORT_JSON_PARSER_H_
 
 #include <picojson.h>
 #include <tvm/ffi/container/shape.h>
@@ -14,7 +14,7 @@
 
 #include "result.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json {
 
@@ -272,6 +272,6 @@ inline SymShapeTuple Lookup(const picojson::array& json, int index) {
 
 }  // namespace json
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_JSON_PARSER_H_
+#endif  // SPHERE_AAE_SUPPORT_JSON_PARSER_H_

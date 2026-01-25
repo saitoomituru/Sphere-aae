@@ -3,12 +3,12 @@
 Package Libraries and Weights
 =============================
 
-When we want to build LLM applications with MLC LLM (e.g., iOS/Android apps),
+When we want to build LLM applications with Astro Agent Edge (AAE) (e.g., iOS/Android apps),
 usually we need to build static model libraries and app binding libraries,
 and sometimes bundle model weights into the app.
-MLC LLM provides a tool for fast model library and weight packaging: ``mlc_llm package``.
+Astro Agent Edge (AAE) provides a tool for fast model library and weight packaging: ``sphere_aae package``.
 
-This page briefly introduces how to use ``mlc_llm package`` for packaging.
+This page briefly introduces how to use ``sphere_aae package`` for packaging.
 Tutorials :ref:`deploy-ios` and :ref:`deploy-android` contain detailed examples and instructions
 on using this packaging tool for iOS and Android deployment.
 
@@ -17,21 +17,21 @@ on using this packaging tool for iOS and Android deployment.
 Introduction
 ------------
 
-To use ``mlc_llm package``, we must clone the source code of `MLC LLM <https://github.com/mlc-ai/mlc-llm>`_
-and `install the MLC LLM and TVM package <https://llm.mlc.ai/docs/install/mlc_llm.html#option-1-prebuilt-package>`_.
+To use ``sphere_aae package``, we must clone the source code of `Astro Agent Edge (AAE) <https://github.com/sphere-aae/sphere-aae>`_
+and `install the Astro Agent Edge (AAE) and TVM package <https://llm.sphere_aae.ai/docs/install/sphere_aae.html#option-1-prebuilt-package>`_.
 Depending on the app we build, there might be some other dependencies, which are described in
 corresponding :ref:`iOS <deploy-ios>` and :ref:`Android <deploy-android>` tutorials.
 
-After cloning, the basic usage of ``mlc_llm package`` is as the following.
+After cloning, the basic usage of ``sphere_aae package`` is as the following.
 
 .. code:: bash
 
-    export MLC_LLM_SOURCE_DIR=/path/to/mlc-llm
-    cd /path/to/app  # The app root directory which contains "mlc-package-config.json".
-                     # E.g., "ios/MLCChat" or "android/MLCChat"
-    mlc_llm package
+    export SPHERE_AAE_SOURCE_DIR=/path/to/sphere-aae
+    cd /path/to/app  # The app root directory which contains "sphere-aae-package-config.json".
+                     # E.g., "ios/SphereAaeChat" or "android/SphereAaeChat"
+    sphere_aae package
 
-**The package command reads from the JSON file** ``mlc-package-config.json`` **under the current directory.**
+**The package command reads from the JSON file** ``sphere-aae-package-config.json`` **under the current directory.**
 The output of this command is a directory ``dist/``,
 which contains the packaged model libraries (under ``dist/lib/``) and weights (under ``dist/bundle/``).
 This directory contains all necessary data for the app build.
@@ -45,12 +45,12 @@ Depending on the app we build, the internal structure of ``dist/lib/`` may be di
    └── bundle
        └── ...
 
-The input ``mlc-package-config.json`` file specifies
+The input ``sphere-aae-package-config.json`` file specifies
 
 * the device (e.g., iPhone or Android) to package model libraries and weights for,
 * the list of models to package.
 
-Below is an example ``mlc-package-config.json`` file:
+Below is an example ``sphere-aae-package-config.json`` file:
 
 .. code:: json
 
@@ -58,7 +58,7 @@ Below is an example ``mlc-package-config.json`` file:
         "device": "iphone",
         "model_list": [
             {
-                "model": "HF://mlc-ai/Mistral-7B-Instruct-v0.2-q3f16_1-MLC",
+                "model": "HF://sphere-aae/Mistral-7B-Instruct-v0.2-q3f16_1-AAE",
                 "model_id": "Mistral-7B-Instruct-v0.2-q3f16_1",
                 "estimated_vram_bytes": 3316000000,
                 "bundle_weight": true,
@@ -67,7 +67,7 @@ Below is an example ``mlc-package-config.json`` file:
                 }
             },
             {
-                "model": "HF://mlc-ai/gemma-2b-it-q4f16_1-MLC",
+                "model": "HF://sphere-aae/gemma-2b-it-q4f16_1-AAE",
                 "model_id": "gemma-2b-q4f16_1",
                 "estimated_vram_bytes": 3000000000,
                 "overrides": {
@@ -77,7 +77,7 @@ Below is an example ``mlc-package-config.json`` file:
         ]
     }
 
-This example ``mlc-package-config.json`` specifies "iphone" as the target device.
+This example ``sphere-aae-package-config.json`` specifies "iphone" as the target device.
 In the ``model_list``,
 
 * ``model`` points to the Hugging Face repository which contains the pre-converted model weights. Apps will download model weights from the Hugging Face URL.
@@ -87,15 +87,15 @@ In the ``model_list``,
 * ``overrides`` specifies some model config parameter overrides.
 
 
-Below is a more detailed specification of the ``mlc-package-config.json`` file.
+Below is a more detailed specification of the ``sphere-aae-package-config.json`` file.
 Each entry in ``"model_list"`` of the JSON file has the following fields:
 
 ``model``
    (Required) The path to the MLC-converted model to be built into the app.
 
-   Usually it is a Hugging Face URL (e.g., ``"model": "HF://mlc-ai/phi-2-q4f16_1-MLC"```) that contains the pre-converted model weights.
+   Usually it is a Hugging Face URL (e.g., ``"model": "HF://sphere-aae/phi-2-q4f16_1-AAE"```) that contains the pre-converted model weights.
    For iOS, it can also be a path to a local model directory which contains converted model weights (e.g., ``"model": "../dist/gemma-2b-q4f16_1"``).
-   Please check out :ref:`convert-weights-via-MLC` if you want to build local model into the app.
+   Please check out :ref:`convert-weights-via-AAE` if you want to build local model into the app.
 
 ``model_id``
   (Required) A unique local identifier to identify the model.
@@ -106,7 +106,7 @@ Each entry in ``"model_list"`` of the JSON file has the following fields:
 
 ``bundle_weight``
    (Optional) A boolean flag indicating whether to bundle model weights into the app.
-   If this field is set to true, the ``mlc_llm package`` command will copy the model weights
+   If this field is set to true, the ``sphere_aae package`` command will copy the model weights
    to ``dist/bundle/$model_id``.
 
 ``overrides``
@@ -119,7 +119,7 @@ Each entry in ``"model_list"`` of the JSON file has the following fields:
          "device": "iphone",
          "model_list": [
             {
-                  "model": "HF://mlc-ai/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
+                  "model": "HF://sphere-aae/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
                   "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1",
                   "estimated_vram_bytes": 2960000000,
                   "overrides": {
@@ -143,7 +143,7 @@ Each entry in ``"model_list"`` of the JSON file has the following fields:
          "device": "iphone",
          "model_list": [
             {
-                  "model": "HF://mlc-ai/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
+                  "model": "HF://sphere-aae/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
                   "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1",
                   "estimated_vram_bytes": 2960000000,
                   "model_lib": "gpt_neox_q4f16_1"
@@ -152,12 +152,12 @@ Each entry in ``"model_list"`` of the JSON file has the following fields:
       }
 
 
-Besides ``model_list`` in ``MLCChat/mlc-package-config.json``,
+Besides ``model_list`` in ``SphereAaeChat/sphere-aae-package-config.json``,
 you can also **optionally** specify a dictionary of ``"model_lib_path_for_prepare_libs"``,
 **if you want to use model libraries that are manually compiled**.
 The keys of this dictionary should be the ``model_lib`` that specified in model list,
 and the values of this dictionary are the paths (absolute, or relative) to the manually compiled model libraries.
-The model libraries specified in ``"model_lib_path_for_prepare_libs"`` will be built into the app when running ``mlc_llm package``.
+The model libraries specified in ``"model_lib_path_for_prepare_libs"`` will be built into the app when running ``sphere_aae package``.
 Example:
 
 .. code:: json
@@ -166,7 +166,7 @@ Example:
       "device": "iphone",
       "model_list": [
          {
-               "model": "HF://mlc-ai/RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC",
+               "model": "HF://sphere-aae/RedPajama-INCITE-Chat-3B-v1-q4f16_1-AAE",
                "model_id": "RedPajama-INCITE-Chat-3B-v1-q4f16_1",
                "estimated_vram_bytes": 2960000000,
                "model_lib": "gpt_neox_q4f16_1"
@@ -179,41 +179,41 @@ Example:
 
 Compilation Cache
 -----------------
-``mlc_llm package`` leverage a local JIT cache to avoid repetitive compilation of the same input.
+``sphere_aae package`` leverage a local JIT cache to avoid repetitive compilation of the same input.
 It also leverages a local cache to download weights from remote. These caches
 are shared across the entire project. Sometimes it is helpful to force rebuild when
 we have a new compiler update or when something goes wrong with the cached library.
-You can do so by setting the environment variable ``MLC_JIT_POLICY=REDO``
+You can do so by setting the environment variable ``SPHERE_AAE_JIT_POLICY=REDO``
 
 .. code:: bash
 
-   MLC_JIT_POLICY=REDO mlc_llm package
+   SPHERE_AAE_JIT_POLICY=REDO sphere_aae package
 
-Arguments of ``mlc_llm package``
+Arguments of ``sphere_aae package``
 --------------------------------
 
-Command ``mlc_llm package`` can optionally take the arguments below:
+Command ``sphere_aae package`` can optionally take the arguments below:
 
 ``--package-config``
-    A path to ``mlc-package-config.json`` which contains the device and model specification.
-    By default, it is the ``mlc-package-config.json`` under the current directory.
+    A path to ``sphere-aae-package-config.json`` which contains the device and model specification.
+    By default, it is the ``sphere-aae-package-config.json`` under the current directory.
 
-``--mlc-llm-source-dir``
-    The path to MLC LLM source code (cloned from https://github.com/mlc-ai/mlc-llm).
-    By default, it is the ``$MLC_LLM_SOURCE_DIR`` environment variable.
-    If neither ``$MLC_LLM_SOURCE_DIR`` or ``--mlc-llm-source-dir`` is specified, error will be reported.
+``--sphere-aae-source-dir``
+    The path to Astro Agent Edge (AAE) source code (cloned from https://github.com/sphere-aae/sphere-aae).
+    By default, it is the ``$SPHERE_AAE_SOURCE_DIR`` environment variable.
+    If neither ``$SPHERE_AAE_SOURCE_DIR`` or ``--sphere-aae-source-dir`` is specified, error will be reported.
 
 ``--output`` / ``-o``
-    The output directory of ``mlc_llm package`` command.
+    The output directory of ``sphere_aae package`` command.
     By default, it is ``dist/`` under the current directory.
 
 
 Summary and What to Do Next
 ---------------------------
 
-In this page, we introduced the ``mlc_llm package`` command for fast model library and weight packaging.
+In this page, we introduced the ``sphere_aae package`` command for fast model library and weight packaging.
 
-* It takes input file ``mlc-package-config.json`` which contains the device and model specification for packaging.
+* It takes input file ``sphere-aae-package-config.json`` which contains the device and model specification for packaging.
 * It outputs directory ``dist/``, which contains packaged libraries under ``dist/lib/`` and model weights under ``dist/bundle/``.
 
-Next, please feel free to check out the :ref:`iOS <deploy-ios>` and :ref:`Android <deploy-android>` tutorials for detailed examples of using ``mlc_llm package``.
+Next, please feel free to check out the :ref:`iOS <deploy-ios>` and :ref:`Android <deploy-android>` tutorials for detailed examples of using ``sphere_aae package``.

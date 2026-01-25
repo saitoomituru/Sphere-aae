@@ -8,31 +8,31 @@ REST API
    :depth: 2
 
 We provide `REST API <https://www.ibm.com/topics/rest-apis#:~:text=the%20next%20step-,What%20is%20a%20REST%20API%3F,representational%20state%20transfer%20architectural%20style.>`_
-for a user to interact with MLC-LLM in their own programs.
+for a user to interact with Sphere-aae in their own programs.
 
-Install MLC-LLM Package
+Install Sphere-aae Package
 ------------------------
 
-SERVE is a part of the MLC-LLM package, installation instruction for which can be found :ref:`here <install-mlc-packages>`. Once you have install the MLC-LLM package, you can run the following command to check if the installation was successful:
+SERVE is a part of the Sphere-aae package, installation instruction for which can be found :ref:`here <install-sphere-aae-packages>`. Once you have install the Sphere-aae package, you can run the following command to check if the installation was successful:
 
 .. code:: bash
 
-   mlc_llm serve --help
+   sphere_aae serve --help
 
 You should see serve help message if the installation was successful.
 
 Quick Start
 ------------
 
-This section provides a quick start guide to work with MLC-LLM REST API. To launch a server, run the following command:
+This section provides a quick start guide to work with Sphere-aae REST API. To launch a server, run the following command:
 
 .. code:: bash
 
-   mlc_llm serve MODEL [--model-lib PATH-TO-MODEL-LIB]
+   sphere_aae serve MODEL [--model-lib PATH-TO-MODEL-LIB]
 
-where ``MODEL`` is the model folder after compiling with :ref:`MLC-LLM build process <compile-model-libraries>`. Information about other arguments can be found under :ref:`Launch the server <rest_launch_server>` section.
+where ``MODEL`` is the model folder after compiling with :ref:`Sphere-aae build process <compile-model-libraries>`. Information about other arguments can be found under :ref:`Launch the server <rest_launch_server>` section.
 
-Once you have launched the Server, you can use the API in your own program to send requests. Below is an example of using the API to interact with MLC-LLM in Python without Streaming (suppose the server is running on ``http://127.0.0.1:8080/``):
+Once you have launched the Server, you can use the API in your own program to send requests. Below is an example of using the API to interact with Sphere-aae in Python without Streaming (suppose the server is running on ``http://127.0.0.1:8080/``):
 
 .. code:: bash
 
@@ -40,7 +40,7 @@ Once you have launched the Server, you can use the API in your own program to se
 
    # Get a response using a prompt without streaming
    payload = {
-      "model": "./dist/Llama-2-7b-chat-hf-q4f16_1-MLC/",
+      "model": "./dist/Llama-2-7b-chat-hf-q4f16_1-AAE/",
       "messages": [
          {"role": "user", "content": "Write a haiku about apples."},
       ],
@@ -60,7 +60,7 @@ If you want to enable tensor parallelism to run LLMs on multiple GPUs, please sp
 
 .. code:: shell
 
-   mlc_llm serve HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC --overrides "tensor_parallel_shards=2"
+   sphere_aae serve HF://sphere-aae/Llama-3-8B-Instruct-q4f16_1-AAE --overrides "tensor_parallel_shards=2"
 
 ------------------------------------------------
 
@@ -71,11 +71,11 @@ If you want to enable tensor parallelism to run LLMs on multiple GPUs, please sp
 Launch the Server
 -----------------
 
-To launch the MLC Server for MLC-LLM, run the following command in your terminal.
+To launch the MLC Server for Sphere-aae, run the following command in your terminal.
 
 .. code:: bash
 
-   mlc_llm serve MODEL [--model-lib PATH-TO-MODEL-LIB] [--device DEVICE] [--mode MODE] \
+   sphere_aae serve MODEL [--model-lib PATH-TO-MODEL-LIB] [--device DEVICE] [--mode MODE] \
        [--additional-models ADDITIONAL-MODELS] \
        [--speculative-mode SPECULATIVE-MODE] \
        [--overrides OVERRIDES] \
@@ -88,7 +88,7 @@ To launch the MLC Server for MLC-LLM, run the following command in your terminal
        [--allowed-headers ALLOWED_HEADERS]
 
 
-MODEL                  The model folder after compiling with MLC-LLM build process. The parameter
+MODEL                  The model folder after compiling with Sphere-aae build process. The parameter
                        can either be the model name with its quantization scheme
                        (e.g. ``Llama-2-7b-chat-hf-q4f16_1``), or a full path to the model
                        folder. In the former case, we will use the provided name to search
@@ -100,7 +100,7 @@ MODEL                  The model folder after compiling with MLC-LLM build proce
                        ``cuda``, ``metal``, ``vulkan``, ``rocm``, ``opencl``, ``auto`` (automatically detect the
                        local device), and ``device_id`` is the device id to run on. The default value is ``auto``,
                        with the device id set to 0 for default.
---mode                 The engine mode in MLC LLM.
+--mode                 The engine mode in Astro Agent Edge (AAE).
                        We provide three preset modes: ``local``, ``interactive`` and ``server``.
                        The default mode is ``local``.
 
@@ -152,7 +152,7 @@ MODEL                  The model folder after compiling with MLC-LLM build proce
                        ``spec_draft_length``, ``prefix_cache_max_num_recycling_seqs``, ``context_window_size``,
                        ``sliding_window_size``, ``attention_sink_size``.
 
-                       Please check out the documentation of EngineConfig in ``mlc_llm/serve/config.py``
+                       Please check out the documentation of EngineConfig in ``sphere_aae/serve/config.py``
                        for detailed docstring of each field.
                        Example: ``--overrides "max_num_sequence=32;max_total_seq_length=4096;tensor_parallel_shards=2"``
 --enable-tracing       A boolean indicating if to enable event logging for requests.
@@ -176,7 +176,7 @@ The REST API provides the following endpoints:
 
 ------------------------------------------------
 
-   Get a list of models available for MLC-LLM.
+   Get a list of models available for Sphere-aae.
 
 **Example**
 
@@ -200,7 +200,7 @@ The REST API provides the following endpoints:
 
 ------------------------------------------------
 
-   Get a response from MLC-LLM using a prompt, either with or without streaming.
+   Get a response from Sphere-aae using a prompt, either with or without streaming.
 
 **Chat Completion Request Object**
 
@@ -306,7 +306,7 @@ The REST API provides the following endpoints:
 
 **Example**
 
-Below is an example of using the API to interact with MLC-LLM in Python with Streaming.
+Below is an example of using the API to interact with Sphere-aae in Python with Streaming.
 
 .. code:: bash
 
@@ -315,7 +315,7 @@ Below is an example of using the API to interact with MLC-LLM in Python with Str
 
    # Get a response using a prompt with streaming
    payload = {
-    "model": "./dist/Llama-2-7b-chat-hf-q4f16_1-MLC/",
+    "model": "./dist/Llama-2-7b-chat-hf-q4f16_1-AAE/",
     "messages": [{"role": "user", "content": "Write a haiku"}],
     "stream": True,
    }
@@ -360,7 +360,7 @@ There is also support for function calling similar to OpenAI (https://platform.o
    ]
 
    payload = {
-      "model": "./dist/gorilla-openfunctions-v1-q4f16_1-MLC/",
+      "model": "./dist/gorilla-openfunctions-v1-q4f16_1-AAE/",
       "messages": [
          {
                "role": "user",
@@ -407,7 +407,7 @@ Function Calling with streaming is also supported. Below is an example on how to
    ]
 
    payload = {
-      "model": "./dist/gorilla-openfunctions-v1-q4f16_1-MLC/",
+      "model": "./dist/gorilla-openfunctions-v1-q4f16_1-AAE/",
       "messages": [
          {
                "role": "user",
