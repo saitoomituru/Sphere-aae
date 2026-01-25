@@ -8,7 +8,7 @@
 [![X](https://img.shields.io/badge/X-K__chachamaru-000000?logo=x&logoColor=white)](https://x.com/K_chachamaru)
 [![Related Repository: WebLLM](https://img.shields.io/badge/Related_Repo-WebLLM-fafbfc?logo=github)](https://github.com/sphere-aae/web-llm/)
 
-**MLコンパイル（ML Compilation）によるユニバーサルLLMデプロイエンジン（Universal LLM Deployment Engine）**
+
 
 [Get Started](https://quantaril.cloud/) | [Documentation](https://quantaril.cloud/) | [Forum](https://forum.i-s.dev/landing#/) | [X](https://x.com/K_chachamaru)
 
@@ -55,6 +55,7 @@
     </tr>
   </tbody>
 </table>
+</div>
 
 
 ## Fold Access Mapper（FAM）推論エンジン搭載
