@@ -80,6 +80,13 @@ Astro Agent Edge (AAE) の全体的なワークフローの紹介とチュート
    community/guideline.rst
    community/faq.rst
 
+.. toctree::
+   :maxdepth: 1
+   :caption: API リファレンス（API Reference）
+   :hidden:
+
+   api/index.rst
+
 
 .. toctree::
    :maxdepth: 1

@@ -25,6 +25,7 @@ extensions = [
     "sphinx_toolbox.collapse",
     "sphinxcontrib.httpdomain",
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
     "sphinx_reredirects",
 ]
@@ -43,6 +44,10 @@ pygments_style = "sphinx"
 # A list of ignored prefixes for module index sorting.
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
+
+# Autosummary generates stub pages for API references.
+autosummary_generate = True
+autosummary_imported_members = False
 
 # -- Options for HTML output ----------------------------------------------
 
