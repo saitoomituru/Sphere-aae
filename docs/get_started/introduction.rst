@@ -1,46 +1,45 @@
 .. _introduction-to-mlc-llm:
 
-Introduction to MLC LLM
-=======================
+MLC LLM の紹介（Introduction to MLC LLM）
+=======================================
 
-.. contents:: Table of Contents
+.. contents:: 目次（Table of Contents）
     :local:
     :depth: 2
 
-MLC LLM is a machine learning compiler and high-performance deployment
-engine for large language models.  The mission of this project is to enable everyone to develop,
-optimize, and deploy AI models natively on everyone's platforms. 
+MLC LLM は大規模言語モデル（Large Language Models: LLMs）向けの機械学習コンパイラ（Machine Learning Compiler）
+および高性能デプロイメントエンジン（High-performance Deployment Engine）です。本プロジェクトの使命（mission）は、
+誰もがあらゆるプラットフォーム上でAIモデルをネイティブに開発・最適化・デプロイできるようにすることです。 
 
-This page is a quick tutorial to introduce how to try out MLC LLM, and the steps to
-deploy your own models with MLC LLM.
+このページは、MLC LLM を試す方法と、MLC LLM で独自モデルをデプロイするまでの手順を紹介するクイックチュートリアルです。
 
-Installation
-------------
+インストール（Installation）
+----------------------------
 
-:ref:`MLC LLM <install-mlc-packages>` is available via pip.
-It is always recommended to install it in an isolated conda virtual environment.
+:ref:`MLC LLM <install-mlc-packages>` は pip で入手できます。
+分離された conda 仮想環境（conda virtual environment）にインストールすることを常に推奨します。
 
-To verify the installation, activate your virtual environment, run
+インストール確認のため、仮想環境を有効化して次を実行します。
 
 .. code:: bash
 
   python -c "import mlc_llm; print(mlc_llm.__path__)"
 
-You are expected to see the installation path of MLC LLM Python package.
+MLC LLM の Python パッケージのインストールパスが表示されるはずです。
 
 
-Chat CLI
---------
+チャットCLI（Chat CLI）
+----------------------
 
-As the first example, we try out the chat CLI in MLC LLM with 4-bit quantized 8B Llama-3 model.
-You can run MLC chat through a one-liner command:
+最初の例として、4-bit 量子化（quantized）された 8B Llama-3 モデルで MLC LLM のチャット CLI を試します。
+次のワンライナーコマンドで MLC chat を実行できます。
 
 .. code:: bash
 
     mlc_llm chat HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC
 
-It may take 1-2 minutes for the first time running this command.
-After waiting, this command launch a chat interface where you can enter your prompt and chat with the model.
+初回実行時は 1〜2 分ほどかかる場合があります。
+待機後、このコマンドはチャットインターフェースを起動し、プロンプトを入力してモデルと対話できます。
 
 .. code::
 
@@ -61,15 +60,15 @@ After waiting, this command launch a chat interface where you can enter your pro
   The concept of the meaning of life has been debated and...
 
 
-The figure below shows what run under the hood of this chat CLI command.
-For the first time running the command, there are three major phases.
+以下の図は、このチャット CLI コマンドの内部処理を示しています。
+初回実行時には、主に 3 つのフェーズがあります。
 
-- **Phase 1. Pre-quantized weight download.** This phase automatically downloads pre-quantized Llama-3 model from `Hugging Face <https://huggingface.co/mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC>`_ and saves it to your local cache directory.
-- **Phase 2. Model compilation.** This phase automatically optimizes the Llama-3 model to accelerate model inference on GPU with techniques of machine learning compilation in `Apache TVM <https://llm.mlc.ai/docs/install/tvm.html>`_ compiler, and generate the binary model library that enables the execution language models on your local GPU.
-- **Phase 3. Chat runtime.** This phase consumes the model library built in phase 2 and the model weights downloaded in phase 1, launches a platform-native chat runtime to drive the execution of Llama-3 model.
+- **フェーズ 1. 事前量子化（pre-quantized）重みのダウンロード。** `Hugging Face <https://huggingface.co/mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC>`_ から事前量子化済み Llama-3 モデルを自動的にダウンロードし、ローカルのキャッシュディレクトリに保存します。
+- **フェーズ 2. モデルのコンパイル。** `Apache TVM <https://llm.mlc.ai/docs/install/tvm.html>`_ コンパイラの機械学習コンパイル技術を用いて Llama-3 モデルを自動的に最適化し、GPU 推論を高速化します。同時に、ローカル GPU 上で言語モデルを実行するためのバイナリモデルライブラリを生成します。
+- **フェーズ 3. チャットランタイム。** フェーズ 2 で構築したモデルライブラリとフェーズ 1 でダウンロードしたモデル重みを使用して、プラットフォームネイティブのチャットランタイムを起動し、Llama-3 モデルを実行します。
 
-We cache the pre-quantized model weights and compiled model library locally.
-Therefore, phase 1 and 2 will only execute **once** over multiple runs.
+事前量子化済みモデル重みとコンパイル済みモデルライブラリはローカルにキャッシュされます。
+そのため、フェーズ 1 と 2 は複数回の実行に対して **一度だけ** 実行されます。
 
 .. figure:: /_static/img/project-workflow.svg
   :width: 700
@@ -80,9 +79,9 @@ Therefore, phase 1 and 2 will only execute **once** over multiple runs.
 
 .. note::
 
-  If you want to enable tensor parallelism to run LLMs on multiple GPUs,
-  please specify argument ``--overrides "tensor_parallel_shards=$NGPU"``.
-  For example,
+  複数 GPU で LLM を実行するためにテンソル並列（tensor parallelism）を有効化したい場合は、
+  ``--overrides "tensor_parallel_shards=$NGPU"`` を指定してください。
+  例：
 
   .. code:: shell
 
@@ -93,8 +92,8 @@ Therefore, phase 1 and 2 will only execute **once** over multiple runs.
 Python API
 ----------
 
-In the second example, we run the Llama-3 model with the chat completion Python API of MLC LLM.
-You can save the code below into a Python file and run it.
+2 つ目の例として、MLC LLM のチャット補完（chat completion）Python API を使って Llama-3 モデルを実行します。
+以下のコードを Python ファイルに保存して実行できます。
 
 .. code:: python
 
@@ -122,15 +121,13 @@ You can save the code below into a Python file and run it.
 
   MLC LLM Python API
 
-This code example first creates an :class:`mlc_llm.MLCEngine` instance with the 4-bit quantized Llama-3 model.
-**We design the Python API** :class:`mlc_llm.MLCEngine` **to align with OpenAI API**,
-which means you can use :class:`mlc_llm.MLCEngine` in the same way of using
-`OpenAI's Python package <https://github.com/openai/openai-python?tab=readme-ov-file#usage>`_
-for both synchronous and asynchronous generation.
+このコード例では、4-bit 量子化された Llama-3 モデルで :class:`mlc_llm.MLCEngine` インスタンスを作成します。
+**Python API の :class:`mlc_llm.MLCEngine` は OpenAI API に合わせて設計**されているため、
+`OpenAI の Python パッケージ <https://github.com/openai/openai-python?tab=readme-ov-file#usage>`_ と同様の方法で
+同期・非同期の生成に利用できます。
 
-In this code example, we use the synchronous chat completion interface and iterate over
-all the stream responses.
-If you want to run without streaming, you can run
+このコード例では同期的なチャット補完インターフェースを使い、ストリーム応答をすべて反復処理しています。
+ストリーミングなしで実行したい場合は、次のようにします。
 
 .. code:: python
 
@@ -141,14 +138,14 @@ If you want to run without streaming, you can run
   )
   print(response)
 
-You can also try different arguments supported in `OpenAI chat completion API <https://platform.openai.com/docs/api-reference/chat/create>`_.
-If you would like to do concurrent asynchronous generation, you can use :class:`mlc_llm.AsyncMLCEngine` instead.
+`OpenAI chat completion API <https://platform.openai.com/docs/api-reference/chat/create>`_ がサポートする各種引数も利用できます。
+並行した非同期生成を行いたい場合は、代わりに :class:`mlc_llm.AsyncMLCEngine` を使用してください。
 
 .. note::
 
-  If you want to enable tensor parallelism to run LLMs on multiple GPUs,
-  please specify argument ``model_config_overrides`` in MLCEngine constructor.
-  For example,
+  複数 GPU で LLM を実行するためにテンソル並列（tensor parallelism）を有効化したい場合は、
+  MLCEngine コンストラクタの ``model_config_overrides`` 引数を指定してください。
+  例：
 
   .. code:: python
 
@@ -162,20 +159,19 @@ If you would like to do concurrent asynchronous generation, you can use :class:`
     )
 
 
-REST Server
------------
+REST サーバー（REST Server）
+----------------------------
 
-For the third example, we launch a REST server to serve the 4-bit quantized Llama-3 model
-for OpenAI chat completion requests. The server can be launched in command line with
+3 つ目の例として、4-bit 量子化された Llama-3 モデルを OpenAI チャット補完リクエスト向けに提供する REST サーバーを起動します。
+サーバーはコマンドラインで次のように起動できます。
 
 .. code:: bash
 
   mlc_llm serve HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC
 
-The server is hooked at ``http://127.0.0.1:8000`` by default, and you can use ``--host`` and ``--port``
-to set a different host and port.
-When the server is ready (showing ``INFO: Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)``),
-we can open a new shell and send a cURL request via the following command:
+サーバーは既定で ``http://127.0.0.1:8000`` にバインドされます。``--host`` と ``--port`` を使って別のホストやポートを設定できます。
+サーバーの準備ができたら（``INFO: Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)`` と表示されたら）、
+新しいシェルを開き、以下のコマンドで cURL リクエストを送信します。
 
 .. code:: bash
 
@@ -189,15 +185,14 @@ we can open a new shell and send a cURL request via the following command:
     }' \
     http://127.0.0.1:8000/v1/chat/completions
 
-The server will process this request and send back the response.
-Similar to :ref:`introduction-to-mlc-llm-python-api`, you can pass argument ``"stream": true``
-to request for stream responses.
+サーバーがリクエストを処理し、応答を返します。
+:ref:`introduction-to-mlc-llm-python-api` と同様に、ストリーム応答を要求するには ``"stream": true`` を指定できます。
 
 .. note::
 
-  If you want to enable tensor parallelism to run LLMs on multiple GPUs,
-  please specify argument ``--overrides "tensor_parallel_shards=$NGPU"``.
-  For example,
+  複数 GPU で LLM を実行するためにテンソル並列（tensor parallelism）を有効化したい場合は、
+  ``--overrides "tensor_parallel_shards=$NGPU"`` を指定してください。
+  例：
 
   .. code:: shell
 
@@ -205,17 +200,17 @@ to request for stream responses.
 
 .. _introduction-deploy-your-own-model:
 
-Deploy Your Own Model
----------------------
+独自モデルのデプロイ（Deploy Your Own Model）
+----------------------------------------------
 
-So far we have been using pre-converted models weights from Hugging Face.
-This section introduces the core workflow regarding how you can *run your own models with MLC LLM*.
+これまでは Hugging Face の変換済みモデル重みを使用してきました。
+このセクションでは、*MLC LLM で独自モデルを実行する* ための中核ワークフローを紹介します。
 
-We use the `Phi-2 <https://huggingface.co/microsoft/phi-2>`_ as the example model.
-Assuming the Phi-2 model is downloaded and placed under ``models/phi-2``,
-there are two major steps to prepare your own models.
+例として `Phi-2 <https://huggingface.co/microsoft/phi-2>`_ モデルを使用します。
+Phi-2 モデルがダウンロードされ ``models/phi-2`` に配置されていると仮定すると、
+独自モデルを準備するための大きな手順は 2 つです。
 
-- **Step 1. Generate MLC config.** The first step is to generate the configuration file of MLC LLM.
+- **ステップ 1. MLC 設定（config）を生成。** 最初のステップは MLC LLM の設定ファイルを生成することです。
 
   .. code:: bash
 
@@ -228,18 +223,19 @@ there are two major steps to prepare your own models.
         --conv-template $CONV_TEMPLATE \
         -o $MLC_MODEL_PATH
 
-  The config generation command takes in the local model path, the target path of MLC output,
-  the conversation template name in MLC and the quantization name in MLC.
-  Here the quantization ``q0f16`` means float16 without quantization,
-  and the conversation template ``phi-2`` is the Phi-2 model's template in MLC.
+  設定生成コマンドは、ローカルモデルパス、MLC 出力先パス、
+  MLC における会話テンプレート名（conversation template）、
+  MLC における量子化名（quantization）を受け取ります。
+  ここで量子化 ``q0f16`` は量子化なしの float16 を意味し、
+  会話テンプレート ``phi-2`` は MLC における Phi-2 モデルのテンプレートです。
 
-  If you want to enable tensor parallelism on multiple GPUs, add argument
-  ``--tensor-parallel-shards $NGPU`` to the config generation command.
+  複数 GPU でテンソル並列を有効化したい場合は、
+  設定生成コマンドに ``--tensor-parallel-shards $NGPU`` を追加してください。
 
-  - `The full list of supported quantization in MLC <https://github.com/mlc-ai/mlc-llm/blob/main/python/mlc_llm/quantization/quantization.py#L29>`_. You can try different quantization methods with MLC LLM. Typical quantization methods are ``q4f16_1`` for 4-bit group quantization, ``q4f16_ft`` for 4-bit FasterTransformer format quantization.
-  - `The full list of conversation template in MLC <https://github.com/mlc-ai/mlc-llm/blob/main/python/mlc_llm/interface/gen_config.py#L276>`_.
+  - `MLC でサポートされる量子化の完全な一覧 <https://github.com/mlc-ai/mlc-llm/blob/main/python/mlc_llm/quantization/quantization.py#L29>`_。MLC LLM で異なる量子化方式を試せます。代表的な方式は、4-bit グループ量子化の ``q4f16_1``、4-bit FasterTransformer 形式量子化の ``q4f16_ft`` などです。
+  - `MLC における会話テンプレートの完全な一覧 <https://github.com/mlc-ai/mlc-llm/blob/main/python/mlc_llm/interface/gen_config.py#L276>`_。
 
-- **Step 2. Convert model weights.** In this step, we convert the model weights to MLC format.
+- **ステップ 2. モデル重みの変換。** このステップでモデル重みを MLC 形式へ変換します。
 
   .. code:: bash
 
@@ -247,32 +243,30 @@ there are two major steps to prepare your own models.
       --quantization $QUANTIZATION \
       -o $MLC_MODEL_PATH
 
-  This step consumes the raw model weights and converts them to for MLC format.
-  The converted weights will be stored under ``$MLC_MODEL_PATH``,
-  which is the same directory where the config file generated in Step 1 resides.
+  このステップでは生のモデル重みを消費し、MLC 形式へ変換します。
+  変換済み重みは ``$MLC_MODEL_PATH`` に保存され、これはステップ 1 の設定ファイルが生成されたディレクトリと同一です。
 
-Now, we can try to run your own model with chat CLI:
+これで、チャット CLI で独自モデルを実行できます。
 
 .. code:: bash
 
   mlc_llm chat $MLC_MODEL_PATH
 
-For the first run, model compilation will be triggered automatically to optimize the
-model for GPU accelerate and generate the binary model library.
-The chat interface will be displayed after model JIT compilation finishes.
-You can also use this model in Python API, MLC serve and other use scenarios.
+初回実行時は、モデルの JIT コンパイルが自動的にトリガーされ、
+GPU 向けに最適化されたバイナリモデルライブラリが生成されます。
+チャットインターフェースはモデル JIT コンパイル完了後に表示されます。
+このモデルは Python API、MLC serve など他の利用シナリオでも使用できます。
 
-(Optional) Compile Model Library
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+（任意）モデルライブラリのコンパイル（Compile Model Library）
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In previous sections, model libraries are compiled when the :class:`mlc_llm.MLCEngine` launches,
-which is what we call "JIT (Just-in-Time) model compilation".
-In some cases, it is beneficial to explicitly compile the model libraries.
-We can deploy LLMs with reduced dependencies by shipping the library for deployment without going through compilation.
-It will also enable advanced options such as cross-compiling the libraries for web and mobile deployments.
+前のセクションでは、:class:`mlc_llm.MLCEngine` の起動時にモデルライブラリをコンパイルします。
+これが「JIT（Just-in-Time）モデルコンパイル」と呼ばれるものです。
+場合によっては、明示的にモデルライブラリをコンパイルすることが有益です。
+コンパイルを経ずにデプロイ用ライブラリを配布することで、依存関係を減らした LLM デプロイが可能になります。
+また、Web やモバイル向けのクロスコンパイルなど高度なオプションも利用できます。
 
-
-Below is an example command of compiling model libraries in MLC LLM:
+以下は MLC LLM でモデルライブラリをコンパイルするコマンド例です。
 
 .. code:: bash
 
@@ -282,7 +276,7 @@ Below is an example command of compiling model libraries in MLC LLM:
                                             # ".tar" for iPhone/Android.
   mlc_llm compile $MLC_MODEL_PATH -o $MODEL_LIB
 
-At runtime, we need to specify this model library path to use it. For example,
+実行時は、このモデルライブラリのパスを指定する必要があります。例：
 
 .. code:: bash
 
@@ -300,50 +294,47 @@ At runtime, we need to specify this model library path to use it. For example,
   model_lib = "models/phi-2/lib.so"
   engine = MLCEngine(model, model_lib=model_lib)
 
-:ref:`compile-model-libraries` introduces the model compilation command in detail,
-where you can find instructions and example commands to compile model to different
-hardware backends, such as WebGPU, iOS and Android.
+:ref:`compile-model-libraries` でモデルコンパイルコマンドの詳細を紹介しています。
+WebGPU、iOS、Android などの各ハードウェアバックエンドに対するコンパイル手順や例を確認できます。
 
-Universal Deployment
---------------------
+ユニバーサルデプロイ（Universal Deployment）
+---------------------------------------------
 
-MLC LLM is a high-performance universal deployment solution for large language models,
-to enable native deployment of any large language models with native APIs with compiler acceleration
-So far, we have gone through several examples running on a local GPU environment.
-The project supports multiple kinds of GPU backends.
+MLC LLM は大規模言語モデル向けの高性能なユニバーサルデプロイソリューションであり、
+コンパイラによる高速化で、あらゆる大規模言語モデルをネイティブ API でデプロイできるようにします。
+これまでにローカル GPU 環境での例をいくつか見てきました。
+本プロジェクトは複数種類の GPU バックエンドをサポートしています。
 
-You can use `--device` option in compilation and runtime to pick a specific GPU backend.
-For example, if you have an NVIDIA or AMD GPU, you can try to use the option below
-to run chat through the vulkan backend. Vulkan-based LLM applications run in less typical
-environments (e.g. SteamDeck).
+コンパイル時および実行時に `--device` オプションを用いて特定の GPU バックエンドを選択できます。
+たとえば NVIDIA または AMD GPU がある場合、以下のオプションで Vulkan バックエンドを使ったチャットを実行できます。
+Vulkan ベースの LLM アプリケーションは、Steam Deck などの非典型的な環境でも動作します。
 
 .. code:: bash
 
     mlc_llm chat HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC --device vulkan
 
-The same core LLM runtime engine powers all the backends, enabling the same model to be deployed across backends as
-long as they fit within the memory and computing budget of the corresponding hardware backend.
-We also leverage machine learning compilation to build backend-specialized optimizations to
-get out the best performance on the targetted backend when possible, and reuse key insights and optimizations
-across backends we support.
+同一のコア LLM ランタイムエンジンがすべてのバックエンドで動作するため、
+対象ハードウェアのメモリ・計算予算に収まる限り、同じモデルをバックエンド間でデプロイできます。
+また、機械学習コンパイルを活用してバックエンド特化の最適化を構築し、
+可能な限り対象バックエンドで最高の性能を引き出しつつ、
+各バックエンド間で重要な知見と最適化を再利用します。
 
-Please checkout the what to do next sections below to find out more about different deployment scenarios,
-such as WebGPU-based browser deployment, mobile and other settings.
+WebGPU ベースのブラウザデプロイ、モバイルなど、
+さまざまなデプロイシナリオについては、以下の「次にやること」を参照してください。
 
-Summary and What to Do Next
----------------------------
+まとめと次にやること（Summary and What to Do Next）
+-----------------------------------------------------
 
-To briefly summarize this page,
+このページの要点を簡潔にまとめると、
 
-- We went through three examples (chat CLI, Python API, and REST server) of MLC LLM,
-- we introduced how to convert model weights for your own models to run with MLC LLM, and (optionally) how to compile your models.
-- We also discussed the universal deployment capability of MLC LLM.
+- MLC LLM の 3 つの例（チャット CLI、Python API、REST サーバー）を確認しました。
+- MLC LLM で独自モデルを実行するための重み変換と、（任意で）モデルのコンパイル方法を紹介しました。
+- MLC LLM のユニバーサルデプロイ能力についても説明しました。
 
-Next, please feel free to check out the pages below for quick start examples and more detailed information
-on specific platforms
+次に、以下のページでクイックスタート例と、特定プラットフォーム向けの詳細情報を確認してください。
 
-- :ref:`Quick start examples <quick-start>` for Python API, chat CLI, REST server, web browser, iOS and Android.
-- Depending on your use case, check out our API documentation and tutorial pages:
+- Python API、チャット CLI、REST サーバー、Web ブラウザ、iOS、Android の :ref:`クイックスタート例 <quick-start>`。
+- ユースケースに応じて、API ドキュメントとチュートリアルの各ページを参照してください。
 
   - :ref:`webllm-runtime`
   - :ref:`deploy-rest-api`
@@ -353,6 +344,6 @@ on specific platforms
   - :ref:`deploy-android`
   - :ref:`deploy-ide-integration`
 
-- :ref:`Convert model weight to MLC format <convert-weights-via-MLC>`, if you want to run your own models.
-- :ref:`Compile model libraries <compile-model-libraries>`, if you want to deploy to web/iOS/Android or control the model optimizations.
-- Report any problem or ask any question: open new issues in our `GitHub repo <https://github.com/mlc-ai/mlc-llm/issues>`_.
+- 独自モデルを実行したい場合は、:ref:`MLC 形式へのモデル重み変換 <convert-weights-via-MLC>` を参照してください。
+- Web/iOS/Android へのデプロイやモデル最適化の制御を行いたい場合は、:ref:`モデルライブラリのコンパイル <compile-model-libraries>` を参照してください。
+- 問題報告や質問は `GitHub リポジトリ <https://github.com/mlc-ai/mlc-llm/issues>`_ に新しい Issue を作成してください。

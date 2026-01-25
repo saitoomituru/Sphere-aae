@@ -1,4 +1,4 @@
-👋 Welcome to MLC LLM
+👋 MLC LLM へようこそ
 =====================
 
 `Discord <https://discord.gg/9Xpy2HGBuD>`_ | `GitHub <https://github.com/mlc-ai/mlc-llm>`_
@@ -6,24 +6,24 @@
 
 
 
-MLC LLM is a machine learning compiler and high-performance deployment
-engine for large language models.  The mission of this project is to enable
-everyone to develop, optimize, and deploy AI models natively on everyone's platforms. 
+MLC LLM は大規模言語モデル（Large Language Models: LLMs）向けの機械学習コンパイラ（Machine Learning Compiler）
+および高性能デプロイメントエンジン（High-performance Deployment Engine）です。本プロジェクトの使命（mission）は、
+誰もがあらゆるプラットフォーム上でAIモデルをネイティブに開発・最適化・デプロイできるようにすることです。 
 
-Quick Start
------------
+クイックスタート（Quick Start）
+-------------------------------
 
-Check out :ref:`quick-start` for quick start examples of using MLC LLM.
+MLC LLM の利用例は :ref:`quick-start` を参照してください。
 
-Introduction to MLC LLM
------------------------
+MLC LLM の紹介（Introduction）
+------------------------------
 
-Check out :ref:`introduction-to-mlc-llm` for the introduction and tutorial of a complete workflow in MLC LLM.
+MLC LLM の全体的なワークフローの紹介とチュートリアルは :ref:`introduction-to-mlc-llm` を参照してください。
 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Get Started
+   :caption: はじめに（Get Started）
    :hidden:
 
    get_started/quick_start.rst
@@ -31,7 +31,7 @@ Check out :ref:`introduction-to-mlc-llm` for the introduction and tutorial of a 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Build and Deploy Apps
+   :caption: アプリの構築とデプロイ（Build and Deploy Apps）
    :hidden:
 
    deploy/webllm.rst
@@ -45,7 +45,7 @@ Check out :ref:`introduction-to-mlc-llm` for the introduction and tutorial of a 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Compile Models
+   :caption: モデルのコンパイル（Compile Models）
    :hidden:
 
    compilation/convert_weights.rst
@@ -56,7 +56,7 @@ Check out :ref:`introduction-to-mlc-llm` for the introduction and tutorial of a 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Dependency Installation
+   :caption: 依存関係のインストール（Dependency Installation）
    :hidden:
 
    install/tvm.rst
@@ -74,7 +74,7 @@ Check out :ref:`introduction-to-mlc-llm` for the introduction and tutorial of a 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Community
+   :caption: コミュニティ（Community）
    :hidden:
 
    community/guideline.rst
@@ -83,7 +83,7 @@ Check out :ref:`introduction-to-mlc-llm` for the introduction and tutorial of a 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Privacy
+   :caption: プライバシー（Privacy）
    :hidden:
 
    privacy.rst
