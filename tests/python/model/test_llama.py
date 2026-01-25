@@ -1,7 +1,7 @@
 # pylint: disable=invalid-name,missing-docstring
 import pytest
 
-from mlc_llm.model import MODEL_PRESETS, MODELS
+from sphere_aae.model import MODEL_PRESETS, MODELS
 
 
 @pytest.mark.parametrize(

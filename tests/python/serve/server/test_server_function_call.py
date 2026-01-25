@@ -1,8 +1,8 @@
 # pylint: disable=line-too-long
 """
 Test script for function call in chat completion. To run this script, use the following command:
-MLC_SERVE_MODEL_LIB=dist/gorilla-openfunctions-v1-q4f16_1_MLC/gorilla-openfunctions-v1-q4f16_1-cuda.so
-MLC_SERVE_MODEL_LIB=${MLC_SERVE_MODEL_LIB} python -m pytest -x tests/python/serve/server/test_server_function_call.py
+SPHERE_AAE_SERVE_MODEL_LIB=dist/gorilla-openfunctions-v1-q4f16_1_MLC/gorilla-openfunctions-v1-q4f16_1-cuda.so
+SPHERE_AAE_SERVE_MODEL_LIB=${SPHERE_AAE_SERVE_MODEL_LIB} python -m pytest -x tests/python/serve/server/test_server_function_call.py
 """
 
 # pylint: disable=missing-function-docstring,too-many-arguments,too-many-locals,too-many-branches
@@ -195,11 +195,11 @@ def test_openai_v1_chat_completion_function_call(
 
 
 if __name__ == "__main__":
-    model_lib = os.environ.get("MLC_SERVE_MODEL_LIB")
+    model_lib = os.environ.get("SPHERE_AAE_SERVE_MODEL_LIB")
     if model_lib is None:
         raise ValueError(
-            'Environment variable "MLC_SERVE_MODEL_LIB" not found. '
-            "Please set it to model lib compiled by MLC LLM "
+            'Environment variable "SPHERE_AAE_SERVE_MODEL_LIB" not found. '
+            "Please set it to model lib compiled by Astro Agent Edge (AAE) "
             "(e.g., `./dist/gorilla-openfunctions-v1-q4f16_1_MLC/gorilla-openfunctions-v1-q4f16_1-cuda.so`) "
             "which supports function calls."
         )

@@ -11,7 +11,7 @@
 #include <tvm/runtime/nvtx.h>
 #include <tvm/runtime/threading_backend.h>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -503,4 +503,4 @@ LogitProcessor::LogitProcessor(int max_num_token, int vocab_size, FunctionTable*
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

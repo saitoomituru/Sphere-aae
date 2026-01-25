@@ -2,9 +2,9 @@
 # pylint: disable=too-many-arguments,too-many-locals,unused-argument,unused-variable
 from typing import List
 
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve import EngineConfig, MLCEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve import EngineConfig, SphereAaeEngine
+from sphere_aae.testing import require_test_model
 
 prompts = [
     "What is the meaning of life?",
@@ -20,10 +20,10 @@ prompts = [
 ]
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_engine_generate(model: str):
     # Create engine
-    engine = MLCEngine(
+    engine = SphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -59,10 +59,10 @@ def test_engine_generate(model: str):
     del engine
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_chat_completion(model: str):
     # Create engine
-    engine = MLCEngine(
+    engine = SphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -104,10 +104,10 @@ def test_chat_completion(model: str):
     del engine
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_chat_completion_non_stream(model: str):
     # Create engine
-    engine = MLCEngine(
+    engine = SphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -148,10 +148,10 @@ def test_chat_completion_non_stream(model: str):
     del engine
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_completion(model: str):
     # Create engine
-    engine = MLCEngine(
+    engine = SphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(
@@ -192,10 +192,10 @@ def test_completion(model: str):
     del engine
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 def test_completion_non_stream(model: str):
     # Create engine
-    engine = MLCEngine(
+    engine = SphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(

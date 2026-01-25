@@ -1,6 +1,6 @@
 ---
 name: "🐛 Bug Report"
-about: Submit a bug report to help us improve MLC-LLM
+about: Submit a bug report to help us improve Sphere-aae
 title: '[Bug] '
 labels: ['bug']
 assignees: ''
@@ -30,7 +30,7 @@ Steps to reproduce the behavior:
  - Platform (e.g. WebGPU/Vulkan/IOS/Android/CUDA):
  - Operating system (e.g. Ubuntu/Windows/MacOS/...):
  - Device (e.g. iPhone 12 Pro, PC+RTX 3090, ...)
- - How you installed MLC-LLM (`conda`, source):
+ - How you installed Sphere-aae (`conda`, source):
  - How you installed TVM (`pip`, source):
  - Python version (e.g. 3.10):
  - GPU driver version (if applicable):

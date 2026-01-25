@@ -5,10 +5,10 @@ from typing import Union
 import pytest
 import tvm
 
-from mlc_llm.loader import HuggingFaceLoader
-from mlc_llm.model import MODEL_PRESETS, MODELS
-from mlc_llm.quantization import QUANTIZATION
-from mlc_llm.support import logging, tqdm
+from sphere_aae.loader import HuggingFaceLoader
+from sphere_aae.model import MODEL_PRESETS, MODELS
+from sphere_aae.quantization import QUANTIZATION
+from sphere_aae.support import logging, tqdm
 
 logging.enable_logging()
 

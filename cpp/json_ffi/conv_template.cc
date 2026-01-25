@@ -5,11 +5,11 @@
 #include "../support/json_parser.h"
 #include "image_utils.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json_ffi {
 
-using namespace mlc::llm;
+using namespace sphere_aae::llm;
 
 /****************** Model vision config ******************/
 
@@ -310,7 +310,7 @@ Result<std::vector<Data>> CreatePrompt(const Conversation& conv,
               return TResult::Error("Content should have an image_url field");
             }
             std::string image_url =
-                item.at("image_url");  // TODO(mlc-team): According to OpenAI API reference this
+                item.at("image_url");  // TODO(sphere-aae-team): According to OpenAI API reference this
                                        // should be a map, with a "url" key containing the URL, but
                                        // we are just assuming this as the URL for now
             std::string base64_image = image_url.substr(image_url.find(",") + 1);
@@ -564,4 +564,4 @@ Result<Conversation> Conversation::FromJSON(const std::string& json_str) {
 
 }  // namespace json_ffi
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

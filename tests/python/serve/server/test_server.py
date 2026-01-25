@@ -1,9 +1,9 @@
-"""Server tests in MLC LLM.
+"""Server tests in Astro Agent Edge (AAE).
 Before running any test, we use pytest fixtures to launch a
 test-session-wide server in a subprocess, and then execute the tests.
 
 The recommended way to run the tests is to use the following command:
-  MLC_SERVE_MODEL_LIB="YOUR_MODEL_LIB" pytest -vv tests/python/serve/server/test_server.py
+  SPHERE_AAE_SERVE_MODEL_LIB="YOUR_MODEL_LIB" pytest -vv tests/python/serve/server/test_server.py
 
 Here "YOUR_MODEL_LIB" is a compiled model library like
 `dist/Llama-2-7b-chat-hf-q4f16_1/Llama-2-7b-chat-hf-q4f16_1-cuda.so`,
@@ -13,9 +13,9 @@ To directly run the Python file (a.k.a., not using pytest), you need to
 launch the server in ahead before running this file. This can be done in
 two steps:
 - start a new shell session, run
-  python -m mlc_llm.serve.server --model "YOUR_MODEL_LIB"
+  python -m sphere_aae.serve.server --model "YOUR_MODEL_LIB"
 - start another shell session, run this file
-  MLC_SERVE_MODEL_LIB="YOUR_MODEL_LIB" python tests/python/serve/server/test_server.py
+  SPHERE_AAE_SERVE_MODEL_LIB="YOUR_MODEL_LIB" python tests/python/serve/server/test_server.py
 """
 
 # pylint: disable=missing-function-docstring,too-many-arguments,too-many-locals,too-many-branches
@@ -30,7 +30,7 @@ import requests
 from openai import OpenAI
 from pydantic import BaseModel
 
-from mlc_llm.protocol.openai_api_protocol import (
+from sphere_aae.protocol.openai_api_protocol import (
     CHAT_COMPLETION_MAX_TOP_LOGPROBS,
     COMPLETION_MAX_TOP_LOGPROBS,
 )
@@ -244,7 +244,7 @@ def test_openai_v1_models(
     assert isinstance(model_card, dict)
     assert model_card["id"] == served_model[0], f"{model_card['id']} {served_model[0]}"
     assert model_card["object"] == "model"
-    assert model_card["owned_by"] == "MLC-LLM"
+    assert model_card["owned_by"] == "Sphere-aae"
 
 
 @pytest.mark.parametrize("stream", [False, True])
@@ -840,7 +840,7 @@ def test_openai_v1_chat_completions_invalid_logprobs(
 
     payload = {
         "model": served_model[0],
-        "messages": [{"role": "user", "content": "Hello! Our project is MLC LLM."}],
+        "messages": [{"role": "user", "content": "Hello! Our project is Astro Agent Edge (AAE)."}],
         "max_tokens": 256,
         "stream": stream,
         "logprobs": False,
@@ -915,18 +915,18 @@ def test_openai_v1_completions_request_cancellation(
     assert isinstance(model_card, dict)
     assert model_card["id"] == served_model[0]
     assert model_card["object"] == "model"
-    assert model_card["owned_by"] == "MLC-LLM"
+    assert model_card["owned_by"] == "Sphere-aae"
 
 
 CHAT_COMPLETION_MESSAGES = [
     # messages #0
-    [{"role": "user", "content": "Hello! Our project is MLC LLM."}],
+    [{"role": "user", "content": "Hello! Our project is Astro Agent Edge (AAE)."}],
     # messages #1
     [
-        {"role": "user", "content": "Hello! Our project is MLC LLM."},
+        {"role": "user", "content": "Hello! Our project is Astro Agent Edge (AAE)."},
         {
             "role": "assistant",
-            "content": "Hello! It's great to hear about your project, MLC LLM.",
+            "content": "Hello! It's great to hear about your project, Astro Agent Edge (AAE).",
         },
         {"role": "user", "content": "What is the name of our project?"},
     ],
@@ -937,7 +937,7 @@ CHAT_COMPLETION_MESSAGES = [
             "content": "You are a helpful, respectful and honest assistant. "
             "You always ends your response with an emoji.",
         },
-        {"role": "user", "content": "Hello! Our project is MLC LLM."},
+        {"role": "user", "content": "Hello! Our project is Astro Agent Edge (AAE)."},
     ],
 ]
 
@@ -1282,7 +1282,7 @@ def test_openai_v1_chat_completions_system_prompt_wrong_pos(
     # defined in conftest.py.
 
     messages = [
-        {"role": "user", "content": "Hello! Our project is MLC LLM."},
+        {"role": "user", "content": "Hello! Our project is Astro Agent Edge (AAE)."},
         {
             "role": "system",
             "content": "You are a helpful, respectful and honest assistant. "
@@ -1333,12 +1333,12 @@ def test_metrics(
 
 
 if __name__ == "__main__":
-    model_lib = os.environ.get("MLC_SERVE_MODEL_LIB")
+    model_lib = os.environ.get("SPHERE_AAE_SERVE_MODEL_LIB")
     if model_lib is None:
         raise ValueError(
-            'Environment variable "MLC_SERVE_MODEL_LIB" not found. '
-            "Please set it to model lib compiled by MLC LLM "
-            "(e.g., `dist/Llama-2-7b-chat-hf-q0f16-MLC/Llama-2-7b-chat-hf-q0f16-MLC-cuda.so`)."
+            'Environment variable "SPHERE_AAE_SERVE_MODEL_LIB" not found. '
+            "Please set it to model lib compiled by Astro Agent Edge (AAE) "
+            "(e.g., `dist/Llama-2-7b-chat-hf-q0f16-AAE/Llama-2-7b-chat-hf-q0f16-AAE-cuda.so`)."
         )
     MODEL = (os.path.dirname(model_lib), model_lib)
 

@@ -2,8 +2,8 @@
  * \file model.h
  * \brief Metadata stored in model lib
  */
-#ifndef MLC_LLM_CPP_MODEL_METADATA_H_
-#define MLC_LLM_CPP_MODEL_METADATA_H_
+#ifndef SPHERE_AAE_CPP_MODEL_METADATA_H_
+#define SPHERE_AAE_CPP_MODEL_METADATA_H_
 
 #include <picojson.h>
 #include <tvm/ffi/container/shape.h>
@@ -14,7 +14,7 @@
 
 #include <unordered_map>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 using tvm::ffi::Module;
@@ -100,6 +100,6 @@ struct ModelMetadata {
 };
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_CPP_MODEL_METADATA_H_
+#endif  // SPHERE_AAE_CPP_MODEL_METADATA_H_

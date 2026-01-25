@@ -2,8 +2,8 @@
 # pylint: disable=too-many-arguments,too-many-locals,unused-argument,unused-variable
 from typing import List
 
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve import EngineConfig, MLCEngine
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve import EngineConfig, SphereAaeEngine
 
 prompts = [
     "What is the meaning of life?",
@@ -20,9 +20,9 @@ prompts = [
 
 
 def test_engine_generate() -> None:
-    engine = MLCEngine(
-        model="dist/rwkv-6-world-1b6-q0f16-MLC",
-        model_lib="dist/rwkv-6-world-1b6-q0f16-MLC/rwkv-6-world-1b6-q0f16-MLC-cuda.so",
+    engine = SphereAaeEngine(
+        model="dist/rwkv-6-world-1b6-q0f16-AAE",
+        model_lib="dist/rwkv-6-world-1b6-q0f16-AAE/rwkv-6-world-1b6-q0f16-AAE-cuda.so",
         mode="server",
         engine_config=EngineConfig(
             max_num_sequence=8,

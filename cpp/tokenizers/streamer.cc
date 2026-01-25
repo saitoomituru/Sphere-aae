@@ -14,7 +14,7 @@
 
 #include "tokenizers.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 TVM_FFI_STATIC_INIT_BLOCK() {
@@ -146,14 +146,14 @@ std::string TextStreamerObj::Finish() {
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def("mlc.tokenizers.TextStreamer",
+      .def("sphere_aae.tokenizers.TextStreamer",
            [](Tokenizer tokenizer) { return TextStreamer(std::move(tokenizer)); })
-      .def("mlc.tokenizers.TextStreamerPut",
+      .def("sphere_aae.tokenizers.TextStreamerPut",
            [](TextStreamer text_streamer, const IntTuple& delta_tokens) {
              return text_streamer->Put(
                  {delta_tokens->data, delta_tokens->data + delta_tokens->size});
            })
-      .def_method("mlc.tokenizers.TextStreamerFinish", &TextStreamerObj::Finish);
+      .def_method("sphere_aae.tokenizers.TextStreamerFinish", &TextStreamerObj::Finish);
 }
 
 /****************** StopStrHandler ******************/
@@ -269,24 +269,24 @@ StopStrHandler::StopStrHandler(Array<String> stop_strs,
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def("mlc.tokenizers.StopStrHandler",
+      .def("sphere_aae.tokenizers.StopStrHandler",
            [](Array<String> stop_strs, const Tokenizer& tokenizer) {
              return StopStrHandler(std::move(stop_strs), tokenizer->PostProcessedTokenTable());
            })
-      .def("mlc.tokenizers.StopStrHandlerPut",
+      .def("sphere_aae.tokenizers.StopStrHandlerPut",
            [](StopStrHandler handler, int token_id) {
              std::vector<int64_t> delta_tokens;
              handler->Put(token_id, &delta_tokens);
              return IntTuple(std::move(delta_tokens));
            })
-      .def("mlc.tokenizers.StopStringHandlerFinish",
+      .def("sphere_aae.tokenizers.StopStringHandlerFinish",
            [](StopStrHandler handler) {
              std::vector<int64_t> remaining_token_ids;
              handler->Finish(&remaining_token_ids);
              return IntTuple(std::move(remaining_token_ids));
            })
-      .def_method("mlc.tokenizers.StopStrHandlerStopTriggered", &StopStrHandlerObj::StopTriggered);
+      .def_method("sphere_aae.tokenizers.StopStrHandlerStopTriggered", &StopStrHandlerObj::StopTriggered);
 }
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

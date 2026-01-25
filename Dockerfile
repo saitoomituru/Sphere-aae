@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rustc \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /workspace/Sphere-mlc
+WORKDIR /workspace/Sphere-aae
 COPY . .
 
 RUN chmod +x scripts/docker_verify.sh

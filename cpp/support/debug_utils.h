@@ -3,12 +3,12 @@
  * \file support/debug_utils.h
  * \brief Tools for debug purposes.
  */
-#ifndef MLC_LLM_SUPPORT_DEBUG_UTILS_H_
-#define MLC_LLM_SUPPORT_DEBUG_UTILS_H_
+#ifndef SPHERE_AAE_SUPPORT_DEBUG_UTILS_H_
+#define SPHERE_AAE_SUPPORT_DEBUG_UTILS_H_
 
 #include "../tokenizers/tokenizers.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 /*! \brief A registry for debug information. */
@@ -32,6 +32,6 @@ inline void DebugRegisterTokenizer(const Tokenizer& tokenizer) {
 inline Tokenizer DebugGetTokenizer() { return DebugRegistry::Global()->tokenizer; }
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_DEBUG_UTILS_H_
+#endif  // SPHERE_AAE_SUPPORT_DEBUG_UTILS_H_

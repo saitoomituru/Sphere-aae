@@ -6,10 +6,10 @@ set -x
 : ${GPU:="cpu"}
 export PYTHONPATH="./python":${PYTHONPATH:-""}
 
-if [[ -n ${MLC_CI_SETUP_DEPS:-} ]]; then
-    echo "MLC_CI_SETUP_DEPS=1 start setup deps"
+if [[ -n ${SPHERE_AAE_CI_SETUP_DEPS:-} ]]; then
+    echo "SPHERE_AAE_CI_SETUP_DEPS=1 start setup deps"
     # TVM Unity is a dependency to this testing
-    pip install --pre -U -f https://mlc.ai/wheels mlc-ai-nightly-cpu
+    pip install --pre -U -f https://sphere_aae.ai/wheels sphere-aae-nightly-cpu
     pip install apache-tvm-ffi
     pip install requests triton
     pip install --pre -U cuda-python

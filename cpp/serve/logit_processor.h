@@ -4,8 +4,8 @@
  * \brief The header for logit processor.
  */
 
-#ifndef MLC_LLM_SERVE_LOGIT_PROCESSOR_H_
-#define MLC_LLM_SERVE_LOGIT_PROCESSOR_H_
+#ifndef SPHERE_AAE_SERVE_LOGIT_PROCESSOR_H_
+#define SPHERE_AAE_SERVE_LOGIT_PROCESSOR_H_
 
 #include <tvm/ffi/string.h>
 #include <tvm/runtime/module.h>
@@ -16,7 +16,7 @@
 #include "function_table.h"
 #include "request_state.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -76,7 +76,7 @@ class LogitProcessorObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.LogitProcessor", LogitProcessorObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.LogitProcessor", LogitProcessorObj, Object);
 };
 
 class LogitProcessor : public ObjectRef {
@@ -97,6 +97,6 @@ class LogitProcessor : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_LOGIT_PROCESSOR_H_
+#endif  // SPHERE_AAE_SERVE_LOGIT_PROCESSOR_H_

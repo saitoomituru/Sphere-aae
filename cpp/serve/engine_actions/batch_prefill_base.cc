@@ -9,7 +9,7 @@
 
 #include "../../support/json_parser.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -526,4 +526,4 @@ void BatchPrefillBaseActionObj::PopPrefillInputData(const RequestModelState& mst
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

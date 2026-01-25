@@ -1,6 +1,6 @@
 ---
 name: "\U0001F4DA Documentation"
-about: Report an issue related to https://llm.mlc.ai/docs/
+about: Report an issue related to https://llm.sphere_aae.ai/docs/
 title: '[Doc] '
 labels: ['documentation']
 assignees: ''

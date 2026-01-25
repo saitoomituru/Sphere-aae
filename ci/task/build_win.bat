@@ -1,4 +1,4 @@
-cd mlc-llm
+cd sphere-aae
 rd /s /q build
 mkdir build
 

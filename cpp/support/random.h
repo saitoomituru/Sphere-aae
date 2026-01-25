@@ -4,12 +4,12 @@
  * \brief Header of random number generator.
  */
 
-#ifndef MLC_LLM_SUPPORT_RANDOM_H_
-#define MLC_LLM_SUPPORT_RANDOM_H_
+#ifndef SPHERE_AAE_SUPPORT_RANDOM_H_
+#define SPHERE_AAE_SUPPORT_RANDOM_H_
 
 #include <random>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 // Random number generator
@@ -32,6 +32,6 @@ class RandomGenerator {
 };
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_RANDOM_H_
+#endif  // SPHERE_AAE_SUPPORT_RANDOM_H_

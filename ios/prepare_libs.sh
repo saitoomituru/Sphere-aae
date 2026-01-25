@@ -1,5 +1,5 @@
-# Command to prepare the mlc llm static libraries
-# This command will be invoked by the "mlc_llm package" command
+# Command to prepare the Sphere-aae static libraries
+# This command will be invoked by the "sphere_aae package" command
 function help {
     echo -e "OPTION:"
     echo -e "  -s, --simulator                      Build for Simulator"
@@ -7,7 +7,7 @@ function help {
     echo -e "  -h,  --help                          Prints this help\n"
 }
 
-MLC_LLM_SOURCE_DIR="${MLC_LLM_SOURCE_DIR:-..}"
+SPHERE_AAE_SOURCE_DIR="${SPHERE_AAE_SOURCE_DIR:-..}"
 is_simulator="false"
 arch="arm64"
 
@@ -54,7 +54,7 @@ fi
 
 mkdir -p build/ && cd build/
 
-cmake $MLC_LLM_SOURCE_DIR\
+cmake $SPHERE_AAE_SOURCE_DIR\
   -DCMAKE_BUILD_TYPE=$type\
   -DCMAKE_SYSTEM_NAME=iOS\
   -DCMAKE_SYSTEM_VERSION=14.0\
@@ -65,15 +65,15 @@ cmake $MLC_LLM_SOURCE_DIR\
   -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=ON\
   -DCMAKE_INSTALL_PREFIX=.\
   -DCMAKE_CXX_FLAGS="-O3"\
-  -DMLC_LLM_INSTALL_STATIC_LIB=ON\
+  -DMLC_INSTALL_STATIC_LIB=ON\
   -DUSE_METAL=ON\
   -DTVM_FFI_USE_LIBBACKTRACE=OFF\
   -DTVM_FFI_BACKTRACE_ON_SEGFAULT=OFF
 
 
-cmake --build . --config release --target mlc_llm_static -j
+cmake --build . --config release --target sphere_aae_static -j
 cmake --build . --target install --config release -j
 cd ..
 
-rm -rf $MLC_LLM_SOURCE_DIR/ios/MLCSwift/tvm_home
-ln -s $MLC_LLM_SOURCE_DIR/3rdparty/tvm $MLC_LLM_SOURCE_DIR/ios/MLCSwift/tvm_home
+rm -rf $SPHERE_AAE_SOURCE_DIR/ios/SphereAaeSwift/tvm_home
+ln -s $SPHERE_AAE_SOURCE_DIR/3rdparty/tvm $SPHERE_AAE_SOURCE_DIR/ios/SphereAaeSwift/tvm_home

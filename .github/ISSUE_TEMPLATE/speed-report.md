@@ -1,6 +1,6 @@
 ---
 name: " 🏎️  Speed Report"
-about: Submit a speed report of an model running in MLC-LLM
+about: Submit a speed report of an model running in Sphere-aae
 title: '[Speed] '
 labels: ['performance']
 assignees: ''

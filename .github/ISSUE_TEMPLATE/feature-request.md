@@ -1,6 +1,6 @@
 ---
 name: "\U0001F680 Feature Request"
-about: Submit a proposal/request for a new MLC-LLM feature, or an enhancement on existing features.
+about: Submit a proposal/request for a new Sphere-aae feature, or an enhancement on existing features.
 title: '[Feature Request] '
 labels: ['feature request']
 assignees: ''
@@ -12,7 +12,7 @@ assignees: ''
 
 ## Motivation
 
-<!-- Please outline the motivation for the proposal, and how could this feature benefit the MLC-LLM project/community. -->
+<!-- Please outline the motivation for the proposal, and how could this feature benefit the Sphere-aae project/community. -->
 
 ## Alternatives
 

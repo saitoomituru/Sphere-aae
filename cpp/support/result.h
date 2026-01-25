@@ -1,21 +1,21 @@
 /*!
  * Copyright (c) 2023-2025 by Contributors
  * \file support/result.h
- * \brief The header for the Result class in MLC LLM.
+ * \brief The header for the Result class in Astro Agent Edge (AAE).
  */
-#ifndef MLC_LLM_SUPPORT_RESULT_H_
-#define MLC_LLM_SUPPORT_RESULT_H_
+#ifndef SPHERE_AAE_SUPPORT_RESULT_H_
+#define SPHERE_AAE_SUPPORT_RESULT_H_
 
 #include <tvm/runtime/logging.h>
 
 #include <optional>
 #include <string>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 /*!
- * \brief The result class in MLC LLM.
+ * \brief The result class in Astro Agent Edge (AAE).
  * Each instance is either an okay value or an error.
  * \tparam T The okay value type of the result.
  * \tparam E The error type of the result.
@@ -72,6 +72,6 @@ class Result {
 };
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_RESULT_H_
+#endif  // SPHERE_AAE_SUPPORT_RESULT_H_

@@ -29,7 +29,7 @@ set(USE_LLVM OFF)
 set(BUILD_DUMMY_LIBTVM OFF)
 EOF
 
-cmake -S . -B build -G Ninja -DMLC_LLM_BUILD_PYTHON_MODULE=ON
+cmake -S . -B build -G Ninja -DSPHERE_AAE_BUILD_PYTHON_MODULE=ON
 cmake --build build
 
 pytest tests/python

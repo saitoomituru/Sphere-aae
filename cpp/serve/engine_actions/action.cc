@@ -5,7 +5,7 @@
 
 #include "action.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -13,4 +13,4 @@ TVM_FFI_STATIC_INIT_BLOCK() { EngineActionObj::RegisterReflection(); }
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

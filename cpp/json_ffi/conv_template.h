@@ -1,5 +1,5 @@
-#ifndef MLC_LLM_JSON_FFI_CONV_TEMPLATE_H
-#define MLC_LLM_JSON_FFI_CONV_TEMPLATE_H
+#ifndef SPHERE_AAE_JSON_FFI_CONV_TEMPLATE_H
+#define SPHERE_AAE_JSON_FFI_CONV_TEMPLATE_H
 
 #include <iostream>
 #include <map>
@@ -14,9 +14,9 @@
 #include "openai_api_protocol.h"
 #include "picojson.h"
 
-using namespace mlc::llm::serve;
+using namespace sphere_aae::llm::serve;
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json_ffi {
 
@@ -43,7 +43,7 @@ class ModelVisionConfig {
 /****************** Model config ******************/
 
 /*! \brief Defines the config of the model.
-Populated from "model_config" field in mlc-chat-config.json */
+Populated from "model_config" field in sphere-aae-chat-config.json */
 class ModelConfig {
  public:
   int vocab_size;
@@ -149,6 +149,6 @@ Result<std::vector<Data>> CreatePrompt(const Conversation& conv,
 
 }  // namespace json_ffi
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_JSON_FFI_CONV_TEMPLATE_H
+#endif  // SPHERE_AAE_JSON_FFI_CONV_TEMPLATE_H

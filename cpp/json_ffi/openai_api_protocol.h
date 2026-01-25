@@ -1,10 +1,10 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file json_ffi/openai_api_protocol.h
- * \brief The header of OpenAI API Protocol in MLC LLM.
+ * \brief The header of OpenAI API Protocol in Astro Agent Edge (AAE).
  */
-#ifndef MLC_LLM_JSON_FFI_OPENAI_API_PROTOCOL_H
-#define MLC_LLM_JSON_FFI_OPENAI_API_PROTOCOL_H
+#ifndef SPHERE_AAE_JSON_FFI_OPENAI_API_PROTOCOL_H
+#define SPHERE_AAE_JSON_FFI_OPENAI_API_PROTOCOL_H
 
 #include <ctime>
 #include <optional>
@@ -17,7 +17,7 @@
 #include "../support/result.h"
 #include "picojson.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json_ffi {
 
@@ -202,6 +202,6 @@ class ChatCompletionStreamResponse {
 
 }  // namespace json_ffi
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_JSON_FFI_OPENAI_API_PROTOCOL_H
+#endif  // SPHERE_AAE_JSON_FFI_OPENAI_API_PROTOCOL_H

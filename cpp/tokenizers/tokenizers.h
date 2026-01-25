@@ -4,8 +4,8 @@
  * \brief Header of tokenizer related functions.
  */
 
-#ifndef MLC_LLM_TOKENIZER_H_
-#define MLC_LLM_TOKENIZER_H_
+#ifndef SPHERE_AAE_TOKENIZER_H_
+#define SPHERE_AAE_TOKENIZER_H_
 
 #include <tokenizers_cpp.h>
 #include <tvm/ffi/container/array.h>
@@ -19,7 +19,7 @@
 #include "../base.h"
 #include "../support/dynamic_bitset.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 using namespace tvm::runtime;
@@ -57,7 +57,7 @@ class TokenizerInfoNode : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.TokenizerInfo", TokenizerInfoNode, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.TokenizerInfo", TokenizerInfoNode, Object);
 };
 
 class TokenizerInfo : public ObjectRef {
@@ -121,7 +121,7 @@ class TokenizerObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("mlc.Tokenizer", TokenizerObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO_FINAL("sphere_aae.Tokenizer", TokenizerObj, Object);
 
  private:
   /*! \brief Useful information of the tokenizer during generation. */
@@ -139,11 +139,11 @@ class Tokenizer : public ObjectRef {
    * \param path The path to the tokenizer or the tokenizer directory.
    * \param info The tokenizer info. If not provided, the info will be detected automatically.
    */
-  MLC_LLM_DLL static Tokenizer FromPath(const String& path,
+  SPHERE_AAE_DLL static Tokenizer FromPath(const String& path,
                                         std::optional<TokenizerInfo> info = std::nullopt);
 
   /*! \brief Detect the tokenizer info from the given path of the tokenizer. */
-  MLC_LLM_DLL static TokenizerInfo DetectTokenizerInfo(const String& path);
+  SPHERE_AAE_DLL static TokenizerInfo DetectTokenizerInfo(const String& path);
 
   /*!
    * \brief Post-process the token table to their original strings.
@@ -161,6 +161,6 @@ class Tokenizer : public ObjectRef {
 };
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_TOKENIZER_H_
+#endif  // SPHERE_AAE_TOKENIZER_H_

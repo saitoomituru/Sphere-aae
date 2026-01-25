@@ -1,10 +1,10 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/event_trace_recorder.h
- * \brief The event trace recorder for requests in MLC LLM.
+ * \brief The event trace recorder for requests in Astro Agent Edge (AAE).
  */
-#ifndef MLC_LLM_SERVE_EVENT_TRACE_RECORDER_H_
-#define MLC_LLM_SERVE_EVENT_TRACE_RECORDER_H_
+#ifndef SPHERE_AAE_SERVE_EVENT_TRACE_RECORDER_H_
+#define SPHERE_AAE_SERVE_EVENT_TRACE_RECORDER_H_
 
 #include <tvm/ffi/container/array.h>
 #include <tvm/ffi/reflection/registry.h>
@@ -13,7 +13,7 @@
 
 #include <string>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -50,7 +50,7 @@ class EventTraceRecorderObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.EventTraceRecorder", EventTraceRecorderObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.EventTraceRecorder", EventTraceRecorderObj, Object);
 };
 
 /*!
@@ -75,6 +75,6 @@ class EventTraceRecorder : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_EVENT_TRACE_RECORDER_H_
+#endif  // SPHERE_AAE_SERVE_EVENT_TRACE_RECORDER_H_

@@ -16,7 +16,7 @@
 #include "action.h"
 #include "action_commons.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -457,4 +457,4 @@ EngineAction EngineAction::EagleBatchVerify(
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

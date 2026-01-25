@@ -10,16 +10,16 @@ from itertools import product
 import pytest
 import tvm
 
-if os.getenv("MLC_RUN_MODEL_COMPILE_TESTS") != "1":
+if os.getenv("SPHERE_AAE_RUN_MODEL_COMPILE_TESTS") != "1":
     pytest.skip(
-        "MLC_RUN_MODEL_COMPILE_TESTS が未設定のため model compile 統合テストをスキップします。",
+        "SPHERE_AAE_RUN_MODEL_COMPILE_TESTS が未設定のため model compile 統合テストをスキップします。",
         allow_module_level=True,
     )
 
-from mlc_llm.model import MODEL_PRESETS
-from mlc_llm.model import MODELS as SUPPORTED_MODELS
-from mlc_llm.quantization import QUANTIZATION as SUPPORTED_QUANTS
-from mlc_llm.support.constants import MLC_TEMP_DIR
+from sphere_aae.model import MODEL_PRESETS
+from sphere_aae.model import MODELS as SUPPORTED_MODELS
+from sphere_aae.quantization import QUANTIZATION as SUPPORTED_QUANTS
+from sphere_aae.support.constants import SPHERE_AAE_TEMP_DIR
 
 OPT_LEVEL = "O2"
 DEVICE2TARGET = {
@@ -69,7 +69,7 @@ DEVICE2SUFFIX = {
     "ios": "tar",
 }
 MODELS = list(MODEL_PRESETS.keys())
-QUANTS = [  # TODO(@junrushao): use `list(mlc_llm.quantization.QUANTIZATION.keys())`
+QUANTS = [  # TODO(@junrushao): use `list(sphere_aae.quantization.QUANTIZATION.keys())`
     "q0f16",
     "q0f32",
     "q3f16_1",
@@ -101,7 +101,7 @@ def test_model_compile():  # pylint: disable=too-many-locals
 
     passed_cmds = []
     failed_cmds = []
-    with tempfile.TemporaryDirectory(dir=MLC_TEMP_DIR) as tmp_dir:
+    with tempfile.TemporaryDirectory(dir=SPHERE_AAE_TEMP_DIR) as tmp_dir:
         with cf.ProcessPoolExecutor(max_workers=num_workers) as executor:
             log_files = []
             cmds = []
@@ -128,7 +128,7 @@ def test_model_compile():  # pylint: disable=too-many-locals
                 cmd = [
                     sys.executable,
                     "-m",
-                    "mlc_llm",
+                    "sphere_aae",
                     "compile",
                     model,
                     "--quantization",

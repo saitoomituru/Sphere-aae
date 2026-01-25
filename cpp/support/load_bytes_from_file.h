@@ -3,15 +3,15 @@
  * \file support/load_bytes_from_file.h
  * \brief Utility methods to load from files.
  */
-#ifndef MLC_LLM_SUPPORT_LOAD_BYTES_FROM_FILE_H_
-#define MLC_LLM_SUPPORT_LOAD_BYTES_FROM_FILE_H_
+#ifndef SPHERE_AAE_SUPPORT_LOAD_BYTES_FROM_FILE_H_
+#define SPHERE_AAE_SUPPORT_LOAD_BYTES_FROM_FILE_H_
 
 #include <tvm/runtime/logging.h>
 
 #include <fstream>
 #include <string>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 inline std::string LoadBytesFromFile(const std::string& path) {
@@ -27,6 +27,6 @@ inline std::string LoadBytesFromFile(const std::string& path) {
 }
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_LOAD_BYTES_FROM_FILE_H_
+#endif  // SPHERE_AAE_SUPPORT_LOAD_BYTES_FROM_FILE_H_

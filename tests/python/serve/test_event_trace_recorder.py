@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from mlc_llm.serve.event_trace_recorder import EventTraceRecorder
+from sphere_aae.serve.event_trace_recorder import EventTraceRecorder
 
 # test category "unittest"
 pytestmark = [pytest.mark.unittest]

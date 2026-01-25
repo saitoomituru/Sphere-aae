@@ -6,7 +6,7 @@ from tvm.script import ir as I
 from tvm.script import relax as R
 from tvm.script import tir as T
 
-from mlc_llm.nn.kv_cache import PagedKVCache, RopeMode
+from sphere_aae.nn.kv_cache import PagedKVCache, RopeMode
 
 # mypy: disable-error-code="attr-defined"
 # pylint: disable=invalid-name,unused-argument,too-many-locals,too-many-statements
@@ -32,7 +32,7 @@ def test_nn_module_paged_kv_cache():
             R.func_attr({"num_input": 5})
             with R.dataflow():
                 paged_kv_cache: R.Object = R.call_pure_packed(
-                    "mlc.create_paged_kv_cache_generic",
+                    "sphere_aae.create_paged_kv_cache_generic",
                     R.str("mha"),
                     R.shape(
                         [

@@ -9,8 +9,8 @@ import tvm.testing
 from tvm import DataType
 from tvm.relax.frontend import nn
 
-from mlc_llm.loader import QuantizeMapping
-from mlc_llm.quantization import QUANTIZATION, AWQQuantize
+from sphere_aae.loader import QuantizeMapping
+from sphere_aae.quantization import QUANTIZATION, AWQQuantize
 
 
 if tvm.get_global_func("target.build.llvm", allow_missing=True) is None:

@@ -1,10 +1,10 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file json_ffi/image_utils.h
- * \brief The header of Image utils for JSON FFI Engine in MLC LLM.
+ * \brief The header of Image utils for JSON FFI Engine in Astro Agent Edge (AAE).
  */
-#ifndef MLC_LLM_JSON_FFI_IMAGE_UTILS_H_
-#define MLC_LLM_JSON_FFI_IMAGE_UTILS_H_
+#ifndef SPHERE_AAE_JSON_FFI_IMAGE_UTILS_H_
+#define SPHERE_AAE_JSON_FFI_IMAGE_UTILS_H_
 
 #include <tvm/runtime/tensor.h>
 
@@ -13,7 +13,7 @@
 
 #include "../support/result.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json_ffi {
 
@@ -26,6 +26,6 @@ tvm::runtime::Tensor ClipPreprocessor(tvm::runtime::Tensor image_data, int targe
 
 }  // namespace json_ffi
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_JSON_FFI_IMAGE_UTILS_H_
+#endif  // SPHERE_AAE_JSON_FFI_IMAGE_UTILS_H_

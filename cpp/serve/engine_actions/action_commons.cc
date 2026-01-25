@@ -7,7 +7,7 @@
 
 #include <tvm/runtime/nvtx.h>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -444,4 +444,4 @@ std::pair<Tensor, std::vector<SampleResult>> ApplyLogitProcessorAndSample(
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

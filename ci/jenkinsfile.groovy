@@ -17,13 +17,13 @@
 
 import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
 
-run_cpu = "bash ci/bash.sh mlcaidev/ci-cpu:26d65cc -e GPU cpu -e MLC_CI_SETUP_DEPS 1"
-run_cuda = "bash ci/bash.sh mlcaidev/ci-cu128:26d65cc -e GPU cuda-12.8 -e MLC_CI_SETUP_DEPS 1"
-// run_rocm = "bash ci/bash.sh mlcaidev/ci-rocm57:26d65cc -e GPU rocm-5.7 -e MLC_CI_SETUP_DEPS 1"
+run_cpu = "bash ci/bash.sh sphereaaedev/ci-cpu:26d65cc -e GPU cpu -e SPHERE_AAE_CI_SETUP_DEPS 1"
+run_cuda = "bash ci/bash.sh sphereaaedev/ci-cu128:26d65cc -e GPU cuda-12.8 -e SPHERE_AAE_CI_SETUP_DEPS 1"
+// run_rocm = "bash ci/bash.sh sphereaaedev/ci-rocm57:26d65cc -e GPU rocm-5.7 -e SPHERE_AAE_CI_SETUP_DEPS 1"
 
-pkg_cpu = "bash ci/bash.sh mlcaidev/package-rocm61:519d0b3 -e GPU cpu -e MLC_CI_SETUP_DEPS 1"
-pkg_cuda = "bash ci/bash.sh mlcaidev/package-cu128:519d0b3 -e GPU cuda-12.8 -e MLC_CI_SETUP_DEPS 1"
-pkg_rocm = "bash ci/bash.sh mlcaidev/package-rocm61:519d0b3 -e GPU rocm-6.1 -e MLC_CI_SETUP_DEPS 1"
+pkg_cpu = "bash ci/bash.sh sphereaaedev/package-rocm61:519d0b3 -e GPU cpu -e SPHERE_AAE_CI_SETUP_DEPS 1"
+pkg_cuda = "bash ci/bash.sh sphereaaedev/package-cu128:519d0b3 -e GPU cuda-12.8 -e SPHERE_AAE_CI_SETUP_DEPS 1"
+pkg_rocm = "bash ci/bash.sh sphereaaedev/package-rocm61:519d0b3 -e GPU rocm-6.1 -e SPHERE_AAE_CI_SETUP_DEPS 1"
 
 
 def per_exec_ws(folder) {
@@ -65,7 +65,7 @@ stage('Lint') {
   parallel(
     'isort': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-lint-isort')) {
+        ws(per_exec_ws('sphere-aae-lint-isort')) {
           init_git()
           sh(script: "ls -alh", label: 'Show work directory')
           sh(script: "${run_cpu} conda env export --name ci-lint", label: 'Checkout version')
@@ -75,7 +75,7 @@ stage('Lint') {
     },
     'black': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-lint-black')) {
+        ws(per_exec_ws('sphere-aae-lint-black')) {
           init_git()
           sh(script: "ls -alh", label: 'Show work directory')
           sh(script: "${run_cpu} conda env export --name ci-lint", label: 'Checkout version')
@@ -85,7 +85,7 @@ stage('Lint') {
     },
     'mypy': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-lint-mypy')) {
+        ws(per_exec_ws('sphere-aae-lint-mypy')) {
           init_git()
           sh(script: "ls -alh", label: 'Show work directory')
           sh(script: "${run_cpu} conda env export --name ci-lint", label: 'Checkout version')
@@ -95,7 +95,7 @@ stage('Lint') {
     },
     'pylint': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-lint-pylint')) {
+        ws(per_exec_ws('sphere-aae-lint-pylint')) {
           init_git()
           sh(script: "ls -alh", label: 'Show work directory')
           sh(script: "${run_cpu} conda env export --name ci-lint", label: 'Checkout version')
@@ -105,7 +105,7 @@ stage('Lint') {
     },
     'clang-format': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-lint-clang-format')) {
+        ws(per_exec_ws('sphere-aae-lint-clang-format')) {
           init_git()
           sh(script: "ls -alh", label: 'Show work directory')
           sh(script: "${run_cpu} conda env export --name ci-lint", label: 'Checkout version')
@@ -120,53 +120,53 @@ stage('Build') {
   parallel(
     'CUDA': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-build-cuda')) {
+        ws(per_exec_ws('sphere-aae-build-cuda')) {
           init_git(true)
           sh(script: "ls -alh", label: 'Show work directory')
           sh(script: "${pkg_cuda} conda env export --name py312", label: 'Checkout version')
-          sh(script: "${pkg_cuda} -j 8 -v \$HOME/.ccache /ccache conda run -n py312 ./ci/task/build_lib.sh", label: 'Build MLC LLM runtime')
+          sh(script: "${pkg_cuda} -j 8 -v \$HOME/.ccache /ccache conda run -n py312 ./ci/task/build_lib.sh", label: 'Build Astro Agent Edge (AAE) runtime')
           sh(script: "${pkg_cuda} -j 1 conda run -n py312 ./ci/task/build_clean.sh", label: 'Clean up after build')
           sh(script: "ls -alh ./wheels/", label: 'Build artifact')
-          pack_lib('mlc_wheel_cuda', 'wheels/*.whl')
+          pack_lib('sphere_aae_wheel_cuda', 'wheels/*.whl')
         }
       }
     },
     // 'ROCm': {
     //   node('CPU-SMALL') {
-    //     ws(per_exec_ws('mlc-llm-build-rocm')) {
+    //     ws(per_exec_ws('sphere-aae-build-rocm')) {
     //       init_git(true)
     //       sh(script: "ls -alh", label: 'Show work directory')
     //       sh(script: "${pkg_rocm} conda env export --name py38", label: 'Checkout version')
-    //       sh(script: "${pkg_rocm} -j 8 conda run -n py38 ./ci/task/build_lib.sh", label: 'Build MLC LLM runtime')
+    //       sh(script: "${pkg_rocm} -j 8 conda run -n py38 ./ci/task/build_lib.sh", label: 'Build Astro Agent Edge (AAE) runtime')
     //       sh(script: "${pkg_rocm} -j 1 conda run -n py38 ./ci/task/build_clean.sh", label: 'Clean up after build')
     //       sh(script: "ls -alh ./wheels/", label: 'Build artifact')
-    //       pack_lib('mlc_wheel_rocm', 'wheels/*.whl')
+    //       pack_lib('sphere_aae_wheel_rocm', 'wheels/*.whl')
     //     }
     //   }
     // },
     'Metal': {
       node('MAC') {
-        ws(per_exec_ws('mlc-llm-build-metal')) {
+        ws(per_exec_ws('sphere-aae-build-metal')) {
           init_git(true)
           sh(script: "ls -alh", label: 'Show work directory')
-          sh(script: "conda env export --name mlc-llm-ci", label: 'Checkout version')
-          sh(script: "NUM_THREADS=6 GPU=metal conda run -n mlc-llm-ci ./ci/task/build_lib.sh", label: 'Build MLC LLM runtime')
-          sh(script: "NUM_THREADS=6 GPU=metal conda run -n mlc-llm-ci ./ci/task/build_clean.sh", label: 'Clean up after build')
+          sh(script: "conda env export --name sphere-aae-ci", label: 'Checkout version')
+          sh(script: "NUM_THREADS=6 GPU=metal conda run -n sphere-aae-ci ./ci/task/build_lib.sh", label: 'Build Astro Agent Edge (AAE) runtime')
+          sh(script: "NUM_THREADS=6 GPU=metal conda run -n sphere-aae-ci ./ci/task/build_clean.sh", label: 'Clean up after build')
           sh(script: "ls -alh ./wheels/", label: 'Build artifact')
-          pack_lib('mlc_wheel_metal', 'wheels/*.whl')
+          pack_lib('sphere_aae_wheel_metal', 'wheels/*.whl')
         }
       }
     },
     'Vulkan': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-build-vulkan')) {
+        ws(per_exec_ws('sphere-aae-build-vulkan')) {
           init_git(true)
           sh(script: "ls -alh", label: 'Show work directory')
           sh(script: "${pkg_cpu} conda env export --name py312", label: 'Checkout version')
-          sh(script: "${pkg_cpu} -j 8 conda run -n py312 ./ci/task/build_lib.sh", label: 'Build MLC LLM runtime')
+          sh(script: "${pkg_cpu} -j 8 conda run -n py312 ./ci/task/build_lib.sh", label: 'Build Astro Agent Edge (AAE) runtime')
           sh(script: "${pkg_cpu} -j 1 conda run -n py312 ./ci/task/build_clean.sh", label: 'Clean up after build')
           sh(script: "ls -alh ./wheels/", label: 'Build artifact')
-          pack_lib('mlc_wheel_vulkan', 'wheels/*.whl')
+          pack_lib('sphere_aae_wheel_vulkan', 'wheels/*.whl')
         }
       }
     }
@@ -177,10 +177,10 @@ stage('Unittest') {
   parallel(
     'CUDA': {
       node('GPU') {
-        ws(per_exec_ws('mlc-llm-unittest')) {
+        ws(per_exec_ws('sphere-aae-unittest')) {
           init_git(false)
           sh(script: "ls -alh", label: 'Show work directory')
-          unpack_lib('mlc_wheel_cuda', 'wheels/*.whl')
+          unpack_lib('sphere_aae_wheel_cuda', 'wheels/*.whl')
           sh(script: "${run_cuda} conda env export --name ci-unittest", label: 'Checkout version')
           sh(script: "${run_cuda} conda run -n ci-unittest ./ci/task/test_unittest.sh", label: 'Testing')
         }
@@ -193,10 +193,10 @@ stage('Model Compilation') {
   parallel(
     'CUDA': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-compile-cuda')) {
+        ws(per_exec_ws('sphere-aae-compile-cuda')) {
           init_git(false)
           sh(script: "ls -alh", label: 'Show work directory')
-          unpack_lib('mlc_wheel_cuda', 'wheels/*.whl')
+          unpack_lib('sphere_aae_wheel_cuda', 'wheels/*.whl')
           sh(script: "${run_cuda} conda env export --name ci-unittest", label: 'Checkout version')
           sh(script: "${run_cuda} -j 4 conda run -n ci-unittest ./ci/task/test_model_compile.sh", label: 'Testing')
         }
@@ -204,10 +204,10 @@ stage('Model Compilation') {
     },
     // 'ROCm': {
     //   node('CPU-SMALL') {
-    //     ws(per_exec_ws('mlc-llm-compile-rocm')) {
+    //     ws(per_exec_ws('sphere-aae-compile-rocm')) {
     //       init_git(false)
     //       sh(script: "ls -alh", label: 'Show work directory')
-    //       unpack_lib('mlc_wheel_rocm', 'wheels/*.whl')
+    //       unpack_lib('sphere_aae_wheel_rocm', 'wheels/*.whl')
     //       sh(script: "${run_rocm} conda env export --name ci-unittest", label: 'Checkout version')
     //       sh(script: "${run_rocm} -j 4 conda run -n ci-unittest ./ci/task/test_model_compile.sh", label: 'Testing')
     //     }
@@ -215,21 +215,21 @@ stage('Model Compilation') {
     // },
     'Metal': {
       node('MAC') {
-        ws(per_exec_ws('mlc-llm-compile-metal')) {
+        ws(per_exec_ws('sphere-aae-compile-metal')) {
           init_git(false)
           sh(script: "ls -alh", label: 'Show work directory')
-          unpack_lib('mlc_wheel_metal', 'wheels/*.whl')
-          sh(script: "conda env export --name mlc-llm-ci", label: 'Checkout version')
-          sh(script: "NUM_THREADS=6 GPU=metal conda run -n mlc-llm-ci ./ci/task/test_model_compile.sh", label: 'Testing')
+          unpack_lib('sphere_aae_wheel_metal', 'wheels/*.whl')
+          sh(script: "conda env export --name sphere-aae-ci", label: 'Checkout version')
+          sh(script: "NUM_THREADS=6 GPU=metal conda run -n sphere-aae-ci ./ci/task/test_model_compile.sh", label: 'Testing')
         }
       }
     },
     'Vulkan': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-compile-vulkan')) {
+        ws(per_exec_ws('sphere-aae-compile-vulkan')) {
           init_git(false)
           sh(script: "ls -alh", label: 'Show work directory')
-          unpack_lib('mlc_wheel_vulkan', 'wheels/*.whl')
+          unpack_lib('sphere_aae_wheel_vulkan', 'wheels/*.whl')
           sh(script: "${run_cpu} conda env export --name ci-unittest", label: 'Checkout version')
           // sh(script: "${run_cpu} -j 4 conda run -n ci-unittest ./ci/task/test_model_compile.sh", label: 'Testing')
         }
@@ -237,10 +237,10 @@ stage('Model Compilation') {
     },
     'WASM': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-compile-wasm')) {
+        ws(per_exec_ws('sphere-aae-compile-wasm')) {
           init_git(true)
           sh(script: "ls -alh", label: 'Show work directory')
-          unpack_lib('mlc_wheel_vulkan', 'wheels/*.whl')
+          unpack_lib('sphere_aae_wheel_vulkan', 'wheels/*.whl')
           sh(script: "${run_cpu} conda env export --name ci-unittest", label: 'Checkout version')
           sh(script: "${run_cpu} -j 8 -e GPU wasm conda run -n ci-unittest ./ci/task/test_model_compile.sh", label: 'Testing')
         }
@@ -248,21 +248,21 @@ stage('Model Compilation') {
     },
     'iOS': {
       node('MAC') {
-        ws(per_exec_ws('mlc-llm-compile-ios')) {
+        ws(per_exec_ws('sphere-aae-compile-ios')) {
           init_git(false)
           sh(script: "ls -alh", label: 'Show work directory')
-          unpack_lib('mlc_wheel_metal', 'wheels/*.whl')
-          sh(script: "conda env export --name mlc-llm-ci", label: 'Checkout version')
-          sh(script: "NUM_THREADS=6 GPU=ios conda run -n mlc-llm-ci ./ci/task/test_model_compile.sh", label: 'Testing')
+          unpack_lib('sphere_aae_wheel_metal', 'wheels/*.whl')
+          sh(script: "conda env export --name sphere-aae-ci", label: 'Checkout version')
+          sh(script: "NUM_THREADS=6 GPU=ios conda run -n sphere-aae-ci ./ci/task/test_model_compile.sh", label: 'Testing')
         }
       }
     },
     'Android-OpenCL': {
       node('CPU-SMALL') {
-        ws(per_exec_ws('mlc-llm-compile-android')) {
+        ws(per_exec_ws('sphere-aae-compile-android')) {
           init_git(false)
           sh(script: "ls -alh", label: 'Show work directory')
-          unpack_lib('mlc_wheel_vulkan', 'wheels/*.whl')
+          unpack_lib('sphere_aae_wheel_vulkan', 'wheels/*.whl')
           sh(script: "${run_cpu} conda env export --name ci-unittest", label: 'Checkout version')
           sh(script: "${run_cpu} -j 4 -e GPU android conda run -n ci-unittest ./ci/task/test_model_compile.sh", label: 'Testing')
         }

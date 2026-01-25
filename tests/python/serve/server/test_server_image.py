@@ -239,15 +239,15 @@ def test_openai_v1_chat_completions(
 
 
 if __name__ == "__main__":
-    model_lib = os.environ.get("MLC_SERVE_MODEL_LIB")
+    model_lib = os.environ.get("SPHERE_AAE_SERVE_MODEL_LIB")
     if model_lib is None:
         raise ValueError(
-            'Environment variable "MLC_SERVE_MODEL_LIB" not found. '
-            "Please set it to model lib compiled by MLC LLM "
-            "(e.g., `dist/Llama-2-7b-chat-hf-q0f16-MLC/Llama-2-7b-chat-hf-q0f16-MLC-cuda.so`)."
+            'Environment variable "SPHERE_AAE_SERVE_MODEL_LIB" not found. '
+            "Please set it to model lib compiled by Astro Agent Edge (AAE) "
+            "(e.g., `dist/Llama-2-7b-chat-hf-q0f16-AAE/Llama-2-7b-chat-hf-q0f16-AAE-cuda.so`)."
         )
 
-    model = os.environ.get("MLC_SERVE_MODEL")
+    model = os.environ.get("SPHERE_AAE_SERVE_MODEL")
     if model is None:
         MODEL = (os.path.dirname(model_lib), model_lib)
     else:

@@ -9,9 +9,9 @@ import tvm.testing
 from tvm import DataType
 from tvm.relax.frontend import nn
 
-from mlc_llm.loader import QuantizeMapping
-from mlc_llm.quantization import QUANTIZATION
-from mlc_llm.quantization.group_quantization import (
+from sphere_aae.loader import QuantizeMapping
+from sphere_aae.quantization import QUANTIZATION
+from sphere_aae.quantization.group_quantization import (
     GroupQuantize,
     GroupQuantizeEmbedding,
     GroupQuantizeLinear,

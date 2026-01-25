@@ -4,7 +4,7 @@
 
 #include "../support/json_parser.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 using namespace tvm::runtime;
@@ -139,4 +139,4 @@ ModelMetadata ModelMetadata::FromModule(Module module, const picojson::object& m
 }
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

@@ -13,14 +13,14 @@ if _HAS_TORCH:
 else:
     _HAS_CUDA = False
 
-from mlc_llm.protocol import openai_api_protocol
-from mlc_llm.router import Router
+from sphere_aae.protocol import openai_api_protocol
+from sphere_aae.router import Router
 
-model_tp1 = "./dist/Llama-3.2-1B-Instruct-q0f16-MLC/"
+model_tp1 = "./dist/Llama-3.2-1B-Instruct-q0f16-AAE/"
 model_lib_tp1 = "./dist/lib/Llama-3.2-1B-q0f16-cuda.so"
 # model_lib_tp1 = None
 
-model_tp2 = "./dist/Llama-3.2-1B-Instruct-q0f16-MLC-tp2/"
+model_tp2 = "./dist/Llama-3.2-1B-Instruct-q0f16-AAE-tp2/"
 model_lib_tp2 = "./dist/lib/Llama-3.2-1B-q0f16-cuda-tp2.so"
 # model_lib_tp2 = None
 

@@ -8,7 +8,7 @@
 
 #include <array>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 std::string PrintAsUTF8(TCodepoint codepoint) {
@@ -208,4 +208,4 @@ std::pair<TCodepoint, const char*> ParseNextUTF8OrEscaped(
 }
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

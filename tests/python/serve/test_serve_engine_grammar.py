@@ -7,19 +7,19 @@ from typing import Dict, List, Literal
 
 from pydantic import BaseModel
 
-from mlc_llm.protocol.debug_protocol import DebugConfig
-from mlc_llm.protocol.openai_api_protocol import ChatCompletionResponse
-from mlc_llm.serve import AsyncMLCEngine, MLCEngine
-from mlc_llm.testing import require_test_model
+from sphere_aae.protocol.debug_protocol import DebugConfig
+from sphere_aae.protocol.openai_api_protocol import ChatCompletionResponse
+from sphere_aae.serve import AsyncSphereAaeEngine, SphereAaeEngine
+from sphere_aae.testing import require_test_model
 
-LLAMA_2_MODEL = "Llama-2-7b-chat-hf-q4f16_1-MLC"
-LLAMA_3_MODEL = "Meta-Llama-3-8B-Instruct-q4f16_1-MLC"
+LLAMA_2_MODEL = "Llama-2-7b-chat-hf-q4f16_1-AAE"
+LLAMA_3_MODEL = "Meta-Llama-3-8B-Instruct-q4f16_1-AAE"
 
 
 @require_test_model(LLAMA_3_MODEL)
 def test_batch_generation_with_grammar(model: str):
     # Engine
-    engine = MLCEngine(model=model, mode="server")
+    engine = SphereAaeEngine(model=model, mode="server")
 
     # Inputs
     system_prompt = "You are a helpful assistant. Always respond only with json."
@@ -96,7 +96,7 @@ def test_batch_generation_with_grammar(model: str):
 @require_test_model(LLAMA_3_MODEL)
 def test_batch_generation_with_schema(model: str):
     # Create engine
-    engine = MLCEngine(model=model, mode="server")
+    engine = SphereAaeEngine(model=model, mode="server")
 
     class Product(BaseModel):
         product_id: int
@@ -203,7 +203,7 @@ def test_batch_generation_with_schema(model: str):
 @require_test_model(LLAMA_3_MODEL)
 def test_batch_generation_jump_forward(model: str, jump_forward: bool = True, repeat: int = 1):
     # Create engine
-    engine = MLCEngine(model=model, mode="server")
+    engine = SphereAaeEngine(model=model, mode="server")
 
     class Product(BaseModel):
         product_id: int
@@ -267,7 +267,7 @@ async def run_async_engine(
     num_requests: int = 8,
 ):
     # Create engine
-    async_engine = AsyncMLCEngine(model=model, mode="server")
+    async_engine = AsyncSphereAaeEngine(model=model, mode="server")
 
     class Product(BaseModel):
         product_id: int

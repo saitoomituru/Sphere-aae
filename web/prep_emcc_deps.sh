@@ -17,7 +17,7 @@ if [[ -z "${TVM_SOURCE_DIR_SET}" ]]; then
     export TVM_SOURCE_DIR="${TVM_SOURCE_DIR:-${CURR_DIR}/3rdparty/tvm}"
 fi
 
-# Build mlc_wasm_runtime
+# Build sphere_aae_wasm_runtime
 cd web && make
 cd -
 

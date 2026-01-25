@@ -2,7 +2,7 @@
  * \file multi_gpu_loader.cc
  * \brief Implementation of a multi-GPU loader with loading-time sharding.
  */
-#ifndef MLC_SINGLE_GPU_ONLY
+#ifndef SPHERE_AAE_SINGLE_GPU_ONLY
 #include <picojson.h>
 #include <tvm/ffi/container/array.h>
 #include <tvm/ffi/function.h>
@@ -26,7 +26,7 @@
 #include "../metadata/model.h"
 #include "../support/progress_bar.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace multi_gpu {
 
@@ -165,8 +165,8 @@ Array<Optional<Tensor>> LoadMultiGPU(const std::string& model_path, Module vm_mo
   CHECK_EQ(model_metadata.tensor_parallel_shards, num_shards)
       << "ValueError: The model is compiled using `--tensor-parallel-shards="
       << model_metadata.tensor_parallel_shards
-      << "`, but mlc-chat-config.json is configured to use " << num_shards << " GPUs. "
-      << "Please set \"tensor_parallel_shards\" in mlc-chat-config.json to "
+      << "`, but sphere-aae-chat-config.json is configured to use " << num_shards << " GPUs. "
+      << "Please set \"tensor_parallel_shards\" in sphere-aae-chat-config.json to "
       << model_metadata.tensor_parallel_shards;
   // Step 1. Extract auxiliary information
   PreprocessorPool preprocs(model_metadata, vm_module);
@@ -315,12 +315,12 @@ Array<Optional<Tensor>> LoadMultiGPUPresharded(const std::string& model_path, Mo
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def("mlc.multi_gpu.LoadMultiGPU", LoadMultiGPU)
-      .def("mlc.multi_gpu.LoadMultiGPUPresharded", LoadMultiGPUPresharded);
+      .def("sphere_aae.multi_gpu.LoadMultiGPU", LoadMultiGPU)
+      .def("sphere_aae.multi_gpu.LoadMultiGPUPresharded", LoadMultiGPUPresharded);
 }
 
 }  // namespace multi_gpu
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_SINGLE_GPU_ONLY
+#endif  // SPHERE_AAE_SINGLE_GPU_ONLY

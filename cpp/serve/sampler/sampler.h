@@ -4,8 +4,8 @@
  * \brief The header for runtime module of sampler functions.
  */
 
-#ifndef MLC_LLM_SERVE_SAMPLER_SAMPLER_H_
-#define MLC_LLM_SERVE_SAMPLER_SAMPLER_H_
+#ifndef SPHERE_AAE_SERVE_SAMPLER_SAMPLER_H_
+#define SPHERE_AAE_SERVE_SAMPLER_SAMPLER_H_
 
 #include <tvm/ffi/string.h>
 #include <tvm/runtime/module.h>
@@ -17,7 +17,7 @@
 #include "../model.h"
 #include "../request_state.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -128,7 +128,7 @@ class SamplerObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.Sampler", SamplerObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.Sampler", SamplerObj, Object);
 };
 
 class Sampler : public ObjectRef {
@@ -158,6 +158,6 @@ class Sampler : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_SAMPLER_SAMPLER_H_
+#endif  // SPHERE_AAE_SERVE_SAMPLER_SAMPLER_H_

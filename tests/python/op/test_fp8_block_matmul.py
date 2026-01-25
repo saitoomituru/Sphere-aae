@@ -11,9 +11,9 @@ from tvm import relax
 from tvm.relax.frontend import nn
 from tvm.relax.frontend.nn import spec
 
-from mlc_llm.compiler_pass.dispatch_triton_kernel import DispatchTritonKernel
-from mlc_llm.op import batch_matmul, cutlass, moe_matmul, triton
-from mlc_llm.quantization.block_scale_quantization import rowwise_group_quant_fp8
+from sphere_aae.compiler_pass.dispatch_triton_kernel import DispatchTritonKernel
+from sphere_aae.op import batch_matmul, cutlass, moe_matmul, triton
+from sphere_aae.quantization.block_scale_quantization import rowwise_group_quant_fp8
 
 # test category "op_correctness"
 pytestmark = [pytest.mark.op_correctness]

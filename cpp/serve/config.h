@@ -2,8 +2,8 @@
  *  Copyright (c) 2023-2025 by Contributors
  * \file serve/config.h
  */
-#ifndef MLC_LLM_SERVE_CONFIG_H_
-#define MLC_LLM_SERVE_CONFIG_H_
+#ifndef SPHERE_AAE_SERVE_CONFIG_H_
+#define SPHERE_AAE_SERVE_CONFIG_H_
 
 #include <picojson.h>
 #include <tvm/ffi/container/array.h>
@@ -18,7 +18,7 @@
 #include "../metadata/model.h"
 #include "../support/result.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -143,7 +143,7 @@ class GenerationConfigNode : public Object {
 
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.GenerationConfig", GenerationConfigNode, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.GenerationConfig", GenerationConfigNode, Object);
 };
 
 class GenerationConfig : public ObjectRef {
@@ -171,7 +171,7 @@ class GenerationConfig : public ObjectRef {
 /****************** Engine config ******************/
 
 /*!
- * \brief The engine mode in MLC LLM.
+ * \brief The engine mode in Astro Agent Edge (AAE).
  * We provide three preset modes: "local", "interactive" and "server".
  * The default mode is "local".
  * The choice of mode decides the values of "max_batch_size", "max_total_sequence_length"
@@ -245,7 +245,7 @@ class EngineConfigNode : public Object {
   /*************** KV cache config and engine capacities ***************/
 
   /*!
-   * \brief The engine mode in MLC LLM.
+   * \brief The engine mode in Astro Agent Edge (AAE).
    * \sa EngineMode
    */
   EngineMode mode = EngineMode::kLocal;
@@ -316,7 +316,7 @@ class EngineConfigNode : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.EngineConfig", EngineConfigNode, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.EngineConfig", EngineConfigNode, Object);
 };
 
 class EngineConfig : public ObjectRef {
@@ -461,6 +461,6 @@ inline PrefillMode PrefillModeFromString(const std::string& prefill_mode) {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_CONFIG_H_
+#endif  // SPHERE_AAE_SERVE_CONFIG_H_

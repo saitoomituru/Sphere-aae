@@ -1,10 +1,10 @@
 /*!
  *  Copyright (c) 2023-2025 by Contributors
  * \file json_ffi/json_ffi_engine.h
- * \brief The header of JSON FFI engine in MLC LLM.
+ * \brief The header of JSON FFI engine in Astro Agent Edge (AAE).
  */
-#ifndef MLC_LLM_JSON_FFI_JSON_FFI_ENGINE_H_
-#define MLC_LLM_JSON_FFI_JSON_FFI_ENGINE_H_
+#ifndef SPHERE_AAE_JSON_FFI_JSON_FFI_ENGINE_H_
+#define SPHERE_AAE_JSON_FFI_JSON_FFI_ENGINE_H_
 
 #include <string>
 
@@ -13,12 +13,12 @@
 #include "conv_template.h"
 #include "openai_api_protocol.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json_ffi {
 
 using namespace tvm::runtime;
-using namespace mlc::llm::serve;
+using namespace sphere_aae::llm::serve;
 
 /*!
  * \brief // Todo: document this class, fields and member functions
@@ -69,6 +69,6 @@ class JSONFFIEngine {
 
 }  // namespace json_ffi
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_JSON_FFI_JSON_FFI_ENGINE_H_
+#endif  // SPHERE_AAE_JSON_FFI_JSON_FFI_ENGINE_H_

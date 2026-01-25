@@ -7,12 +7,12 @@ Install TVM Compiler
     :local:
     :depth: 2
 
-`TVM Unity <https://discuss.tvm.apache.org/t/establish-tvm-unity-connection-a-technical-strategy/13344>`__, the latest development in Apache TVM, is required to build MLC LLM. Its features include:
+`TVM Unity <https://discuss.tvm.apache.org/t/establish-tvm-unity-connection-a-technical-strategy/13344>`__, the latest development in Apache TVM, is required to build Astro Agent Edge (AAE). Its features include:
 
 - High-performance CPU/GPU code generation instantly without tuning;
 - Dynamic shape and symbolic shape tracking by design;
 - Supporting both inference and training;
-- Productive python-first compiler implementation. As a concrete example, MLC LLM compilation is implemented in pure python using its API.
+- Productive python-first compiler implementation. As a concrete example, Astro Agent Edge (AAE) compilation is implemented in pure python using its API.
 
 TVM can be installed directly from a prebuilt developer package, or built from source.
 
@@ -37,35 +37,35 @@ A nightly prebuilt Python package of Apache TVM is provided.
             .. code-block:: bash
 
               conda activate your-environment
-              python -m pip install --pre -U -f https://mlc.ai/wheels mlc-ai-nightly-cpu
+              python -m pip install --pre -U -f https://sphere_aae.ai/wheels sphere-aae-nightly-cpu
 
          .. tab:: CUDA 12.8
 
             .. code-block:: bash
 
               conda activate your-environment
-              python -m pip install --pre -U -f https://mlc.ai/wheels mlc-ai-nightly-cu128
+              python -m pip install --pre -U -f https://sphere_aae.ai/wheels sphere-aae-nightly-cu128
 
          .. tab:: CUDA 13.0
 
             .. code-block:: bash
 
               conda activate your-environment
-              python -m pip install --pre -U -f https://mlc.ai/wheels mlc-ai-nightly-cu130
+              python -m pip install --pre -U -f https://sphere_aae.ai/wheels sphere-aae-nightly-cu130
 
          .. tab:: ROCm 6.1
 
             .. code-block:: bash
 
               conda activate your-environment
-              python -m pip install --pre -U -f https://mlc.ai/wheels mlc-ai-nightly-rocm61
+              python -m pip install --pre -U -f https://sphere_aae.ai/wheels sphere-aae-nightly-rocm61
 
          .. tab:: ROCm 6.2
 
             .. code-block:: bash
 
               conda activate your-environment
-              python -m pip install --pre -U -f https://mlc.ai/wheels mlc-ai-nightly-rocm62
+              python -m pip install --pre -U -f https://sphere_aae.ai/wheels sphere-aae-nightly-rocm62
 
          .. tab:: Vulkan
 
@@ -88,7 +88,7 @@ A nightly prebuilt Python package of Apache TVM is provided.
             .. code-block:: bash
 
               conda activate your-environment
-              python -m pip install --pre -U -f https://mlc.ai/wheels mlc-ai-nightly-cpu
+              python -m pip install --pre -U -f https://sphere_aae.ai/wheels sphere-aae-nightly-cpu
 
         .. note::
 
@@ -109,7 +109,7 @@ A nightly prebuilt Python package of Apache TVM is provided.
             .. code-block:: bash
 
               conda activate your-environment
-              python -m pip install --pre -U -f https://mlc.ai/wheels mlc-ai-nightly-cpu
+              python -m pip install --pre -U -f https://sphere_aae.ai/wheels sphere-aae-nightly-cpu
 
       .. note::
         Make sure you also install vulkan loader and clang to avoid vulkan
@@ -290,7 +290,7 @@ Therefore, it is highly recommended to validate TVM installation before use.
     USE_ROCM: OFF
 
 .. note::
-    ``GIT_COMMIT_HASH`` indicates the exact commit of the TVM build, and it can be found on GitHub via ``https://github.com/mlc-ai/relax/commit/$GIT_COMMIT_HASH``.
+    ``GIT_COMMIT_HASH`` indicates the exact commit of the TVM build, and it can be found on GitHub via ``https://github.com/sphere-aae/relax/commit/$GIT_COMMIT_HASH``.
 
 **Step 4. Check device detection.** Sometimes it could be helpful to understand if TVM could detect your device at all with the following commands:
 

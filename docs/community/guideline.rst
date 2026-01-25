@@ -7,8 +7,8 @@ Community Guideline
   :depth: 2
   :local:
 
-Welcome to the MLC-LLM community! Just like you, all of us are in awe of the immense power of large language models.
-Our goal for MLC-LLM is to foster a project that is driven by an open-source community, working together to democratize
+Welcome to the Sphere-aae community! Just like you, all of us are in awe of the immense power of large language models.
+Our goal for Sphere-aae is to foster a project that is driven by an open-source community, working together to democratize
 this technology and make it accessible across various devices. We are thrilled to have you as part of our
 community and eagerly anticipate your valuable contributions.
 
@@ -18,8 +18,8 @@ community and eagerly anticipate your valuable contributions.
 Participate in Community Discussions
 ------------------------------------
 
-We encourage open discussions. If you encounter a bug or have a feature request, please file an issue in MLC-LLM's
-GitHub `issue tracker <https://github.com/mlc-ai/mlc-llm/issues>`__. You are encouraged to tag the issue with labels
+We encourage open discussions. If you encounter a bug or have a feature request, please file an issue in Sphere-aae's
+GitHub `issue tracker <https://github.com/sphere-aae/sphere-aae/issues>`__. You are encouraged to tag the issue with labels
 such as "bug," "feature request," or "iOS" so that the relevant developers can quickly notice your concern.
 
 Additionally, we have set up a `discord server <https://discord.gg/9Xpy2HGBuD>`__ for online discussions.
@@ -28,9 +28,9 @@ topic has been discussed there. This ensures that the discussion is archived and
 
 Before submitting an issue, we kindly ask you to check our :doc:`/community/faq` to see if your question has already been answered.
 
-.. _contribute-to-mlc-llm:
+.. _contribute-to-sphere-aae:
 
-Contribute to MLC-LLM
+Contribute to Sphere-aae
 ---------------------
 
 .. _fork-and-create-pull-requests:
@@ -38,26 +38,26 @@ Contribute to MLC-LLM
 Fork and Create Pull Requests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Ready to contribute to MLC-LLM? Awesome! We are excited to see you are ready to contribute your code.
-The standard way to make changes to MLC-LLM code base is through creating a `pull-request <https://github.com/mlc-ai/mlc-llm/pulls>`__,
+Ready to contribute to Sphere-aae? Awesome! We are excited to see you are ready to contribute your code.
+The standard way to make changes to Sphere-aae code base is through creating a `pull-request <https://github.com/sphere-aae/sphere-aae/pulls>`__,
 and we will review your code and merge it to the code base when it is ready.
 
-The first step to becoming a developer is to `fork <https://github.com/mlc-ai/mlc-llm/fork>`__ the repository to your own
-github account, you will notice a repository under ``https://github.com/username/mlc-llm`` where ``username`` is your github user name.
+The first step to becoming a developer is to `fork <https://github.com/sphere-aae/sphere-aae/fork>`__ the repository to your own
+github account, you will notice a repository under ``https://github.com/username/sphere-aae`` where ``username`` is your github user name.
 
 You can clone your fork to your local machine and commit changes, or edit the contents of your fork (in the case you are just fixing typos)
 on GitHub directly. Once your update is complete, you can click the ``contribute`` button and open a pull request to the main repository.
 
 .. _contribute-new-models:
 
-Contribute New Models to MLC-LLM
+Contribute New Models to Sphere-aae
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * If you have compiled a model using our :doc:`/compilation/compile_models` tutorial for an existing model architecture, please upload your models to the internet (e.g., Hugging Face) by following :ref:`distribute-compiled-models` tutorial.
 
-* If you add a new model variant to MLC-LLM by following our :doc:`/compilation/define_new_models` tutorial.
+* If you add a new model variant to Sphere-aae by following our :doc:`/compilation/define_new_models` tutorial.
   Please create a pull request to add your model architecture (currently model architectures are placed under
-  `relax_models <https://github.com/mlc-ai/mlc-llm/tree/main/mlc_llm/relax_model>`__ folder).
+  `relax_models <https://github.com/sphere-aae/sphere-aae/tree/main/sphere_aae/relax_model>`__ folder).
 
 .. _coding-styles:
 
@@ -121,5 +121,5 @@ Contributors
 ^^^^^^^^^^^^
 We also welcome contributors if you are not ready to be a committer yet. Everyone who contributes to
 the project (in the form of code, bugfix, documentation, tutorials, etc) is a contributor.
-We maintain a `page <https://github.com/mlc-ai/mlc-llm/blob/main/CONTRIBUTORS.md>`__ to acknowledge contributors,
+We maintain a `page <https://github.com/sphere-aae/sphere-aae/blob/main/CONTRIBUTORS.md>`__ to acknowledge contributors,
 please let us know if you contribute to the project and if your name is not included in the list.

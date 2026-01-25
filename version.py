@@ -4,7 +4,7 @@ This is the global script that set the version information of TVM.
 This script runs and update all the locations that related to versions
 
 List of affected files:
-- mlc-llm-root/pyproject.toml
+- sphere-aae-root/pyproject.toml
 """
 import argparse
 import logging

@@ -1,3 +1,3 @@
-# MLC-LLM iOS
+# Sphere-aae iOS
 
-[Documentation page](https://llm.mlc.ai/docs/deploy/ios.html)
+[Documentation page](https://llm.sphere_aae.ai/docs/deploy/ios.html)

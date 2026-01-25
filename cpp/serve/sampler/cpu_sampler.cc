@@ -13,7 +13,7 @@
 #include "../../support/random.h"
 #include "sampler.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -585,4 +585,4 @@ Sampler Sampler::CreateCPUSampler(Optional<EventTraceRecorder> trace_recorder) {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

@@ -1,8 +1,8 @@
 /*!
  * \file builtin.cc
- * \brief Multi-GPU builtin functions in MLC LLM.
+ * \brief Multi-GPU builtin functions in Astro Agent Edge (AAE).
  */
-#ifndef MLC_SINGLE_GPU_ONLY
+#ifndef SPHERE_AAE_SINGLE_GPU_ONLY
 
 #include <tvm/ffi/container/array.h>
 #include <tvm/ffi/container/shape.h>
@@ -15,7 +15,7 @@
 #include <tvm/runtime/tensor.h>
 #include <tvm/runtime/vm/vm.h>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace multi_gpu {
 
@@ -89,12 +89,12 @@ ObjectRef SendFromLastGroupToWorker0(Tensor send, Optional<Tensor> recv, Shape s
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def("mlc.multi_gpu.DispatchFunctionByGroup", DispatchFunctionByGroup)
-      .def("mlc.multi_gpu.SendFromLastGroupToWorker0", SendFromLastGroupToWorker0);
+      .def("sphere_aae.multi_gpu.DispatchFunctionByGroup", DispatchFunctionByGroup)
+      .def("sphere_aae.multi_gpu.SendFromLastGroupToWorker0", SendFromLastGroupToWorker0);
 }
 
 }  // namespace multi_gpu
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_SINGLE_GPU_ONLY
+#endif  // SPHERE_AAE_SINGLE_GPU_ONLY

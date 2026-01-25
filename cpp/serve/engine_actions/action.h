@@ -4,8 +4,8 @@
  * \brief The abstraction of actions (e.g., prefill/decode) that an
  * Engine can take at each time step.
  */
-#ifndef MLC_LLM_SERVE_ENGINE_ACTIONS_ACTION_H_
-#define MLC_LLM_SERVE_ENGINE_ACTIONS_ACTION_H_
+#ifndef SPHERE_AAE_SERVE_ENGINE_ACTIONS_ACTION_H_
+#define SPHERE_AAE_SERVE_ENGINE_ACTIONS_ACTION_H_
 
 #include "../config.h"
 #include "../draft_token_workspace_manager.h"
@@ -15,7 +15,7 @@
 #include "../model.h"
 #include "../sampler/sampler.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -46,7 +46,7 @@ class EngineActionObj : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.EngineAction", EngineActionObj, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.EngineAction", EngineActionObj, Object);
 };
 
 /*!
@@ -253,6 +253,6 @@ class EngineAction : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_ENGINE_ACTIONS_ACTION_H_
+#endif  // SPHERE_AAE_SERVE_ENGINE_ACTIONS_ACTION_H_

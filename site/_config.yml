@@ -1,14 +1,14 @@
-name: "MLC LLM"
-short_name: "MLC LLM"
+name: "Astro Agent Edge (AAE)"
+short_name: "Astro Agent Edge (AAE)"
 
-url: https://llm.mlc.ai/
+url: https://llm.sphere_aae.ai/
 
 exclude: [README.md, serve_local.sh]
 
 plugins:
   - jekyll-remote-theme
 
-remote_theme: mlc-ai/jekyll-theme-mlc
+remote_theme: sphere-aae/jekyll-theme-sphere-aae
 
 
 # Colorize code snippets with the rogue module if we want to deploy on GH.
@@ -39,4 +39,4 @@ navigation:
   - title: Docs
     link: /docs
   - title: Github
-    link: https://github.com/mlc-ai/mlc-llm
+    link: https://github.com/sphere-aae/sphere-aae

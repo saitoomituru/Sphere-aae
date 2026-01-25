@@ -33,7 +33,7 @@ Validate that emcc is accessible in shell
         function="proc_exit": function import requires a callable
 
 
-Step 2: Set TVM_SOURCE_DIR and MLC_LLM_SOURCE_DIR
+Step 2: Set TVM_SOURCE_DIR and SPHERE_AAE_SOURCE_DIR
 -------------------------------------------------
 
 We need to set a path to a tvm source in order to build tvm runtime.
@@ -41,25 +41,25 @@ Note that you do not need to build TVM from the source. The source here is only 
 Set environment variable in your shell startup profile in to point to ``3rdparty/tvm`` (if preferred, you could also
 point to your own TVM address if you installed TVM from source).
 
-Besides, we also need to set ``MLC_LLM_SOURCE_DIR`` so that we can locate ``mlc_wasm_runtime.bc`` when compiling a model library wasm.
+Besides, we also need to set ``SPHERE_AAE_SOURCE_DIR`` so that we can locate ``sphere_aae_wasm_runtime.bc`` when compiling a model library wasm.
 
 .. code:: bash
 
     export TVM_SOURCE_DIR=/path/to/3rdparty/tvm
-    export MLC_LLM_SOURCE_DIR=/path/to/mlc-llm
+    export SPHERE_AAE_SOURCE_DIR=/path/to/sphere-aae
 
 
 Step 3: Prepare Wasm Runtime
 ----------------------------
 
-First, we need to obtain a copy of the mlc-llm source code for the setup script
+First, we need to obtain a copy of the sphere-aae source code for the setup script
 
 .. code:: bash
 
-    git clone https://github.com/mlc-ai/mlc-llm.git --recursive
-    cd mlc-llm
+    git clone https://github.com/sphere-aae/sphere-aae.git --recursive
+    cd sphere-aae
 
-Now we can prepare wasm runtime using the script in mlc-llm repo
+Now we can prepare wasm runtime using the script in sphere-aae repo
 
 .. code:: bash
 

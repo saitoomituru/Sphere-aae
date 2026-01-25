@@ -3,15 +3,15 @@
  * \file support/encoding.h
  * \brief Encoding and decoding from/to UTF-8 and escape sequence to/from codepoints.
  */
-#ifndef MLC_LLM_SUPPORT_ENCODING_H_
-#define MLC_LLM_SUPPORT_ENCODING_H_
+#ifndef SPHERE_AAE_SUPPORT_ENCODING_H_
+#define SPHERE_AAE_SUPPORT_ENCODING_H_
 
 #include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 /*! \brief Represents a unicode codepoint. */
@@ -109,6 +109,6 @@ std::pair<TCodepoint, const char*> ParseNextUTF8OrEscaped(
     const std::unordered_map<std::string, TCodepoint>& additional_escape_map = {});
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_ENCODING_H_
+#endif  // SPHERE_AAE_SUPPORT_ENCODING_H_

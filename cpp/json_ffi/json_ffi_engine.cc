@@ -12,7 +12,7 @@
 #include "../support/json_parser.h"
 #include "../support/result.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace json_ffi {
 
@@ -153,7 +153,7 @@ JSONFFIEngine::~JSONFFIEngine() { this->ExitBackgroundLoop(); }
 
 class JSONFFIEngineImpl : public JSONFFIEngine, public ffi::ModuleObj {
  public:
-  TVM_MODULE_VTABLE_BEGIN("mlc.json_ffi");
+  TVM_MODULE_VTABLE_BEGIN("sphere_aae.json_ffi");
   TVM_MODULE_VTABLE_ENTRY("init_background_engine", &JSONFFIEngineImpl::InitBackgroundEngine);
   TVM_MODULE_VTABLE_ENTRY("reload", &JSONFFIEngineImpl::Reload);
   TVM_MODULE_VTABLE_ENTRY("unload", &JSONFFIEngineImpl::Unload);
@@ -298,10 +298,10 @@ class JSONFFIEngineImpl : public JSONFFIEngine, public ffi::ModuleObj {
 
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
-  refl::GlobalDef().def("mlc.json_ffi.CreateJSONFFIEngine",
+  refl::GlobalDef().def("sphere_aae.json_ffi.CreateJSONFFIEngine",
                         []() { return ffi::Module(tvm::ffi::make_object<JSONFFIEngineImpl>()); });
 }
 
 }  // namespace json_ffi
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

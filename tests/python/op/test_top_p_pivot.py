@@ -3,7 +3,7 @@ import pytest
 import tvm
 import tvm.testing
 
-from mlc_llm.op.top_p_pivot import top_p_pivot, top_p_renorm
+from sphere_aae.op.top_p_pivot import top_p_pivot, top_p_renorm
 
 # mypy: disable-error-code="var-annotated"
 

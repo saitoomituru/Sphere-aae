@@ -4,7 +4,7 @@
 
 set -euxo pipefail
 
-scripts/build_mlc_for_docs.sh
+scripts/build_sphere_aae_for_docs.sh
 scripts/build_site.sh
 
 git fetch

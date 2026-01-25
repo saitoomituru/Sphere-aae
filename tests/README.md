@@ -1,4 +1,4 @@
-# MLC LLM Tests
+# Astro Agent Edge (AAE) Tests
 
 We primarily relies on pytest to test our engine.
 Most of the unit functionalities in C++ can be exposed via TVM FFI,

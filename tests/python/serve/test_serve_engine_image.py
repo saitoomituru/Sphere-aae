@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve import data
-from mlc_llm.serve.sync_engine import EngineConfig, SyncMLCEngine
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve import data
+from sphere_aae.serve.sync_engine import EngineConfig, SyncSphereAaeEngine
 
 
 def get_test_image(config) -> data.ImageData:
@@ -12,9 +12,9 @@ def get_test_image(config) -> data.ImageData:
 
 def test_engine_generate():
     # Create engine
-    model = "dist/llava-1.5-7b-hf-q4f16_1-MLC/params"
-    model_lib = "dist/llava-1.5-7b-hf-q4f16_1-MLC/llava-1.5-7b-hf-q4f16_1-MLC.so"
-    engine = SyncMLCEngine(
+    model = "dist/llava-1.5-7b-hf-q4f16_1-AAE/params"
+    model_lib = "dist/llava-1.5-7b-hf-q4f16_1-AAE/llava-1.5-7b-hf-q4f16_1-AAE.so"
+    engine = SyncSphereAaeEngine(
         model=model,
         model_lib=model_lib,
         mode="server",
@@ -22,7 +22,7 @@ def test_engine_generate():
     )
     max_tokens = 256
 
-    with open(Path(model) / "mlc-chat-config.json", "r", encoding="utf-8") as file:
+    with open(Path(model) / "sphere-aae-chat-config.json", "r", encoding="utf-8") as file:
         model_config = json.load(file)
 
     prompts = [

@@ -9,7 +9,7 @@
 
 #include "model.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -83,8 +83,8 @@ ObjectRef TextDataNode::GetEmbedding(Model model, ObjectRef* dst, int offset) co
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def("mlc.serve.TextData", [](String text) { return TextData(std::move(text)); })
-      .def("mlc.serve.TextDataGetTextString", [](TextData data) { return data->text; });
+      .def("sphere_aae.serve.TextData", [](String text) { return TextData(std::move(text)); })
+      .def("sphere_aae.serve.TextDataGetTextString", [](TextData data) { return data->text; });
 }
 
 /****************** TokenData ******************/
@@ -110,7 +110,7 @@ ObjectRef TokenDataNode::GetEmbedding(Model model, ObjectRef* dst, int offset) c
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def_packed("mlc.serve.TokenData",
+      .def_packed("sphere_aae.serve.TokenData",
                   [](ffi::PackedArgs args, ffi::Any* rv) {
                     std::vector<int32_t> token_ids;
                     token_ids.reserve(args.size());
@@ -119,7 +119,7 @@ TVM_FFI_STATIC_INIT_BLOCK() {
                     }
                     *rv = TokenData(std::move(token_ids));
                   })
-      .def("mlc.serve.TokenDataGetTokenIds", [](TokenData data) { return data->token_ids; });
+      .def("sphere_aae.serve.TokenDataGetTokenIds", [](TokenData data) { return data->token_ids; });
 }
 
 /****************** ImageData ******************/
@@ -140,9 +140,9 @@ ObjectRef ImageDataNode::GetEmbedding(Model model, ObjectRef* dst, int offset) c
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
   refl::GlobalDef()
-      .def("mlc.serve.ImageData",
+      .def("sphere_aae.serve.ImageData",
            [](Tensor image, int embed_size) { return ImageData(std::move(image), embed_size); })
-      .def("mlc.serve.ImageDataGetImage", [](ImageData data) { return data->image; });
+      .def("sphere_aae.serve.ImageDataGetImage", [](ImageData data) { return data->image; });
 }
 
 /****************** SampleResult ******************/
@@ -233,7 +233,7 @@ RequestStreamOutput RequestStreamOutput::Usage(String request_id,
 
 TVM_FFI_STATIC_INIT_BLOCK() {
   namespace refl = tvm::ffi::reflection;
-  refl::GlobalDef().def("mlc.serve.RequestStreamOutputUnpack", [](RequestStreamOutput output) {
+  refl::GlobalDef().def("sphere_aae.serve.RequestStreamOutputUnpack", [](RequestStreamOutput output) {
     CHECK(!output->unpacked) << "One RequestStreamOutput can be unpacked for at most once.";
     std::vector<IntTuple> group_delta_token_ids;
     std::vector<Array<String>> group_delta_logprob_json_strs;
@@ -262,4 +262,4 @@ TVM_FFI_STATIC_INIT_BLOCK() {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae

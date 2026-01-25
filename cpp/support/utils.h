@@ -3,8 +3,8 @@
  * \file support/utils.h
  * \brief Utility functions.
  */
-#ifndef MLC_LLM_SUPPORT_UTILS_H_
-#define MLC_LLM_SUPPORT_UTILS_H_
+#ifndef SPHERE_AAE_SUPPORT_UTILS_H_
+#define SPHERE_AAE_SUPPORT_UTILS_H_
 
 #include <dmlc/memory_io.h>
 
@@ -14,7 +14,7 @@
 
 #include "../../3rdparty/tvm/src/support/base64.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 
 /*! \brief Split the input string by the given delimiter character. */
@@ -51,9 +51,9 @@ inline bool StartsWith(const std::string& str, const char* prefix) {
  */
 inline std::string Base64Encode(std::string str) {
   std::string result;
-  dmlc::MemoryStringStream m_stream(&result);
+  dsphere_aae::MemoryStringStream m_stream(&result);
   tvm::support::Base64OutStream b64stream(&m_stream);
-  static_cast<dmlc::Stream*>(&b64stream)->Write(str);
+  static_cast<dsphere_aae::Stream*>(&b64stream)->Write(str);
   b64stream.Finish();
   return result;
 }
@@ -65,14 +65,14 @@ inline std::string Base64Encode(std::string str) {
  */
 inline std::string Base64Decode(std::string str) {
   std::string result;
-  dmlc::MemoryStringStream m_stream(&str);
+  dsphere_aae::MemoryStringStream m_stream(&str);
   tvm::support::Base64InStream b64stream(&m_stream);
   b64stream.InitPosition();
-  static_cast<dmlc::Stream*>(&b64stream)->Read(&result);
+  static_cast<dsphere_aae::Stream*>(&b64stream)->Read(&result);
   return result;
 }
 
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SUPPORT_UTILS_H_
+#endif  // SPHERE_AAE_SUPPORT_UTILS_H_

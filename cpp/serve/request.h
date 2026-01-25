@@ -3,8 +3,8 @@
  * \file serve/request.h
  * \brief Implementation of llm chat.
  */
-#ifndef MLC_LLM_SERVE_REQUEST_H_
-#define MLC_LLM_SERVE_REQUEST_H_
+#ifndef SPHERE_AAE_SERVE_REQUEST_H_
+#define SPHERE_AAE_SERVE_REQUEST_H_
 
 #include <tvm/ffi/container/array.h>
 #include <tvm/ffi/reflection/registry.h>
@@ -15,7 +15,7 @@
 #include "config.h"
 #include "data.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -64,7 +64,7 @@ class RequestNode : public Object {
   static constexpr const bool _type_has_method_sequal_reduce = false;
   static constexpr const bool _type_has_method_shash_reduce = false;
   static constexpr const bool _type_mutable = true;
-  TVM_FFI_DECLARE_OBJECT_INFO("mlc.serve.Request", RequestNode, Object);
+  TVM_FFI_DECLARE_OBJECT_INFO("sphere_aae.serve.Request", RequestNode, Object);
 };
 
 class Request : public ObjectRef {
@@ -85,6 +85,6 @@ class Request : public ObjectRef {
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
 
-#endif  // MLC_LLM_SERVE_REQUEST_H_
+#endif  // SPHERE_AAE_SERVE_REQUEST_H_

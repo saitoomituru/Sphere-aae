@@ -3,9 +3,9 @@
 import asyncio
 from typing import List
 
-from mlc_llm.protocol.generation_config import GenerationConfig
-from mlc_llm.serve import AsyncMLCEngine, EngineConfig
-from mlc_llm.testing import require_test_model
+from sphere_aae.protocol.generation_config import GenerationConfig
+from sphere_aae.serve import AsyncSphereAaeEngine, EngineConfig
+from sphere_aae.testing import require_test_model
 
 prompts = [
     "What is the meaning of life?",
@@ -21,10 +21,10 @@ prompts = [
 ]
 
 
-@require_test_model("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q4f16_1-AAE")
 async def test_engine_generate(model: str):
     # Create engine
-    async_engine = AsyncMLCEngine(
+    async_engine = AsyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(max_total_sequence_length=4096),
@@ -39,7 +39,7 @@ async def test_engine_generate(model: str):
     ]
 
     async def generate_task(
-        async_engine: AsyncMLCEngine,
+        async_engine: AsyncSphereAaeEngine,
         prompt: str,
         generation_cfg: GenerationConfig,
         request_id: str,
@@ -79,10 +79,10 @@ async def test_engine_generate(model: str):
     del async_engine
 
 
-@require_test_model("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q4f16_1-AAE")
 async def test_chat_completion(model: str):
     # Create engine
-    async_engine = AsyncMLCEngine(
+    async_engine = AsyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(max_total_sequence_length=4096),
@@ -130,10 +130,10 @@ async def test_chat_completion(model: str):
     del async_engine
 
 
-@require_test_model("Llama-2-7b-chat-hf-q4f16_1-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q4f16_1-AAE")
 async def test_chat_completion_non_stream(model: str):
     # Create engine
-    async_engine = AsyncMLCEngine(
+    async_engine = AsyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(max_total_sequence_length=4096),
@@ -180,10 +180,10 @@ async def test_chat_completion_non_stream(model: str):
     del async_engine
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 async def test_completion(model: str):
     # Create engine
-    async_engine = AsyncMLCEngine(
+    async_engine = AsyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(max_total_sequence_length=4096),
@@ -230,10 +230,10 @@ async def test_completion(model: str):
     del async_engine
 
 
-@require_test_model("Llama-2-7b-chat-hf-q0f16-MLC")
+@require_test_model("Llama-2-7b-chat-hf-q0f16-AAE")
 async def test_completion_non_stream(model: str):
     # Create engine
-    async_engine = AsyncMLCEngine(
+    async_engine = AsyncSphereAaeEngine(
         model=model,
         mode="server",
         engine_config=EngineConfig(max_total_sequence_length=4096),

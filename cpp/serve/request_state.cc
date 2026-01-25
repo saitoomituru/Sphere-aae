@@ -5,7 +5,7 @@
 
 #include "request_state.h"
 
-namespace mlc {
+namespace sphere_aae {
 namespace llm {
 namespace serve {
 
@@ -293,4 +293,4 @@ RequestState::RequestState(std::vector<RequestStateEntry> entries, int num_respo
 
 }  // namespace serve
 }  // namespace llm
-}  // namespace mlc
+}  // namespace sphere_aae
