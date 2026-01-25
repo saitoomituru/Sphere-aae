@@ -1,30 +1,30 @@
-# MLC-LLM Documentation
+# MLC-LLM ドキュメント（Documentation）
 
-The documentation was built upon [Sphinx](https://www.sphinx-doc.org/en/master/).
+このドキュメントは [Sphinx](https://www.sphinx-doc.org/en/master/) により構築されています。
 
-## Dependencies
+## 依存関係（Dependencies）
 
-Run the following command in this directory to install dependencies first:
+まず、このディレクトリで以下のコマンドを実行して依存関係をインストールします。
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-## Build the Documentation
+## ドキュメントのビルド（Build the Documentation）
 
-Then you can build the documentation by running:
+次に、以下のコマンドでドキュメントをビルドできます。
 
 ```bash
 make html
 ```
 
-## View the Documentation
+## ドキュメントの閲覧（View the Documentation）
 
-Run the following command to start a simple HTTP server:
+次のコマンドでシンプルなHTTPサーバーを起動します。
 
 ```bash
 cd _build/html
 python3 -m http.server
 ```
 
-Then you can view the documentation in your browser at `http://localhost:8000` (the port can be customized by appending ` -p PORT_NUMBER` in the python command above).
+その後、ブラウザで `http://localhost:8000` を開いてドキュメントを閲覧できます（ポートは上記の Python コマンドに ` -p PORT_NUMBER` を付けて変更可能です）。

@@ -1,21 +1,50 @@
 <div align="center">
 
-# MLC LLM
+# Sphere-mlc — MLC LLM を基盤としたローカルAIシステム向け派生プロジェクト
 
 [![Installation](https://img.shields.io/badge/docs-latest-green)](https://llm.mlc.ai/docs/)
 [![License](https://img.shields.io/badge/license-apache_2-blue)](https://github.com/mlc-ai/mlc-llm/blob/main/LICENSE)
-[![Join Discoard](https://img.shields.io/badge/Join-Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/9Xpy2HGBuD)
 [![Related Repository: WebLLM](https://img.shields.io/badge/Related_Repo-WebLLM-fafbfc?logo=github)](https://github.com/mlc-ai/web-llm/)
 
-**Universal LLM Deployment Engine with ML Compilation**
+**MLコンパイル（ML Compilation）によるユニバーサルLLMデプロイエンジン（Universal LLM Deployment Engine）**
 
 [Get Started](https://llm.mlc.ai/docs/get_started/quick_start) | [Documentation](https://llm.mlc.ai/docs) | [Blog](https://blog.mlc.ai/)
 
 </div>
 
-## About
+## 概要（About）
 
-MLC LLM is a machine learning compiler and high-performance deployment engine for large language models.  The mission of this project is to enable everyone to develop, optimize, and deploy AI models natively on everyone's platforms. 
+Sphere-mlc は MLC LLM (https://github.com/mlc-ai/mlc-llm) を基盤とした派生OSSであり、本家のライセンスおよび著作権表記を尊重しつつ発展させることを目的としています。
+
+MLC LLM 本体の開発・サポートは元コミュニティで行われています。Sphere-mlc は独自運用・独自進化を前提とした派生プロジェクトのため、Sphere-mlc に関する質問や要望は元コミュニティではなく本プロジェクト側の窓口にお寄せください。
+
+MLC LLM は大規模言語モデル（Large Language Models: LLMs）向けの機械学習コンパイラ（Machine Learning Compiler）兼 高性能デプロイメントエンジン（High-performance Deployment Engine）です。本プロジェクトの使命（mission）は、誰もがあらゆるプラットフォーム上でAIモデルをネイティブに開発・最適化・デプロイできるようにすることです。 
+
+## プロジェクトの方針（Project Identity）
+
+- **ローカルファーストAI（Local-first AI）への最適化**：クラウド依存を最小化し、端末上での推論（Inference）体験を重視します。
+- **構造実験・アーキテクチャ改造のための派生**：MLC LLM の設計を土台に、構造的な実験やアーキテクチャ変更を行うための派生プロジェクトとして位置付けます。
+- **エッジ環境での推論を重視する方針**：モバイルや組み込みなどのエッジ（Edge）環境での推論最適化を重視します。
+
+## 設計思想・運用原則（Design Principles & Operations）
+
+Sphere-mlc は単なる推論エンジンではなく、人格主体性・記憶連続性・説明責任を備えた**人格基盤（persona substrate）**を志向します。運用者は「何を優先し、何を制約とするか」という価値前提を明示する責任を負い、推論の判断根拠を説明可能に保つことを重要視します。
+
+- **主体性（Agency）**：AI をツールではなく、役割・記憶・責任範囲を持つ情報主体として扱います。主体性は運用ポリシーの外部記述だけでなく、人格基盤としての一貫した制約により担保されます。
+- **意味記憶の状態保持**：意味記憶（semantic memory）を、単なる検索対象ではなく状態保持層として扱います。ベクトル空間の分布・相関は、推論の前提状態として継続的に参照され、運用上の連続性を担います。
+- **情報子（Infoton）構造**：情報子は物理量子ではなく、非決定性・観測制約・相関構造を抽象化した情報工学上の単位です。情報子は記憶・推論・観測の相互関係を記述するための構造的概念であり、比喩ではありません。
+- **ローカル永続とエッジ優先**：ローカル実行と状態永続を前提とし、エッジ環境での推論と記憶の継続性を最優先します。クラウド依存は必要最小限に留めます。
+- **説明可能性の最優先**：高速化のみを目的とせず、推論の判断理由・参照した状態・採用した前提が追跡可能であることを優先します。
+- **価値前提の明示責任**：宗教・哲学・倫理を含む価値前提は不可避であり、運用者が明示する責任があります。中立幻想や科学主義的な単一価値の押し付けを避け、前提を可視化します。
+- **非排他的・多元的運用**：単一の価値体系に固定せず、複数の価値体系が共存しうる運用を想定します。Sphere OS / Fold 構造は、価値前提の可視化と運用上の説明責任を同時に支えるための実装枠組みです。
+
+## サポート・コミュニティ（Support & Community）
+
+Sphere-mlc は MLC LLM を基盤とした派生プロジェクトですが、サポートや議論の窓口は Sphere 側に移行しています。MLC LLM への問い合わせは“禁止”ではありませんが、Sphere-mlc の個別運用や独自仕様については本家コミュニティの対象外となるため、以下の公式チャネルをご利用ください。
+
+- 公式ドキュメント: https://quantaril.cloud/
+- 開発チーム／フォーラム: https://forum.i-s.dev/landing#/
+- 公式X（旧Twitter）: https://x.com/K_chachamaru
 
 <div align="center">
 <table style="width:100%">
@@ -60,18 +89,18 @@ MLC LLM is a machine learning compiler and high-performance deployment engine fo
 </table>
 </div>
 
-MLC LLM compiles and runs code on MLCEngine -- a unified high-performance LLM inference engine across the above platforms. MLCEngine provides OpenAI-compatible API available through REST server, python, javascript, iOS, Android, all backed by the same engine and compiler that we keep improving with the community.
+MLC LLM は MLCEngine 上でコードをコンパイル・実行します。MLCEngine は上記プラットフォームで統一的に動作する高性能LLM推論エンジンです。MLCEngine は OpenAI 互換API（OpenAI-compatible API）を提供し、RESTサーバー、Python、JavaScript、iOS、Android から利用できます。これらはすべて、コミュニティと共に継続的に改善している同一のエンジンとコンパイラに支えられています。
 
-## Get Started
+## はじめに（Get Started）
 
-Please visit our [documentation](https://llm.mlc.ai/docs/) to get started with MLC LLM.
+MLC LLM を使い始めるには、[ドキュメント（documentation）](https://llm.mlc.ai/docs/) を参照してください。
 - [Installation](https://llm.mlc.ai/docs/install/mlc_llm)
 - [Quick start](https://llm.mlc.ai/docs/get_started/quick_start)
 - [Introduction](https://llm.mlc.ai/docs/get_started/introduction)
 
-## Citation
+## 引用（Citation）
 
-Please consider citing our project if you find it useful:
+本プロジェクトが有用であれば、以下の形式で引用（citation）をご検討ください。
 
 ```bibtex
 @software{mlc-llm,
@@ -82,7 +111,7 @@ Please consider citing our project if you find it useful:
 }
 ```
 
-The underlying techniques of MLC LLM include:
+MLC LLM の基盤となる技術には以下が含まれます：
 
 <details>
   <summary>References (Click to expand)</summary>
