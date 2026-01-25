@@ -1,22 +1,22 @@
 .. _quick-start:
 
-Quick Start
-===========
+クイックスタート（Quick Start）
+===============================
 
-Examples
---------
+例（Examples）
+--------------
 
-To begin with, try out MLC LLM support for int4-quantized Llama3 8B.
-It is recommended to have at least 6GB free VRAM to run it.
+まずは、int4 量子化（int4-quantized）された Llama3 8B に対する MLC LLM のサポートを試してください。
+実行には少なくとも 6GB の空き VRAM があることを推奨します。
 
 .. tabs::
 
   .. tab:: Python
 
-    **Install MLC LLM**. :ref:`MLC LLM <install-mlc-packages>` is available via pip.
-    It is always recommended to install it in an isolated conda virtual environment.
+    **MLC LLM をインストール**。:ref:`MLC LLM <install-mlc-packages>` は pip で入手できます。
+    分離された conda 仮想環境（conda virtual environment）にインストールすることを常に推奨します。
 
-    **Run chat completion in Python.** The following Python script showcases the Python API of MLC LLM:
+    **Python でチャット補完（chat completion）を実行**。以下の Python スクリプトは、MLC LLM の Python API を示します。
 
     .. code:: python
 
@@ -40,7 +40,7 @@ It is recommended to have at least 6GB free VRAM to run it.
 
     .. Todo: link the colab notebook when ready:
 
-    **Documentation and tutorial.** Python API reference and its tutorials are :ref:`available online <deploy-python-engine>`.
+    **ドキュメントとチュートリアル**。Python API のリファレンスとチュートリアルは :ref:`オンラインで利用可能 <deploy-python-engine>` です。
 
     .. figure:: https://raw.githubusercontent.com/mlc-ai/web-data/main/images/mlc-llm/tutorials/python-engine-api.jpg
       :width: 600
@@ -50,17 +50,17 @@ It is recommended to have at least 6GB free VRAM to run it.
 
   .. tab:: REST Server
 
-    **Install MLC LLM**. :ref:`MLC LLM <install-mlc-packages>` is available via pip.
-    It is always recommended to install it in an isolated conda virtual environment.
+    **MLC LLM をインストール**。:ref:`MLC LLM <install-mlc-packages>` は pip で入手できます。
+    分離された conda 仮想環境（conda virtual environment）にインストールすることを常に推奨します。
 
-    **Launch a REST server.** Run the following command from command line to launch a REST server at ``http://127.0.0.1:8000``.
+    **REST サーバーを起動**。コマンドラインから次のコマンドを実行して ``http://127.0.0.1:8000`` に REST サーバーを起動します。
 
     .. code:: shell
 
       mlc_llm serve HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC
 
-    **Send requests to server.** When the server is ready (showing ``INFO: Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)``),
-    open a new shell and send a request via the following command:
+    **サーバーへリクエストを送信**。サーバーの準備ができたら（``INFO: Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)`` と表示されたら）、
+    新しいシェルを開き、以下のコマンドでリクエストを送信します。
 
     .. code:: shell
 
@@ -74,8 +74,8 @@ It is recommended to have at least 6GB free VRAM to run it.
         }' \
         http://127.0.0.1:8000/v1/chat/completions
 
-    **Documentation and tutorial.** Check out :ref:`deploy-rest-api` for the REST API reference and tutorial.
-    Our REST API has complete OpenAI API support.
+    **ドキュメントとチュートリアル**。REST API のリファレンスとチュートリアルは :ref:`deploy-rest-api` を参照してください。
+    REST API は OpenAI API を完全にサポートしています。
 
     .. figure:: https://raw.githubusercontent.com/mlc-ai/web-data/main/images/mlc-llm/tutorials/python-serve-request.jpg
       :width: 600
@@ -85,21 +85,21 @@ It is recommended to have at least 6GB free VRAM to run it.
 
   .. tab:: Command Line
 
-    **Install MLC LLM**. :ref:`MLC LLM <install-mlc-packages>` is available via pip.
-    It is always recommended to install it in an isolated conda virtual environment.
+    **MLC LLM をインストール**。:ref:`MLC LLM <install-mlc-packages>` は pip で入手できます。
+    分離された conda 仮想環境（conda virtual environment）にインストールすることを常に推奨します。
 
-    For Windows/Linux users, make sure to have latest :ref:`Vulkan driver <vulkan_driver>` installed.
+    Windows/Linux ユーザーは、最新の :ref:`Vulkan ドライバ <vulkan_driver>` をインストールしていることを確認してください。
 
-    **Run in command line**.
+    **コマンドラインで実行**。
 
     .. code:: bash
 
       mlc_llm chat HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC
 
 
-    If you are using windows/linux/steamdeck and would like to use vulkan,
-    we recommend installing necessary vulkan loader dependency via conda
-    to avoid vulkan not found issues.
+    Windows/Linux/Steam Deck で Vulkan を使いたい場合は、
+    Vulkan が見つからない問題を避けるため、conda で必要な Vulkan ローダー（loader）依存関係を
+    インストールすることを推奨します。
 
     .. code:: bash
 
@@ -108,14 +108,15 @@ It is recommended to have at least 6GB free VRAM to run it.
 
   .. tab:: Web Browser
 
-    `WebLLM <https://webllm.mlc.ai/#chat-demo>`__. MLC LLM generates performant code for WebGPU and WebAssembly,
-    so that LLMs can be run locally in a web browser without server resources.
+    `WebLLM <https://webllm.mlc.ai/#chat-demo>`__。MLC LLM は WebGPU と WebAssembly 用の高性能コードを生成するため、
+    サーバーリソースなしでウェブブラウザ上で LLM をローカル実行できます。
 
-    **Download pre-quantized weights**. This step is self-contained in WebLLM.
+    **事前量子化（pre-quantized）重みのダウンロード**。この手順は WebLLM 内で完結します。
 
-    **Download pre-compiled model library**. WebLLM automatically downloads WebGPU code to execute.
+    **事前コンパイル済みモデルライブラリのダウンロード**。WebLLM は実行用 WebGPU コードを自動的にダウンロードします。
 
-    **Check browser compatibility**. The latest Google Chrome provides WebGPU runtime and `WebGPU Report <https://webgpureport.org/>`__ as a useful tool to verify WebGPU capabilities of your browser.
+    **ブラウザ互換性の確認**。最新の Google Chrome には WebGPU ランタイムが搭載されており、
+    `WebGPU Report <https://webgpureport.org/>`__ はブラウザの WebGPU 対応状況を確認するための有用なツールです。
 
     .. figure:: https://blog.mlc.ai/img/redpajama/web.gif
       :width: 300
@@ -125,7 +126,7 @@ It is recommended to have at least 6GB free VRAM to run it.
 
   .. tab:: iOS
 
-    **Install MLC Chat iOS**. It is available on AppStore:
+    **MLC Chat iOS をインストール**。App Store で入手できます：
 
     .. image:: https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg
       :width: 135
@@ -133,10 +134,10 @@ It is recommended to have at least 6GB free VRAM to run it.
 
     |
 
-    **Note**. The larger model might take more VRAM, try start with smaller models first.
+    **注意（Note）**。大きなモデルほど VRAM を多く消費するため、まずは小さいモデルから試してください。
 
-    **Tutorial and source code**. The source code of the iOS app is fully `open source <https://github.com/mlc-ai/mlc-llm/tree/main/ios>`__,
-    and a :ref:`tutorial <deploy-ios>` is included in documentation.
+    **チュートリアルとソースコード**。iOS アプリのソースコードは完全に `オープンソース <https://github.com/mlc-ai/mlc-llm/tree/main/ios>`__ で、
+    ドキュメントに :ref:`チュートリアル <deploy-ios>` が含まれています。
 
     .. figure:: https://blog.mlc.ai/img/redpajama/ios.gif
       :width: 300
@@ -146,7 +147,7 @@ It is recommended to have at least 6GB free VRAM to run it.
 
   .. tab:: Android
 
-    **Install MLC Chat Android**. A prebuilt is available as an APK:
+    **MLC Chat Android をインストール**。APK としてプリビルド（prebuilt）が提供されています：
 
     .. image:: https://seeklogo.com/images/D/download-android-apk-badge-logo-D074C6882B-seeklogo.com.png
       :width: 135
@@ -154,15 +155,15 @@ It is recommended to have at least 6GB free VRAM to run it.
 
     |
 
-    **Note**. The larger model might take more VRAM, try start with smaller models first.
-    The demo is tested on
+    **注意（Note）**。大きなモデルほど VRAM を多く消費するため、まずは小さいモデルから試してください。
+    デモは以下の端末でテストされています。
 
     - Samsung S23 with Snapdragon 8 Gen 2 chip
     - Redmi Note 12 Pro with Snapdragon 685
     - Google Pixel phones
 
-    **Tutorial and source code**. The source code of the android app is fully `open source <https://github.com/mlc-ai/mlc-llm/tree/main/android>`__,
-    and a :ref:`tutorial <deploy-android>` is included in documentation.
+    **チュートリアルとソースコード**。Android アプリのソースコードは完全に `オープンソース <https://github.com/mlc-ai/mlc-llm/tree/main/android>`__ で、
+    ドキュメントに :ref:`チュートリアル <deploy-android>` が含まれています。
 
     .. figure:: https://blog.mlc.ai/img/android/android-recording.gif
       :width: 300
@@ -171,11 +172,11 @@ It is recommended to have at least 6GB free VRAM to run it.
       MLC LLM on Android
 
 
-What to Do Next
----------------
+次にやること（What to Do Next）
+--------------------------------
 
-- Check out :ref:`introduction-to-mlc-llm` for the introduction of a complete workflow in MLC LLM.
-- Depending on your use case, check out our API documentation and tutorial pages:
+- MLC LLM の全体的なワークフロー紹介は :ref:`introduction-to-mlc-llm` を参照してください。
+- ユースケースに応じて、API ドキュメントとチュートリアルの各ページを参照してください。
 
   - :ref:`webllm-runtime`
   - :ref:`deploy-rest-api`
@@ -185,6 +186,6 @@ What to Do Next
   - :ref:`deploy-android`
   - :ref:`deploy-ide-integration`
 
-- :ref:`convert-weights-via-MLC`, if you want to run your own models.
-- :ref:`compile-model-libraries`, if you want to deploy to web/iOS/Android or control the model optimizations.
-- Report any problem or ask any question: open new issues in our `GitHub repo <https://github.com/mlc-ai/mlc-llm/issues>`_.
+- 独自モデルを実行したい場合は :ref:`convert-weights-via-MLC` を参照してください。
+- Web/iOS/Android へのデプロイやモデル最適化の制御を行いたい場合は :ref:`compile-model-libraries` を参照してください。
+- 問題報告や質問は `GitHub リポジトリ <https://github.com/mlc-ai/mlc-llm/issues>`_ に新しい Issue を作成してください。

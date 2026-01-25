@@ -147,7 +147,9 @@ def _process_model_args(
         else:
             # Run jit if model_lib is not provided
             # NOTE: we only import jit when necessary
+            # 日本語: 必要なときだけ jit をインポートします
             # so the engine do not have to depend on compilation
+            # 日本語: エンジンがコンパイルに依存しないようにするためです
             from mlc_llm.interface import jit  # pylint: disable=import-outside-toplevel
 
             model_compile_overrides = {
