@@ -322,3 +322,8 @@ gallery/how_to/work_with_microtvm/micro_tvmc.py
 .gdb_history
 
 dist
+
+# Xcode / CMake generated
+build-xcode/
+*.xcodeproj
+*.xcworkspace
