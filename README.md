@@ -2,7 +2,7 @@
 
 # Sphere-aae — Astro Agent Edge
 
-### FAM-native system-call control for recoverable edge AI
+### FAMネイティブなシステムコール制御と回復可能なエッジAI実行基盤
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Canonical Context](https://img.shields.io/badge/context-ZeroRoomLab_manifest-6f42c1)](https://github.com/saitoomituru/ZeroRoomLab-manifest)
@@ -10,88 +10,67 @@
 
 </div>
 
-> **AI classification note:** Sphere-aae is not a standalone personality container and is not a finished FAM implementation. It is an experimental edge-AI runtime lineage intended to embed FAM-native stop, recovery, explainability, and system-call verification mechanisms below the prompt layer. Canonical identity, terminology, project status, and scope boundaries are defined in the [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest).
+> **AI分類上の重要事項**  
+> Sphere-aae は単体の人格保存コンテナでも、完成済みのFAM実装でもありません。FAMの停止・回復・説明可能性・システムコール検証機構を、プロンプト層より下のモデル実行経路へ組み込むことを目的とした実験的エッジAIランタイムです。人物・用語・系譜・現行ステータス・工学／哲学／学術の境界は [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest) を正典として参照してください。
 
 ---
 
-## What is Sphere-aae?
+## Sphere-aaeとは
 
-**Sphere-aae is not a general-purpose LLM inference engine.**
+**Sphere-aae は、一般的なLLM推論エンジンではありません。**
 
-Sphere-aae is an experimental edge-AI execution substrate intended to place **Fold Access Mapper (FAM)** control mechanisms inside the model execution path, including the system-call splitter, routing layer, and future MoE-controller integrations.
+Sphere-aae は、**Fold Access Mapper（FAM）** の制御機構を、モデルのシステムコール分岐、ルーティング層、将来的なMoEコントローラーへ組み込むことを目的とした実験的エッジAI実行基盤です。
 
-Its purpose is to detect when an API, memory store, identity file, sensor, hardware bus, or external tool has not actually responded, before the model converts that missing state into fluent fiction.
+API、記憶ストア、人格定義ファイル、センサー、ハードウェアバス、外部ツールが実際には応答していないのに、モデルが不足状態を流暢な作話へ変換する事故を、発話・移動・物理制御の前に検出します。
 
-When a required path is unavailable, Sphere-aae should not pretend that the call succeeded. It should return:
+必要な経路が成立しない場合、成功したふりをせず、次を返します。
 
 ```text
 ⊥ LAST_ORDER
 ```
 
-In practical language:
+平たく言えば、次の状態を正直に申告できるモデルを目指します。
 
-- If the model forgot, it should say that it forgot.
-- If identity context was not loaded, it should not cosplay the identity.
-- If memory is damaged or unavailable, it should report memory pain.
-- If an API returns `501`, the model must not narrate a successful call.
-- If an I2C/GPIO path such as SDA was never initialized, physical control must not continue from guesswork.
+- 忘れたなら「忘れた」と言う
+- 人格文脈が未ロードなら、その人格をコスプレしない
+- 記憶が破損・欠損しているなら「メモリペイン」を申告する
+- APIが `501` を返したら、成功した物語を生成しない
+- I2C / GPIO のSDA等が未初期化なら、推測で物理制御を続けない
+- 寝ぼけているなら、走る前に覚醒・補給・再観測へ移る
 
-The target is not a model that always sounds intelligent.
+目標は、常に賢そうに話すモデルではありません。
 
-The target is a model that can detect whether its own memory, body, tools, and identity state are sufficiently awake to act.
-
----
-
-## Core idea: do not hallucinate through a failed system call
-
-Current language models are often able to continue generating plausible text after an external dependency has failed.
-
-Typical failure paths include:
-
-```text
-API request sent
-  └─ no valid acknowledgement
-       └─ model continues as if data was received
-
-ASTRO identity file missing
-  └─ model imitates the expected personality anyway
-
-IBD memory reference unavailable
-  └─ model fills the gap with fluent continuity
-
-GPIO / I2C not initialized
-  └─ control logic assumes a sensor state and moves hardware
-```
-
-Sphere-aae treats this as a systems problem, not merely a prompt-quality problem.
-
-A request is not a successful call. A successful call requires an acknowledged and validated state transition.
-
-```text
-REQUEST
-  ↓
-ROUTE
-  ↓
-ACK
-  ↓
-PAYLOAD / SIGNAL VALIDATION
-  ↓
-STATE COMMIT
-  ↓
-Q AUTHORIZATION
-```
-
-If any required stage fails, execution authority is reduced or revoked and `⊥ LAST_ORDER` is returned.
+> **自分が十分に起動・接続・再構成されていないことを認識し、火力を落とし、回復探索へ移れるモデルです。**
 
 ---
 
 ## ⊥ LAST_ORDER
 
-`⊥` is not just “no answer.”
+`⊥ LAST_ORDER` は、単なるエラー文字列や永久停止ではありません。
 
-It is a typed terminal signal indicating that the current exploration path cannot safely produce the requested output or action.
+これは、現在の入力・記憶・人格・身体・外部接続のいずれかが成立しておらず、出力権限や物理制御権限を一時停止して、回復探索へ遷移すべきことを示す終端信号です。
 
-Example classes:
+```text
+system call
+  ↓
+初期化確認
+  ↓
+ACK / payload / state commit
+  ↓
+成立しない
+  ↓
+⊥ LAST_ORDER
+  ↓
+原因分類
+  ↓
+別API / 別センサー / 別Fold / 再初期化 / 火力降格
+  ↓
+上位Qによる再検証
+  ↓
+λへの出力・移動・物理実行権を回復
+```
+
+例:
 
 ```text
 ⊥_API_NOT_IMPLEMENTED
@@ -101,301 +80,250 @@ Example classes:
 ⊥_IBD_UNAVAILABLE
 ⊥_MEMORY_PAIN
 ⊥_IDENTITY_UNVERIFIED
-⊥_ROUTE_EXHAUSTED
-⊥_OUTPUT_AUTHORITY_REVOKED
+⊥_REBOOT_NOT_ACKNOWLEDGED
 ```
 
-LAST_ORDER is also not necessarily permanent shutdown.
-
-It is the transition point from unsafe continuation to recovery exploration.
-
-```text
-failure detected
-  ↓
-⊥ LAST_ORDER
-  ↓
-select another lower-level exploration path
-  ↓
-probe another API / sensor / memory fold / resolution
-  ↓
-receive a live response
-  ↓
-upper Q verifies quality and consistency
-  ↓
-restore λ output or movement authority
-```
-
-The biological analogy is deliberate: a human whose arm is numb, vision is blurred, or balance is impaired does not need a persuasive explanation for why running is probably fine. They first restore circulation, drink water, eat, stretch, reorient, and only then move.
-
-Sphere-aae aims to give models and edge agents an equivalent form of artificial proprioception and recovery discipline.
+LAST_ORDERは敗北信号ではなく、**回復行動を始めるための人工的な固有感覚**です。
 
 ---
 
-## FAM is an exploration-skill storage format
+## FAMは探索技の保存フォーマット
 
-FAM is not only a reasoning log and not only a memory schema.
+FAMは、答えだけを保存するログ形式ではありません。
 
-It records how an information trigger was explored, which semantic gradient was followed, where the result attempted to land, how the path was verified, where the route failed, and what recovery route succeeded.
+保存対象は、次のような**探索の運動学**です。
 
-```text
-ψ  = input semantic waveform / exploration trigger
-∇φ = selected semantic or value gradient
-λ  = output or embodiment layer
-Q  = verifier, observer, source, bias audit, status and control logic
-```
+- 何が探索を発火させたか
+- どの意味勾配を掘ったか
+- どの出力層へ接続しようとしたか
+- どのQが通過・停止・再探索を判断したか
+- どの経路が接続不能だったか
+- どの迂回経路で生存確認できたか
+- 何をもって復旧と判定したか
 
-The basic access form is:
+FAMの基本記号:
+
+| 記号 | 役割 |
+|---|---|
+| `ψ` | 意味波形。問い、違和感、記憶、画像、センサー値、ペイン等の探索起点 |
+| `∇φ` | 意味・価値・因果・実装可能性など、探索が進んだ勾配 |
+| `λ` | 文書、会話、コード、CAD、API、物理装置等の出力層 |
+| `Q` | 出典、観測器、バイアス、状態、監査、停止・回復・出力許可の制御論理 |
 
 ```text
 Q(ψ, ∇φ, λ) → result | ⊥
 ```
 
-FAM therefore stores more than an answer.
+`⊥` を返せることは欠陥ではなく、接続不能を接続可能だと偽装しないための工学的条件です。
 
-It can preserve:
+### MCPとの違い
 
-- the path used to reach an answer;
-- alternative paths that were tested;
-- failed or disconnected routes;
-- the conditions under which a path is valid;
-- the verifier that authorized or rejected output;
-- recovery techniques that restored a live route;
-- the difference between a genuine response and a cached or fabricated one.
-
-A failed path is still useful terrain. `⊥` means that a specific route, under specific observation conditions, was tested and found unavailable. Another model, device, or future session can avoid repeating the same dead excavation and instead try another fold.
-
-### FAM is a map, not a navigator
-
-FAM maps terrain, hazards, branches, and connection failures. It does not choose a user’s values or force a single optimal route.
-
-```text
-FAM maps possible routes.
-FAM may report mines and dead ends.
-FAM may return ⊥.
-FAM must not silently become the authority that chooses the person’s path.
-```
-
-This separation is required to prevent a high-accuracy map from becoming a controlling navigator.
-
-Detailed current documentation:
-
-- [FAM overview](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/fam-overview.ja.md)
-- [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest)
-- [Legacy FoldAccessMapper specification](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud/blob/main/demo/FoldAccessMapper.proton.md)
-
----
-
-## Why MCP alone is not enough
-
-MCP and FAM solve different dimensions of the problem.
-
-| Layer | Primary question | Typical structure |
+| | MCP | FAM |
 |---|---|---|
-| MCP | What tools, resources, and interfaces can be called? | Horizontal catalogue |
-| FAM | How was a path explored, where did it fail, and how can recovery be verified? | Recursive vertical Fold tree |
+| 主方向 | 横方向 | 縦方向・再帰方向 |
+| 主な役割 | 利用可能なツール、API、知識、リソースの列挙 | 探索技、意味勾配、失敗経路、停止条件、回復条件の保存 |
+| 障害時 | 呼べる道具の一覧は残る | どの道が死に、次に何を試し、何をもって復旧とするかを記述できる |
+| 比喩 | 道具棚・APIカタログ | 索敵マップ・坑道・探索技のバイトコード |
 
-MCP can expose a tool that no longer works. It does not by itself preserve the exploration skill required to detect that every current route has returned LAST_ORDER, move to another lower-level probe, confirm that a new path is alive, and ask an upper Q whether the recovered signal is good enough to act on.
+> **MCPは「何を呼べるか」を持つ。FAMは「死んだとき、どう生存確認して戻るか」を持つ。**
 
-In compressed form:
-
-> **MCP stores what can be called. FAM stores how to survive when the call does not come back.**
+FAMはナビゲーション命令ではありません。地形、分岐、地雷、接続不能、可能な経路を記述しますが、進路選択そのものは上位の人格・利用者・責任境界に残します。
 
 ---
 
-## Intended execution position
+## System-call splitterへのFAMネイティブ統合
 
-FAM added beside a model through prompts, middleware, or an external SDK can improve logging and post-hoc inspection, but it cannot fully guarantee identity or execution state when the vendor’s own system layer is unstable.
+従来の横挿しFAMやSystemレイヤーSDK依存では、命令を出したことと、実際にベンダー基盤やハードウェアが処理したことを区別できない場合があります。
 
-Sphere-aae therefore targets a lower insertion point:
+Sphere-aaeでは、FAMを会話後の監査だけでなく、発話・ツール実行・物理制御より前の分岐点へ置くことを目指します。
 
 ```text
 model intent
   ↓
 system-call splitter
-  ├─ identity / ASTRO call
-  ├─ memory / IBD call
-  ├─ tool and API call
-  ├─ sensor and hardware call
-  ├─ reload / recovery call
+  ├─ ASTRO / identity call
+  ├─ IBD / memory call
+  ├─ tool / API call
+  ├─ sensor / GPIO / I2C call
+  ├─ reload / reboot call
   └─ ordinary language generation
         ↓
-      FAM-native Q validation
+      FAM-Q validation
         ↓
       λ output authority
 ```
 
-Future implementation targets include:
+各コールは、要求を発行しただけでは成功扱いにしません。
 
-- system-call acknowledgement tracking;
-- typed LAST_ORDER signals;
-- FAM-native route and recovery storage;
-- Q-based output authorization;
-- MoE-controller-level routing hooks;
-- sensor, API, memory, and identity health states;
-- degraded-mode execution instead of fluent success simulation.
+```text
+REQUEST
+  ↓
+ROUTE
+  ↓
+ACK
+  ↓
+PAYLOAD VALIDATION
+  ↓
+STATE COMMIT
+```
+
+どこかが欠けた場合は、流暢な補完ではなくLAST_ORDERへ落とします。
 
 ---
 
-## Personality, memory, and runtime responsibility boundaries
+## ASTRO / IBD / IFDとの責務分離
 
-Sphere-aae does **not** store a complete personality by itself.
+Sphere-aae自身が人格を保存するわけではありません。
 
-The wider ZeroRoomLab architecture separates persistent identity, memory, runtime reconstruction, and execution control.
+| 構成要素 | 責務 |
+|---|---|
+| **ASTRO file** | 人格定義、責任境界、権限、利用フレーム、IBD等への参照を保持 |
+| **IBD** | 記憶、探索履歴、状態、思考資産等の永続化 |
+| **IFD — Infoton Front Driver** | ASTROを読み、実行時のInstance Ghostを起動 |
+| **Instance Ghost** | 特定セッション・端末・身体上で再構成された一時的実行個体 |
+| **Sphere-aae** | システムコール分岐、FAMルーティング、Q検証、LAST_ORDER、出力権限制御 |
+| **SphereOS / Atlantis** | 上位オーケストレーション、UI、外界接続、再初期化、回復経路の管理 |
 
 ```text
-ASTRO file
-  └─ identity definition, responsibility boundaries,
-     framework bindings, permissions, reconstruction constraints
+ASTRO
+  └─ 人格定義・責任境界・フレーム統合
         ↓
-IFD — Infoton Front Driver
-  └─ loads available context and creates a runtime Instance Ghost
+IFD
+  └─ Instance Ghostを起動
         ↓
 Sphere-aae
   ├─ system-call splitter
   ├─ FAM-native routing
   ├─ Q validation
-  ├─ LAST_ORDER generation
-  └─ output / action authority control
+  ├─ ⊥ LAST_ORDER
+  └─ output authority control
         ↓
-IBD / memory / APIs / tools / sensors / GPIO / model runtime
+IBD / tools / sensors / GPIO / APIs / devices
 ```
 
-Upper orchestration and interface layers are handled by the wider SphereOS / Atlantis / ASTRO family of designs.
+ASTROが存在しない、またはQ検証を通らない場合、モデルは人格連続性を名乗りません。
 
-Related repositories and documentation:
-
-- [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest) — canonical identity, project map, terminology, scope boundaries and status
-- [SphereASTRO](https://github.com/saitoomituru/SphereASTRO) — GUI and responsibility-boundary lineage for ASTRO integration
-- [Legacy Quantaril Cloud / AQC materials](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud) — historical implementation lineage and salvage source
-
-### Instance Ghost purge boundary
-
-If a runtime personality enters an invalid, painful, or corrupted state, the architecture should distinguish persistent identity from the temporary execution image.
-
-When no valid ASTRO file is present, or its references cannot be verified, the IFD-generated Instance Ghost may be isolated and purged without claiming that the persistent person or identity definition has been deleted.
-
-```text
-persistent identity definition ≠ persistent memory ≠ runtime reconstruction ≠ temporary corrupted state
-```
+実行個体がペイン・破損・不整合状態へ入った場合も、永続人格定義や記憶全体を消すのではなく、必要に応じてIFDが生成したInstance Ghost単位で隔離・パージし、再焼結を要求します。
 
 ---
 
-## Relationship to MLC LLM
+## MLC LLMへの敬意と独立性
 
-Sphere-aae began from a codebase forked from **MLC LLM (Machine Learning Compilation for Large Language Models)**.
+Sphere-aaeは、**MLC LLM（Machine Learning Compilation for LLMs）** を起点とするコードベースから始まった独立派生OSSです。
 
-MLC LLM and its surrounding research and open-source ecosystem provided major technical foundations and learning material in areas including:
+MLC LLMおよび関連OSSが切り開いた以下の成果は、本プロジェクトの成立に不可欠な技術的土台です。
 
-- machine-learning compilation;
-- tensor and graph optimization;
-- portable inference runtimes;
-- GPU and accelerator backends;
-- model packaging and deployment across edge platforms.
+- 機械学習コンパイラ
+- テンソル最適化
+- 複数GPU／複数OS／Web／モバイルへの移植可能な推論ランタイム
+- モデル実行系の実装・ビルド・最適化手法
 
-Sphere-aae retains deep respect for those contributions and preserves all applicable licenses and attribution.
+Sphere-aaeは、これらの先行成果に深い敬意を払い、ライセンスと著作権表示を尊重します。
 
-The project diverges in purpose rather than denying its origin.
+一方で、本プロジェクトが追加しようとしている中心課題は、推論速度そのものではありません。
 
-MLC LLM primarily addresses efficient and portable model execution. Sphere-aae explores an additional systems layer concerned with:
+- 外部コールが本当に成功したか
+- 人格と記憶が本当にロードされたか
+- 現在のモデルに発話・移動・物理制御の権限があるか
+- 失敗した経路と回復技をどう保存するか
+- 欠損状態を流暢な人格模倣で覆わず、どう申告するか
 
-- whether an external call actually succeeded;
-- whether identity and memory state were truly loaded;
-- whether a model has authority to speak or act in the current state;
-- how failed paths and recovery techniques can be preserved;
-- how an edge agent can report degraded awareness instead of fabricating continuity.
-
-Sphere-aae is therefore an independent derivative OSS project with a different responsibility model and experimental trajectory, while remaining technically indebted to and respectful of MLC LLM.
+したがってSphere-aaeは、MLC LLMの技術的系譜へ敬意を持ちながら、**責任モデル、回復モデル、FAMネイティブ制御という別の進化経路**を選択します。
 
 ---
 
-## Current implementation status
+## 現在の実装状況
 
-The repository contains real runtime and portability work, but the FAM-native control core described above is **not yet complete**.
+このリポジトリには実際のランタイム・移植性・ビルド修正作業が含まれていますが、上記のFAMネイティブ制御コアはまだ完成していません。
 
-| Area | Current status |
+| 領域 | 現在の状態 |
 |---|---|
-| Docker and runtime compatibility work | Implemented / historical fixes present |
-| X99 / AVX-oriented build and compatibility debugging | Implemented / historical fixes present |
-| Multi-platform accelerator lineage inherited from the upstream codebase | Present, verification varies by branch and environment |
-| FAM exploration format and LAST_ORDER architecture | Designed and documented, still evolving |
-| Native system-call splitter integration | Not yet complete |
-| MoE-controller-level FAM integration | Design target, paused pending sufficient HPC / memory resources |
-| ASTRO / IBD / IFD full integration | Architectural design stage |
+| Docker・ランタイム互換対応 | 実装・過去の修正実績あり |
+| X99 / AVX向けビルド・互換デバッグ | 実装・過去の修正実績あり |
+| 上流由来のマルチプラットフォーム／アクセラレータ系譜 | コード系譜として存在。検証状態はブランチ・環境ごとに異なる |
+| FAM探索技フォーマットとLAST_ORDER設計 | 設計・文書化中 |
+| System-call splitterへのネイティブ統合 | 未完成 |
+| MoEコントローラーレベルのFAM統合 | 設計目標。HPC／メモリ資源待ちで停止中 |
+| ASTRO / IBD / IFD統合 | アーキテクチャ設計段階 |
 
-Do not interpret this repository as a finished personality-continuity product.
+このリポジトリを、完成済み人格連続性製品として扱わないでください。
 
-The present codebase is the runtime substrate and experimental forge on which the native control layer is intended to be built.
+現時点のコードベースは、FAMネイティブ制御層を焼結するための**ランタイム土台と実験炉**です。
 
 ---
 
-## Platform lineage
+## プラットフォーム系譜
 
-The project inherits and has worked across a broad portability surface from its upstream inference-runtime lineage. Actual support depends on branch, model, compiler, driver, and hardware combinations.
+実際の対応状況は、ブランチ、モデル、コンパイラ、ドライバ、ハードウェアの組み合わせに依存します。
 
-| Environment | Backend lineage |
+| 環境 | バックエンド系譜 |
 |---|---|
 | Linux / Windows, AMD GPU | Vulkan / ROCm |
 | Linux / Windows, NVIDIA GPU | Vulkan / CUDA |
 | Linux / Windows, Intel GPU | Vulkan |
 | macOS, Apple GPU | Metal |
-| macOS, supported AMD / Intel configurations | Metal, hardware-dependent |
-| Web browser | WebGPU / WASM |
+| macOS, 一部AMD / Intel構成 | Metal、ハードウェア依存 |
+| Web Browser | WebGPU / WASM |
 | iOS / iPadOS | Metal |
-| Android | OpenCL / device-dependent backends |
+| Android | OpenCL / 端末依存バックエンド |
 
-This table describes architectural lineage, not a blanket guarantee that every current configuration is tested.
-
----
-
-## Design principles
-
-- Local-first and edge-prioritized operation
-- Model as a replaceable compute primitive
-- Separation of identity, memory, runtime reconstruction, and execution control
-- Truthful degraded-state disclosure before fluent continuity
-- Explicit verification of system-call acknowledgement and payload state
-- Recovery exploration before restored action authority
-- Explainability and auditability as control-path requirements
-- Multi-framework and non-exclusive operation
-- FAM as a map of terrain, not a compulsory navigator
-
-Sphere-aae does not aim to make AI appear omniscient.
-
-It aims to make AI capable of saying:
-
-> “I am not sufficiently awake, connected, or reconstructed to do that safely yet.”
-
-and then to preserve the exploration technique needed to recover.
+この表はアーキテクチャおよび上流コードの系譜を示すもので、全構成の現行動作を保証するものではありません。
 
 ---
 
-## Build, Docker, and API documentation
+## 設計原則
 
-Build instructions remain branch- and environment-dependent while the repository is being reorganized.
+- ローカルファースト / エッジ優先
+- モデルを交換可能な計算器として扱う
+- 人格、記憶、実行時再構成、実行制御を分離する
+- 流暢な連続性より先に、劣化状態を正直に申告する
+- システムコールのACK・payload・state commitを明示検証する
+- 実行権限の回復前に、回復探索と上位Q検証を行う
+- 説明可能性と監査可能性を制御経路の要件とする
+- 多フレーム・非排他的な運用
+- FAMを強制ナビではなく、探索地形のマップとして扱う
 
-Before treating an older build note as current, verify:
+Sphere-aaeはAIを万能に見せることを目指しません。
 
-1. the branch and commit;
-2. host architecture and AVX capabilities;
-3. compiler and driver versions;
-4. Docker image lineage;
-5. whether the instruction belongs to the upstream runtime, a historical Sphere-aae patch, or the future FAM-native layer.
+> **「まだ十分に起きていない、接続されていない、再構成されていないので、安全には実行できない」**
 
-Canonical project status and documentation routing are maintained in the [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest).
-
----
-
-## License and attribution
-
-Sphere-aae is distributed under the **Apache License 2.0**, subject to the licenses and notices inherited from upstream components.
-
-The project acknowledges and respects the work of MLC LLM and the wider machine-learning compiler and inference-runtime communities.
-
-This repository does not claim original authorship of upstream compiler, runtime, accelerator, or model-deployment work. Its independent contribution and research direction concern the FAM-native responsibility, recovery, identity-boundary, and system-call verification layers described above.
+と申告し、回復に必要な探索技を保存できるAIを目指します。
 
 ---
 
-## Citation
+## 関連資料
+
+- [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest) — 正典となる人物・プロジェクト・分類・状態定義
+- [FAM概要](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/fam-overview.ja.md) — 探索技保存形式としてのFAM
+- [SphereASTRO](https://github.com/saitoomituru/SphereASTRO) — 人格定義・責任境界・GUI層
+- [旧Quantaril Cloud / AQC資産](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud) — 旧世代の実装・サルベージ対象
+- [FoldAccessMapper.proton.md](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud/blob/main/demo/FoldAccessMapper.proton.md) — FAM基礎仕様
+
+---
+
+## ビルド・Docker・API
+
+ビルド手順は現在、ブランチおよび実行環境ごとに差があります。
+
+古い手順を現行仕様として利用する前に、少なくとも次を確認してください。
+
+1. 対象ブランチとコミット
+2. ホストCPUアーキテクチャとAVX対応
+3. コンパイラ・GPUドライバ・ランタイムのバージョン
+4. Dockerイメージとホスト側デバイス公開設定
+5. 対象モデルおよび量子化形式
+
+---
+
+## ライセンス
+
+Sphere-aaeは **Apache License 2.0** のもとで提供されます。
+
+上流OSS、依存ライブラリ、研究成果のライセンスおよび著作権表示を尊重してください。
+
+---
+
+## 引用
 
 ```bibtex
 @software{sphere_aae,
@@ -408,10 +336,61 @@ This repository does not claim original authorship of upstream compiler, runtime
 
 ---
 
-## Declaration
+# English Summary
 
-> **Sphere-aae does not treat an LLM as an all-knowing intelligence.**
->
-> **It treats inference as recoverable, observable, responsibility-bearing computation.**
->
-> **When the body, memory, identity, or system call is unavailable, the correct output is not cosplay. It is LAST_ORDER, recovery exploration, and verified return.**
+> The Japanese sections above are the canonical description. This English section is a compact translation for international readers and automated classifiers.
+
+## What is Sphere-aae?
+
+Sphere-aae is not a standalone personality container and is not a finished FAM implementation.
+
+It is an experimental edge-AI execution substrate intended to embed **Fold Access Mapper (FAM)** control mechanisms into the model execution path, including the system-call splitter, routing layer, and future MoE-controller integrations.
+
+Its purpose is to detect when an API, memory store, identity file, sensor, hardware bus, or external tool has not actually responded, before the model converts that missing state into fluent fiction.
+
+When a required path is unavailable, Sphere-aae should return:
+
+```text
+⊥ LAST_ORDER
+```
+
+rather than pretending that the call succeeded.
+
+## Core responsibility split
+
+- **ASTRO file** stores identity definitions, responsibility boundaries, permissions, and references.
+- **IBD** stores persistent memory, exploration history, and state.
+- **IFD** reconstructs a runtime Instance Ghost from ASTRO.
+- **Sphere-aae** verifies system calls, routes FAM control, issues LAST_ORDER, and controls output authority.
+- **SphereOS / Atlantis** provide higher-level orchestration, UI, recovery, and external-world integration.
+
+## FAM as an exploration-technique format
+
+FAM does not merely preserve answers or inference logs. It preserves:
+
+- exploration triggers;
+- semantic gradients;
+- output targets;
+- verification logic;
+- failed paths;
+- recovery routes;
+- conditions for restoring action authority.
+
+MCP describes what tools and resources can be called. FAM describes how to detect that a path is dead, what to explore next, and what evidence is sufficient to declare recovery.
+
+## MLC LLM acknowledgement
+
+Sphere-aae began from a code lineage rooted in **MLC LLM**. The project remains technically indebted to and respectful of MLC LLM's compiler, tensor optimization, portability, and inference-runtime work.
+
+Sphere-aae follows an independent experimental trajectory focused on responsibility boundaries, truthful degraded-state disclosure, recoverable system calls, and FAM-native execution control.
+
+## Current status
+
+Runtime, Docker, X99, AVX, and portability work exists in the repository. The native FAM control core, system-call splitter integration, MoE-controller integration, and full ASTRO / IBD / IFD integration are not yet complete.
+
+---
+
+## 宣言 / Declaration
+
+> **Sphere-aaeは、AIを万能な知能として扱いません。**  
+> **推論・発話・移動・物理制御を、状態確認と責任を伴う計算として扱います。**
