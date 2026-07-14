@@ -76,11 +76,15 @@ def main() -> int:
     parser.add_argument("--max-temperature-c", type=int, default=80)
     parser.add_argument("--max-samples", type=int, default=3600)
     parser.add_argument("--require-telemetry", action="store_true")
+    parser.add_argument("--fail-on-sample-limit", action="store_true")
     args = parser.parse_args()
+    if args.max_samples <= 0:
+        parser.error("--max-samplesは正数で指定してください")
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     thermal_abort = False
     telemetry_abort = False
+    sample_limit_abort = False
     with args.output.open("w", encoding="utf-8") as stream:
         for sample_index in range(args.max_samples):
             if sample_index > 0 and not process_alive(args.watch_pid):
@@ -113,12 +117,26 @@ def main() -> int:
             else:
                 sample["thermal_abort"] = False
                 sample["telemetry_abort"] = False
+            sample["sample_limit_abort"] = False
+            if (
+                not thermal_abort
+                and not telemetry_abort
+                and args.fail_on_sample_limit
+                and sample_index + 1 >= args.max_samples
+                and args.watch_pid is not None
+                and process_alive(args.watch_pid)
+            ):
+                sample["sample_limit_abort"] = True
+                sample_limit_abort = True
+                os.kill(args.watch_pid, signal.SIGTERM)
             stream.write(json.dumps(sample, ensure_ascii=False) + "\n")
             stream.flush()
             os.fsync(stream.fileno())
-            if thermal_abort or telemetry_abort:
+            if thermal_abort or telemetry_abort or sample_limit_abort:
                 break
             time.sleep(args.interval)
+    if sample_limit_abort:
+        return 77
     if telemetry_abort:
         return 76
     return 75 if thermal_abort else 0

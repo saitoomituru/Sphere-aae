@@ -198,6 +198,7 @@ finalize() {
       sed \
         -e "s#${repo_root}#<REPO_ROOT>#g" \
         -e "s#${HOME}#<HOME>#g" \
+        -e 's/[[:space:]]*$//' \
         "${raw_dir}/${raw_log}" > "${run_dir}/${raw_log}"
     fi
   done
@@ -260,6 +261,7 @@ server_pid=$!
   --max-temperature-c "${thermal_limit}" \
   --max-samples 3600 \
   --require-telemetry \
+  --fail-on-sample-limit \
   --output "${run_dir}/telemetry-gpu.jsonl" &
 guard_pid=$!
 

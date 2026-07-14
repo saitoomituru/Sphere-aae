@@ -100,6 +100,7 @@ def main() -> int:
 
     thermal_abort = any(bool(sample.get("thermal_abort")) for sample in gpu_samples)
     telemetry_abort = any(bool(sample.get("telemetry_abort")) for sample in gpu_samples)
+    sample_limit_abort = any(bool(sample.get("sample_limit_abort")) for sample in gpu_samples)
     telemetry_complete = bool(
         gpu_samples
         and temperatures
@@ -124,6 +125,7 @@ def main() -> int:
         and process_monitor_complete
         and not thermal_abort
         and not telemetry_abort
+        and not sample_limit_abort
         and telemetry_complete
         and recovery_ok
         and server_shutdown_ok
@@ -196,6 +198,7 @@ def main() -> int:
             "maximum_load_average_1m": max(load_one) if load_one else None,
             "thermal_abort": thermal_abort,
             "telemetry_abort": telemetry_abort,
+            "sample_limit_abort": sample_limit_abort,
             "telemetry_complete": telemetry_complete,
             "process_monitor_complete": process_monitor_complete,
             "cpu_temperature_c": None,
@@ -218,6 +221,7 @@ def main() -> int:
         f"- Thermal guard: {args.thermal_limit_c} °C",
         f"- Thermal abort: {'あり' if thermal_abort else 'なし'}",
         f"- Telemetry abort: {'あり' if telemetry_abort else 'なし'}",
+        f"- Sample limit abort: {'あり' if sample_limit_abort else 'なし'}",
         f"- Telemetry完全性: {'PASS' if telemetry_complete else 'FAIL'}",
         f"- Process監視完全性: {'PASS' if process_monitor_complete else 'FAIL'}",
         f"- GPU温度: {range_text(temperatures, ' °C')}",
