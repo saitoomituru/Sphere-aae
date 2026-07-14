@@ -73,7 +73,7 @@ scripts/moe-head-baseline/run_upstream_baseline.sh
 1. 既存Core ML `16 -> 32 -> 4` fixtureをFAM未接続HEADとしてbuildする。
 2. 入力はzero固定とし、FAM encodeを実装しない。
 3. HEADのlogitsとdeterministic top-2をJSONへ記録する。
-4. `override_applied=false`を機械可読に記録する。
+4. `router_override_applied=false`を機械可読に記録する。
 5. HEADを実行してからPhase 1と同じpromptを実行する。
 6. HEADが既存router、prompt、expert index、weightへ介入していないことを確認する。
 7. crash、NaN、Inf、load failureがないことを確認する。
@@ -90,12 +90,20 @@ HEADはSwift packageの独立product `moe-head-baseline`として実装する。
 
 HEAD実行前後の会話比較は同じ`llama-server` process、同一prompt、temperature 0、固定seed、prompt cache無効で行う。まずHEAD実行前のA1/A2一致で上流決定性を確認し、HEADを別processで実行した後のBがA1と一致することを確認する。
 
+実行command:
+
+```bash
+scripts/moe-head-baseline/run_head_bypass_baseline.sh
+```
+
+fixture生成、`coremlcompiler`、Swift build、llama-serverの4区間を個別に温度監視する。各build区間の生出力、HEAD logits/top-2、A1/A2/B response、GPU telemetry、server CPU/RSS、artifact SHA256を同じrun noteへ保存する。
+
 ## PASS条件
 
 - 公式runtime/modelだけで、日本語の一般応答が完走する。
 - local HEADがbuild、Core ML compile、load、推論を完走する。
 - HEAD出力が有限値で、top-2が決定的である。
-- `override_applied=false`である。
+- `router_override_applied=false`である。
 - HEAD前後の決定的prompt応答が一致する。
 - thermal abortとGPU recoveryがない。
 - 作業ツリーとremoteの同期を各負荷試験前に確認できる。
