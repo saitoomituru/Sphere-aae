@@ -131,6 +131,8 @@ func computeDeviceLabel(_ device: MLComputeDevice) -> String {
         return "GPU: \(gpu.metalDevice.name)"
     case .neuralEngine(let neuralEngine):
         return "ANE: \(neuralEngine.totalCoreCount) cores"
+    @unknown default:
+        return "Unknown compute device"
     }
 }
 
