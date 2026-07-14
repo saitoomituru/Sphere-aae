@@ -75,10 +75,12 @@ def main() -> int:
     parser.add_argument("--watch-pid", type=int)
     parser.add_argument("--max-temperature-c", type=int, default=80)
     parser.add_argument("--max-samples", type=int, default=3600)
+    parser.add_argument("--require-telemetry", action="store_true")
     args = parser.parse_args()
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     thermal_abort = False
+    telemetry_abort = False
     with args.output.open("w", encoding="utf-8") as stream:
         for sample_index in range(args.max_samples):
             if sample_index > 0 and not process_alive(args.watch_pid):
@@ -92,18 +94,33 @@ def main() -> int:
                 **read_gpu_stats(),
             }
             temperature = sample.get("temperature_c")
-            if temperature is not None and temperature >= args.max_temperature_c:
+            if args.require_telemetry and (
+                not sample.get("telemetry_available")
+                or temperature is None
+                or sample.get("gpu_recovery_count") is None
+            ):
+                sample["telemetry_abort"] = True
+                sample["thermal_abort"] = False
+                telemetry_abort = True
+                if args.watch_pid is not None and process_alive(args.watch_pid):
+                    os.kill(args.watch_pid, signal.SIGTERM)
+            elif temperature is not None and temperature >= args.max_temperature_c:
                 sample["thermal_abort"] = True
+                sample["telemetry_abort"] = False
                 thermal_abort = True
                 if args.watch_pid is not None and process_alive(args.watch_pid):
                     os.kill(args.watch_pid, signal.SIGTERM)
             else:
                 sample["thermal_abort"] = False
+                sample["telemetry_abort"] = False
             stream.write(json.dumps(sample, ensure_ascii=False) + "\n")
             stream.flush()
-            if thermal_abort:
+            os.fsync(stream.fileno())
+            if thermal_abort or telemetry_abort:
                 break
             time.sleep(args.interval)
+    if telemetry_abort:
+        return 76
     return 75 if thermal_abort else 0
 
 
