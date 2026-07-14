@@ -1,0 +1,11 @@
+2026-07-14T05:25:18Z MoE HEAD bypass baseline開始（FAMなし、router overrideなし）
+2026-07-14T05:25:18Z build-fixture開始
+2026-07-14T05:25:21Z build-fixture終了: workload=0, guard=0
+2026-07-14T05:25:21Z compile-model開始
+2026-07-14T05:25:23Z compile-model終了: workload=0, guard=0
+2026-07-14T05:25:23Z swift-build開始
+2026-07-14T05:25:40Z swift-build終了: workload=0, guard=0
+2026-07-14T05:25:41Z 固定MoE runtimeをCPU-onlyで起動
+2026-07-14T05:26:07Z A1/A2/HEAD/B比較完了
+2026-07-14T05:26:07Z llama-serverへSIGTERMを送信
+2026-07-14T05:26:09Z report生成完了: note/moe-head-baseline/runs/20260714T052501Z-head-bypass-p4560/REPORT.md

@@ -1,0 +1,46 @@
+{
+  "name": "MinimalArbiterZeroB1",
+  "input_mode": "zero",
+  "fam_enabled": false,
+  "head_mode": "observe_only",
+  "router_override_applied": false,
+  "batch_size": 1,
+  "input_shape": [
+    1,
+    16
+  ],
+  "output_shape": [
+    1,
+    4
+  ],
+  "features": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "expected_logits": [
+    0.016245581209659576,
+    0.03444136679172516,
+    0.051066651940345764,
+    0.06537085771560669
+  ],
+  "expected_topk": [
+    3,
+    2
+  ],
+  "model_path": "MinimalArbiterZeroB1.mlpackage",
+  "weights_path": "fixture.npz"
+}

@@ -1,0 +1,111 @@
+{
+  "kind": "moe_head_bypass_comparison",
+  "started_utc": "2026-07-14T05:25:41.413225+00:00",
+  "health_checks": [
+    {
+      "label": "A1実行前",
+      "server_alive": true,
+      "status_code": 200,
+      "status": "ok",
+      "passed": true,
+      "message_ja": "health status=okを確認"
+    },
+    {
+      "label": "A2実行前",
+      "server_alive": true,
+      "status_code": 200,
+      "status": "ok",
+      "passed": true,
+      "message_ja": "health status=okを確認"
+    },
+    {
+      "label": "HEAD実行前",
+      "server_alive": true,
+      "status_code": 200,
+      "status": "ok",
+      "passed": true,
+      "message_ja": "health status=okを確認"
+    },
+    {
+      "label": "B実行前",
+      "server_alive": true,
+      "status_code": 200,
+      "status": "ok",
+      "passed": true,
+      "message_ja": "health status=okを確認"
+    },
+    {
+      "label": "全比較完了時",
+      "server_alive": true,
+      "status_code": 200,
+      "status": "ok",
+      "passed": true,
+      "message_ja": "health status=okを確認"
+    }
+  ],
+  "responses": {
+    "a1": {
+      "status_code": 200,
+      "elapsed_seconds": 6.467840713914484,
+      "http_200": true,
+      "japanese_non_empty": true,
+      "passed": true,
+      "assertion_message_ja": "日本語応答あり",
+      "canonical_message_sha256": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce"
+    },
+    "a2": {
+      "status_code": 200,
+      "elapsed_seconds": 6.212004307191819,
+      "http_200": true,
+      "japanese_non_empty": true,
+      "passed": true,
+      "assertion_message_ja": "日本語応答あり",
+      "canonical_message_sha256": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce"
+    },
+    "b": {
+      "status_code": 200,
+      "elapsed_seconds": 7.1162764870096,
+      "http_200": true,
+      "japanese_non_empty": true,
+      "passed": true,
+      "assertion_message_ja": "日本語応答あり",
+      "canonical_message_sha256": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce"
+    }
+  },
+  "head": {
+    "exit_code": 0,
+    "elapsed_seconds": 0.2923036329448223,
+    "timed_out": false,
+    "result_available": true,
+    "process_exit_zero": true,
+    "result_passed": true,
+    "fam_disabled": true,
+    "input_zero": true,
+    "input_all_zero": true,
+    "override_disabled": true,
+    "observe_only": true,
+    "cpu_only": true,
+    "logits_finite": true,
+    "output_shape_matches": true,
+    "repeat_matches": true,
+    "top_k_matches": true,
+    "passed": true
+  },
+  "a1_a2_match": true,
+  "a1_b_match": true,
+  "a2_b_match": true,
+  "all_responses_match": true,
+  "server_alive_final": true,
+  "all_passed": true,
+  "initial_health": {
+    "ready": true,
+    "attempts": 7,
+    "elapsed_seconds": 6.1402370650321245,
+    "status_code": 200,
+    "health": {
+      "status": "ok"
+    }
+  },
+  "comparison_message_ja": "A1、A2、Bのcanonical messageが一致しました",
+  "finished_utc": "2026-07-14T05:26:07.720856+00:00"
+}

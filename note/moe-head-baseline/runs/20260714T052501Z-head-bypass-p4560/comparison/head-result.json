@@ -1,0 +1,46 @@
+{
+  "actual_logits": [
+    0.016245579347014427,
+    0.03444136306643486,
+    0.051066651940345764,
+    0.06537085771560669
+  ],
+  "actual_output_shape": [
+    1,
+    4
+  ],
+  "actual_top_k": [
+    3,
+    2
+  ],
+  "compute_units": "cpuOnly",
+  "deterministic_repeat_match": true,
+  "expected_logits": [
+    0.016245581209659576,
+    0.03444136679172516,
+    0.051066651940345764,
+    0.06537085771560669
+  ],
+  "expected_output_shape": [
+    1,
+    4
+  ],
+  "expected_top_k": [
+    3,
+    2
+  ],
+  "fam_enabled": false,
+  "head_mode": "observe_only",
+  "inference_count": 2,
+  "input_all_zero": true,
+  "input_mode": "zero",
+  "latency_ms": 3.393062,
+  "logits_finite": true,
+  "max_abs_error": 3.725290298461914e-09,
+  "model_name": "MinimalArbiterZeroB1",
+  "output_shape_matches": true,
+  "passed": true,
+  "repeat_max_abs_error": 0,
+  "router_override_applied": false,
+  "top_k_match": true
+}
