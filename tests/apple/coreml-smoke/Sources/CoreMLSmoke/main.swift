@@ -122,6 +122,18 @@ func coreMLComputeUnits(_ value: String) throws -> MLComputeUnits {
     }
 }
 
+@available(macOS 14.0, *)
+func computeDeviceLabel(_ device: MLComputeDevice) -> String {
+    switch device {
+    case .cpu:
+        return "CPU"
+    case .gpu(let gpu):
+        return "GPU: \(gpu.metalDevice.name)"
+    case .neuralEngine(let neuralEngine):
+        return "ANE: \(neuralEngine.totalCoreCount) cores"
+    }
+}
+
 func runAccelerateProbe() -> Bool {
     let input: [Float] = [1, 2, 3, 4]
     var output = [Float](repeating: 0, count: input.count)
@@ -248,7 +260,7 @@ func run() throws {
     let metal3 = device?.supportsFamily(.metal3) ?? false
     let computeDevices: [String]
     if #available(macOS 14.0, *) {
-        computeDevices = MLModel.availableComputeDevices.map { String(describing: $0) }
+        computeDevices = MLModel.availableComputeDevices.map(computeDeviceLabel)
     } else {
         computeDevices = []
     }

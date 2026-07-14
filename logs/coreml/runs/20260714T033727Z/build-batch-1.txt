@@ -1,0 +1,1 @@
+{"coremltools_version": "9.0", "numpy_version": "1.26.4", "model_name": "MinimalArbiterB1", "batch_size": 1, "fixture_sha256": "bdec35a2ee65f6b660f83c55daf7a5f0a05b9a28e65286c93504f99932aa687c", "weights_sha256": "4ba31c5d04d01805d0576fda5aad58db93e3c5b58134c6618fd9b93384afd8ff"}

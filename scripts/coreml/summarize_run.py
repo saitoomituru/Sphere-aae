@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +28,18 @@ def range_text(data: list[float], suffix: str = "") -> str:
     return "取得不可" if not data else f"{min(data):.0f}–{max(data):.0f}{suffix}"
 
 
+def compute_device_label(raw: str) -> str:
+    if "MLGPUComputeDevice" in raw:
+        name = raw.split(">", 1)[1].strip() if ">" in raw else ""
+        return f"GPU: {name}" if name else "GPU"
+    if "MLCPUComputeDevice" in raw:
+        return "CPU"
+    if "MLNeuralEngineComputeDevice" in raw:
+        cores = re.search(r"(\d+) cores?", raw)
+        return f"ANE: {cores.group(1)} cores" if cores else "ANE"
+    return raw
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-dir", type=Path, required=True)
@@ -46,7 +59,7 @@ def main() -> None:
     passed = bool(reports) and all(report.get("passed") for report in reports) and not thermal_abort
     compute_devices = sorted(
         {
-            str(device)
+            compute_device_label(str(device))
             for report in reports
             for device in report.get("compute_devices", [])
         }
@@ -71,6 +84,7 @@ def main() -> None:
         f"- GPU power: {range_text(powers, ' W')}",
         f"- GPU fan: {range_text(fans, ' RPM')}",
         f"- GPU recovery count: {range_text(recoveries)}",
+        f"- Telemetry samples: {len(samples)} ({len(telemetry_paths)} profiles; short-run snapshots)",
         "- CPU温度: CLIから取得できないため未記録",
         "",
         "## Apple演算stack",

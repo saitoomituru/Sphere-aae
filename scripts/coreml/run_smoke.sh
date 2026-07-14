@@ -63,7 +63,9 @@ for batch in 1 256; do
   xcrun coremlcompiler compile \
     "${artifact_root}/batch-${batch}/MinimalArbiterB${batch}.mlpackage" \
     "${artifact_root}/compiled-${batch}" \
-    > "${run_dir}/compile-batch-${batch}.txt" 2>&1
+    2>&1 \
+    | sed "s#${repo_root}#<REPO_ROOT>#g" \
+    > "${run_dir}/compile-batch-${batch}.txt"
 done
 
 swift build \

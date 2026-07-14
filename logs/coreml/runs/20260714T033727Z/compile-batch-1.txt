@@ -1,0 +1,1 @@
+<REPO_ROOT>/build/coreml/20260714T033727Z/compiled-1/MinimalArbiterB1.mlmodelc/coremldata.bin
