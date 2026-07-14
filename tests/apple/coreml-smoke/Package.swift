@@ -6,6 +6,7 @@ let package = Package(
     platforms: [.macOS(.v13)],
     products: [
         .executable(name: "coreml-smoke", targets: ["CoreMLSmoke"]),
+        .executable(name: "moe-head-baseline", targets: ["MoeHeadBaseline"]),
     ],
     targets: [
         .executableTarget(
@@ -15,6 +16,12 @@ let package = Package(
                 .linkedFramework("CoreML"),
                 .linkedFramework("Metal"),
                 .linkedFramework("MetalPerformanceShaders"),
+            ]
+        ),
+        .executableTarget(
+            name: "MoeHeadBaseline",
+            linkerSettings: [
+                .linkedFramework("CoreML"),
             ]
         ),
     ]

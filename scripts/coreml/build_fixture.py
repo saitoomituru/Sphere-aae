@@ -19,8 +19,10 @@ HIDDEN_DIM = 32
 OUTPUT_DIM = 4
 
 
-def deterministic_tensors(batch_size: int) -> dict[str, np.ndarray]:
-    """Create stable inputs and weights without a framework-specific RNG."""
+def deterministic_tensors(
+    batch_size: int, input_mode: str = "deterministic"
+) -> dict[str, np.ndarray]:
+    """Framework固有RNGを使わず、固定入力とweightを作る。"""
     w1_index = np.arange(HIDDEN_DIM * INPUT_DIM, dtype=np.float32).reshape(
         HIDDEN_DIM, INPUT_DIM
     )
@@ -31,8 +33,15 @@ def deterministic_tensors(batch_size: int) -> dict[str, np.ndarray]:
         batch_size, INPUT_DIM
     )
 
+    if input_mode == "zero":
+        features = np.zeros((batch_size, INPUT_DIM), dtype=np.float32)
+    elif input_mode == "deterministic":
+        features = np.sin((input_index + 1.0) * np.float32(0.13)).astype(np.float32)
+    else:
+        raise ValueError(f"未対応のinput modeです: {input_mode}")
+
     return {
-        "features": np.sin((input_index + 1.0) * np.float32(0.13)).astype(np.float32),
+        "features": features,
         "w1": (np.sin((w1_index + 1.0) * np.float32(0.17)) * np.float32(0.18)).astype(
             np.float32
         ),
@@ -67,6 +76,19 @@ def sha256(path: Path) -> str:
     with path.open("rb") as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
+    return digest.hexdigest()
+
+
+def sha256_tree(path: Path) -> str:
+    """Directory内のrelative pathとfile内容から決定的hashを作る。"""
+    digest = hashlib.sha256()
+    for child in sorted(item for item in path.rglob("*") if item.is_file()):
+        digest.update(str(child.relative_to(path)).encode("utf-8"))
+        digest.update(b"\0")
+        with child.open("rb") as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                digest.update(chunk)
+        digest.update(b"\0")
     return digest.hexdigest()
 
 
@@ -106,6 +128,9 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--batch-size", type=int, default=1)
+    parser.add_argument(
+        "--input-mode", choices=("deterministic", "zero"), default="deterministic"
+    )
     args = parser.parse_args()
 
     if args.batch_size <= 0:
@@ -113,10 +138,14 @@ def main() -> None:
 
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    tensors = deterministic_tensors(args.batch_size)
+    tensors = deterministic_tensors(args.batch_size, args.input_mode)
     logits = numpy_forward(tensors)
     topk = stable_topk(logits)
-    model_name = f"MinimalArbiterB{args.batch_size}"
+    model_name = (
+        f"MinimalArbiterZeroB{args.batch_size}"
+        if args.input_mode == "zero"
+        else f"MinimalArbiterB{args.batch_size}"
+    )
     model_path = output_dir / f"{model_name}.mlpackage"
     fixture_path = output_dir / "fixture.json"
     weights_path = output_dir / "fixture.npz"
@@ -131,14 +160,18 @@ def main() -> None:
     )
     fixture = {
         "name": model_name,
+        "input_mode": args.input_mode,
+        "fam_enabled": False,
+        "head_mode": "observe_only",
+        "router_override_applied": False,
         "batch_size": args.batch_size,
         "input_shape": [args.batch_size, INPUT_DIM],
         "output_shape": [args.batch_size, OUTPUT_DIM],
         "features": tensors["features"].reshape(-1).tolist(),
         "expected_logits": logits.reshape(-1).tolist(),
         "expected_topk": topk.reshape(-1).tolist(),
-        "model_path": str(model_path),
-        "weights_path": str(weights_path),
+        "model_path": model_path.name,
+        "weights_path": weights_path.name,
     }
     fixture_path.write_text(
         json.dumps(fixture, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -148,6 +181,11 @@ def main() -> None:
         "numpy_version": np.__version__,
         "model_name": model_name,
         "batch_size": args.batch_size,
+        "input_mode": args.input_mode,
+        "fam_enabled": False,
+        "head_mode": "observe_only",
+        "router_override_applied": False,
+        "model_sha256": sha256_tree(model_path),
         "fixture_sha256": sha256(fixture_path),
         "weights_sha256": sha256(weights_path),
     }

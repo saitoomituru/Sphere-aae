@@ -71,12 +71,24 @@ scripts/moe-head-baseline/run_upstream_baseline.sh
 ## Phase 2: MoE HEAD bypass baseline
 
 1. 既存Core ML `16 -> 32 -> 4` fixtureをFAM未接続HEADとしてbuildする。
-2. 入力はzeroまたは固定vectorとし、FAM encodeを実装しない。
+2. 入力はzero固定とし、FAM encodeを実装しない。
 3. HEADのlogitsとdeterministic top-2をJSONへ記録する。
 4. `override_applied=false`を機械可読に記録する。
 5. HEADを実行してからPhase 1と同じpromptを実行する。
 6. HEADが既存router、prompt、expert index、weightへ介入していないことを確認する。
 7. crash、NaN、Inf、load failureがないことを確認する。
+
+HEADはSwift packageの独立product `moe-head-baseline`として実装する。このtargetのpackage dependencyは空で、ML関連として明示linkするframeworkは`CoreML`だけである。`Foundation`以外のSphere-aae本体、MoE router、network clientには依存しない。実行時も`cpuOnly`固定で2回推論し、次をJSONへ保存する。
+
+- `head_mode=observe_only`
+- `fam_enabled=false`
+- `input_mode=zero`
+- `router_override_applied=false`
+- actual / expected logits
+- actual / expected top-2
+- repeat一致、finite、shape、誤差、総合判定
+
+HEAD実行前後の会話比較は同じ`llama-server` process、同一prompt、temperature 0、固定seed、prompt cache無効で行う。まずHEAD実行前のA1/A2一致で上流決定性を確認し、HEADを別processで実行した後のBがA1と一致することを確認する。
 
 ## PASS条件
 
