@@ -1,0 +1,82 @@
+{
+  "kind": "moe_upstream_preflight",
+  "timestamp_utc": "2026-07-14T04:44:37.023922+00:00",
+  "checks": {
+    "git": {
+      "branch": "moe-test-edition",
+      "expected_branch": "moe-test-edition",
+      "upstream": "origin/moe-test-edition",
+      "expected_upstream": "origin/moe-test-edition",
+      "head": "dc5948906fb50f80bb25f224e0106ae6c85da95e",
+      "cached_upstream_head": "dc5948906fb50f80bb25f224e0106ae6c85da95e",
+      "working_tree_clean": true,
+      "live_remote_checked": true,
+      "live_remote_head": "dc5948906fb50f80bb25f224e0106ae6c85da95e"
+    },
+    "disk": {
+      "free_bytes": 68709228544,
+      "minimum_free_bytes": 42949672960,
+      "passed": true
+    },
+    "artifacts": {
+      "runtime_archive": {
+        "path": "build/moe-head-baseline/runtime/b9637/llama-b9637-bin-macos-x64.tar.gz",
+        "exists": true,
+        "expected_sha256": "71743f8db0958e7c266cceb7add7b16aa418a964667e471094aa6ae65b9c8298",
+        "size_bytes": 10877158,
+        "actual_sha256": "71743f8db0958e7c266cceb7add7b16aa418a964667e471094aa6ae65b9c8298",
+        "sha256_matches": true
+      },
+      "llama_server": {
+        "path": "build/moe-head-baseline/runtime/b9637/extracted/llama-b9637/llama-server",
+        "exists": true,
+        "expected_sha256": "d762020bad249d1c74bb6883b7cee178db8ebb48e1872b626280dd1eebb07c39",
+        "size_bytes": 20760,
+        "actual_sha256": "d762020bad249d1c74bb6883b7cee178db8ebb48e1872b626280dd1eebb07c39",
+        "sha256_matches": true
+      },
+      "model": {
+        "path": "build/moe-head-baseline/models/granite-4.0-h-tiny/08d5a8a9741dd5c1a95d2d39e25253226aa1464e/granite-4.0-h-tiny-Q4_K_M.gguf",
+        "exists": true,
+        "expected_sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+        "size_bytes": 4230976352,
+        "actual_sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+        "sha256_matches": true,
+        "expected_size_bytes": 4230976352,
+        "size_matches": true
+      }
+    },
+    "runtime": {
+      "architecture": "x86_64",
+      "architecture_passed": true,
+      "version": "version: 9637 (aedb2a5e9)\nbuilt with AppleClang 17.0.0.17000013 for Darwin x86_64",
+      "version_passed": true,
+      "devices": [
+        "Available devices:",
+        "BLAS: Accelerate (0 MiB, 0 MiB free)"
+      ],
+      "cpu_only_distribution": true
+    },
+    "telemetry": {
+      "ioreg_returncode": 0,
+      "telemetry_available": true,
+      "gpu_count_with_temperature": 2,
+      "maximum_temperature_c": 53,
+      "recovery_counts": [
+        0,
+        0
+      ],
+      "cpu_temperature_c": null,
+      "maximum_allowed_temperature_c": 75,
+      "passed": true
+    },
+    "network": {
+      "host": "127.0.0.1",
+      "port": 18080,
+      "bind_available": true,
+      "error": null
+    }
+  },
+  "errors_ja": [],
+  "result": "PASS"
+}

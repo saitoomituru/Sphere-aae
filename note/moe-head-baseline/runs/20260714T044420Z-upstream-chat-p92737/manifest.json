@@ -1,0 +1,197 @@
+{
+  "kind": "moe_upstream_chat_baseline",
+  "started_utc": "2026-07-14T04:44:20Z",
+  "finished_utc": "2026-07-14T04:44:59.708818+00:00",
+  "git_commit": "dc5948906fb50f80bb25f224e0106ae6c85da95e",
+  "scope": {
+    "fam_connected": false,
+    "head_connected": false,
+    "router_override_applied": false
+  },
+  "runtime": {
+    "project": "llama.cpp",
+    "release": "b9637",
+    "commit": "aedb2a5e9",
+    "architecture": "x86_64",
+    "compute": "Accelerate CPU-only"
+  },
+  "verified_artifacts": {
+    "runtime_archive": {
+      "path": "build/moe-head-baseline/runtime/b9637/llama-b9637-bin-macos-x64.tar.gz",
+      "exists": true,
+      "expected_sha256": "71743f8db0958e7c266cceb7add7b16aa418a964667e471094aa6ae65b9c8298",
+      "size_bytes": 10877158,
+      "actual_sha256": "71743f8db0958e7c266cceb7add7b16aa418a964667e471094aa6ae65b9c8298",
+      "sha256_matches": true
+    },
+    "llama_server": {
+      "path": "build/moe-head-baseline/runtime/b9637/extracted/llama-b9637/llama-server",
+      "exists": true,
+      "expected_sha256": "d762020bad249d1c74bb6883b7cee178db8ebb48e1872b626280dd1eebb07c39",
+      "size_bytes": 20760,
+      "actual_sha256": "d762020bad249d1c74bb6883b7cee178db8ebb48e1872b626280dd1eebb07c39",
+      "sha256_matches": true
+    },
+    "model": {
+      "path": "build/moe-head-baseline/models/granite-4.0-h-tiny/08d5a8a9741dd5c1a95d2d39e25253226aa1464e/granite-4.0-h-tiny-Q4_K_M.gguf",
+      "exists": true,
+      "expected_sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+      "size_bytes": 4230976352,
+      "actual_sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+      "sha256_matches": true,
+      "expected_size_bytes": 4230976352,
+      "size_matches": true
+    }
+  },
+  "model": {
+    "repository": "ibm-granite/granite-4.0-h-tiny-GGUF",
+    "revision": "08d5a8a9741dd5c1a95d2d39e25253226aa1464e",
+    "file": "granite-4.0-h-tiny-Q4_K_M.gguf",
+    "quantization": "Q4_K_M"
+  },
+  "server_configuration": {
+    "device": "none",
+    "n_gpu_layers": 0,
+    "kv_offload": false,
+    "threads": 6,
+    "threads_batch": 6,
+    "context_size": 2048,
+    "batch_size": 512,
+    "ubatch_size": 128,
+    "parallel": 1,
+    "jinja": true,
+    "prompt_cache": false
+  },
+  "generation_configuration": {
+    "temperature": 0.0,
+    "seed": 424242,
+    "max_tokens": 96,
+    "top_k": 1,
+    "top_p": 1.0,
+    "min_p": 0.0
+  },
+  "thermal_limit_c": 75,
+  "statuses": {
+    "chat": 0,
+    "thermal_guard": 0,
+    "process_monitor": 0,
+    "server_after_shutdown": 0,
+    "shutdown_requested_by_runner": true,
+    "server_forced_kill": false
+  },
+  "telemetry_summary": {
+    "gpu_samples": 17,
+    "process_samples": 21,
+    "gpu_temperature_c": {
+      "minimum": 53.0,
+      "maximum": 54.0
+    },
+    "gpu_activity_percent": {
+      "minimum": 1.0,
+      "maximum": 8.0
+    },
+    "gpu_power_w": {
+      "minimum": 19.0,
+      "maximum": 21.0
+    },
+    "gpu_recovery_delta": 0.0,
+    "maximum_process_cpu_percent": 368.9,
+    "maximum_process_rss_kib": 7743604.0,
+    "maximum_load_average_1m": 5.7509765625,
+    "thermal_abort": false,
+    "telemetry_abort": false,
+    "telemetry_complete": true,
+    "process_monitor_complete": true,
+    "cpu_temperature_c": null
+  },
+  "case_results": [
+    {
+      "id": "japanese_general",
+      "description_ja": "短い日本語の一般応答",
+      "status_code": 200,
+      "elapsed_seconds": 5.853570013074204,
+      "passed": true,
+      "assertion_message_ja": "日本語応答あり",
+      "finish_reason": "stop",
+      "response_message_sha256": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce",
+      "usage": {
+        "completion_tokens": 69,
+        "prompt_tokens": 72,
+        "total_tokens": 141,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 72,
+        "prompt_ms": 1377.946,
+        "prompt_per_token_ms": 19.13813888888889,
+        "prompt_per_second": 52.2516847539744,
+        "predicted_n": 69,
+        "predicted_ms": 4454.274,
+        "predicted_per_token_ms": 64.55469565217392,
+        "predicted_per_second": 15.490739905088908
+      }
+    },
+    {
+      "id": "japanese_multi_turn",
+      "description_ja": "会話履歴を使う複数turn応答",
+      "status_code": 200,
+      "elapsed_seconds": 2.2311560509260744,
+      "passed": true,
+      "assertion_message_ja": "期待文字列『青い星』を確認",
+      "finish_reason": "stop",
+      "response_message_sha256": "bc4e5e80b28357946c5d4c5485d6cd1412b412c07b9af2a28ef0437d38459e3a",
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 111,
+        "total_tokens": 116,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 111,
+        "prompt_ms": 1854.343,
+        "prompt_per_token_ms": 16.705792792792792,
+        "prompt_per_second": 59.859475835916,
+        "predicted_n": 5,
+        "predicted_ms": 255.478,
+        "predicted_per_token_ms": 51.095600000000005,
+        "predicted_per_second": 19.571156811936838
+      }
+    },
+    {
+      "id": "synthetic_tool_call",
+      "description_ja": "合成weather toolの呼び出し形式",
+      "status_code": 200,
+      "elapsed_seconds": 5.818895086878911,
+      "passed": true,
+      "assertion_message_ja": "get_current_weather tool callを確認",
+      "finish_reason": "tool_calls",
+      "response_message_sha256": "afd7783344eca45108bf10f68269fcb3256c3e3b0a951c80a8f534d5dd009d86",
+      "usage": {
+        "completion_tokens": 22,
+        "prompt_tokens": 256,
+        "total_tokens": 278,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 256,
+        "prompt_ms": 4295.861,
+        "prompt_per_token_ms": 16.78070703125,
+        "prompt_per_second": 59.59224472113972,
+        "predicted_n": 22,
+        "predicted_ms": 1403.137,
+        "predicted_per_token_ms": 63.778954545454546,
+        "predicted_per_second": 15.679153211696363
+      }
+    }
+  ],
+  "result": "PASS"
+}

@@ -1,0 +1,4 @@
+2026-07-14T04:44:37Z 上流MoE baseline開始（FAMなし、HEADなし、CPU-only）
+2026-07-14T04:44:57Z 全会話case完了
+2026-07-14T04:44:57Z llama-serverへSIGTERMを送信
+2026-07-14T04:44:59Z report生成完了: note/moe-head-baseline/runs/20260714T044420Z-upstream-chat-p92737/REPORT.md

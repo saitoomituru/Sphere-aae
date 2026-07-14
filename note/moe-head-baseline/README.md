@@ -115,3 +115,10 @@ scripts/moe-head-baseline/run_upstream_baseline.sh
 6. HEAD bypass baseline結果
 
 各checkpointを`origin/moe-test-edition`へpushしてから次へ進む。
+
+## 実測状況
+
+- Phase 1: **PASS** — [2026-07-14 上流MoE一般応答baseline](runs/20260714T044420Z-upstream-chat-p92737/REPORT.md)
+- 一般日本語応答、複数turn履歴、合成tool callの3 caseが完走した。
+- 実測は最大CPU 368.9 %、最大RSS 7,562.1 MiB、GPU温度53–54 °C、GPU recovery増分0だった。
+- この結果をremoteへ保存してから、Phase 2のFAM未接続HEAD bypassへ進む。
