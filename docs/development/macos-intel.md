@@ -39,7 +39,7 @@ python -m pip install --upgrade pip build
 | 項目 | 構成 |
 |---|---|
 | モデル | Mac Pro (2019, MacPro7,1) |
-| CPU | Intel x86_64、3.3 GHz、6コア / 12スレッド |
+| CPU | Intel Core i7-5820K、3.3 GHz、6コア / 12スレッド、AVX2 + FMA |
 | メモリ | 64 GB |
 | GPU | AMD Radeon RX 5500 XT、VRAM 4 GB、Metal対応 |
 | OS | macOS 15.7.7 |
@@ -61,11 +61,15 @@ python -m pip install --upgrade pip build
 - Accelerate/vDSPのベクトル演算を実行
 - IORegistry上にApple Neural Engine deviceは見つからない
 
-従って、このマシンではANEを必須にせず、Metal / Metal Performance Shaders / Core MLのCPU+GPU / Accelerateを検証対象にします。Core MLの実モデル推論、`cpuOnly`と`cpuAndGPU`の結果一致、MPS kernel実行、Metal command buffer実行は次段のsmoke testとして追加します。
+従って、このマシンではANEを必須にせず、Metal / Metal Performance Shaders / Core MLのCPU+GPU / Accelerateを検証対象にします。
+
+FAM非接続の固定MLPを使ったsmoke testでは、Core ML `cpuOnly` / `cpuAndGPU`の推論結果一致、MPS行列積、Accelerate/vDSPを確認しました。極小fixtureのp50はbatch 1でCPU-only 0.1970 ms、CPU+GPU 0.2189 ms、batch 256でCPU-only 0.1898 ms、CPU+GPU 0.3160 msでした。この規模ではCPUが速い一方、GPU実行の可否は独立MPS testで確認しています。
+
+このCPUにAVX-512はありません。CPU高速経路を説明するときはAVX2 + FMAまたはAccelerateと表記します。実測の解釈と次の小型MoE候補は[ローカル火力実測と小型MoE選定ノート](local-firepower-small-moe-notes.md)を参照してください。
 
 OBS Virtual Cameraと`OND800 -> SAO800`ラインの日常稼働は、Apple nativeの映像・音声I/Oを含むend-to-end運用証跡として別枠で扱います。
 
-詳細は[MoEテスト環境・小型モデル調査](moe-test-stack-research.md)と[Core ML火力を含むMoEテスト計画](coreml-moe-test-plan.md)を参照してください。
+詳細は[MoEテスト環境・小型モデル調査](moe-test-stack-research.md)、[Core ML火力を含むMoEテスト計画](coreml-moe-test-plan.md)、[ローカル火力実測と小型MoE選定ノート](local-firepower-small-moe-notes.md)を参照してください。
 
 ## 現実的な利用範囲
 

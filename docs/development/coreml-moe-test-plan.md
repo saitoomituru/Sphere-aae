@@ -2,7 +2,7 @@
 
 - 再検討日: 2026-07-14 (JST)
 - 対象: `moe-test-edition`
-- 状態: 実装前の採用案
+- 状態: T0〜T2のFAM非接続smoke完了。T3以降は未着手
 
 ## 結論
 
@@ -18,6 +18,8 @@ FAM signal vector
 ```
 
 最初からQwenやOLMoE全体をCore MLへ変換しない。これにより、Core ML変換可否と既存MoE runtimeの正しさを分離する。
+
+FAM非接続fixtureの実測は[`logs/coreml/runs/20260714T033727Z/REPORT.md`](../../logs/coreml/runs/20260714T033727Z/REPORT.md)に保存した。極小fixtureではCPU-onlyがCPU+GPUより速く、MPSとAccelerateは別probeでPASSした。CPUはAVX2 + FMAでありAVX-512ではない。解釈と実weight候補は[ローカル火力実測と小型MoE選定ノート](local-firepower-small-moe-notes.md)を参照する。
 
 ## 1. 実機で確認したApple ML経路
 
@@ -233,11 +235,11 @@ T0〜T4通過後にのみQwen2MoE gateへ接続する。
 
 Apple SiliconでのANE結果をIntel Macの成功条件へ混ぜない。一方、同じ`.mlpackage`とgolden vectorを使い、将来Apple Siliconでbackend差を追加測定できる形にする。
 
-## 6. 実装開始判断
+## 6. 次段の開始判断
 
-最初に実装する範囲はT0〜T2である。必要な追加物は、Core ML専用Python環境、MIL fixture生成script、Swift/XCTest smoke test、共通golden vectorに限定する。
+T0〜T2はFAM非接続のMIL fixture、Swift runner、共通golden vectorで完了した。次に進める場合も、実weight会話試験とFAM/router接続を別工程にする。
 
-T0〜T2の結果を確認するまで、次は行わない。
+FAM/router接続の承認までは、次を行わない。
 
 - 実weight MoEの取得
 - Qwen全体のCore ML変換

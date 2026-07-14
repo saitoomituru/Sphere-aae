@@ -9,7 +9,7 @@
 
 最初の実装は、実weightを使わない**極小Qwen2MoE fixture**で行う。Sphere-aaeにすでに存在するQwen2MoEのgate直後へ、PithTrain PR #62と同じ形のrouter replay契約を追加し、CPUで固定expert選択を検証する。
 
-実weightを使う第二段階の第一候補は `allenai/OLMoE-1B-7B-0125` のGGUF `Q4_K_M` とする。ただし、これはまずllama.cppで実MoEのメモリ・速度基準を取るために使い、Sphere-aaeへのOLMoEローダー追加とrouter replay統合を同時には行わない。
+実weightは用途を分ける。日本語の日常会話とtool拡張を測る第一候補は`ibm-granite/granite-4.0-h-tiny-GGUF`の`Q4_K_M`、通常Transformer MoEのrouter比較は`allenai/OLMoE-1B-7B-0125-Instruct-GGUF`の`Q4_K_M`とする。いずれもまずllama.cppでメモリ・速度基準を取り、Sphere-aaeへのloader追加とrouter replay統合を同時には行わない。
 
 PithTrain本体は参照実装として追跡する。ローカルMacへそのまま導入する対象にはしない。
 
@@ -148,13 +148,15 @@ Core ML火力を含む周辺ライブラリの再選定と段階テストは、[
 
 Appleのfeature tableでもAMD 5000-seriesはMetal 3対象である。Core MLでは`.all`が利用可能なcompute unitからOSへ選択を任せ、`.cpuAndGPU`はNeural Engineを使わずCPU/GPUへ限定する。このためテストでは暗黙fallbackだけに依存せず、`cpuOnly`と`cpuAndGPU`を明示して結果を比較する。
 
-現時点で確認したのはframework/API/演算経路であり、`.mlpackage`を使ったCore ML実モデル推論は未確認である。最初のApple native smoke testは、数KB〜数MBの固定モデルで次を測る。
+FAM非接続の固定`.mlpackage`を使ったCore ML smoke testまで完了した。数KB〜数MBの固定モデルで次を確認した。
 
 1. `cpuOnly`での推論成功
 2. `cpuAndGPU`での推論成功と出力一致
-3. MPS行列演算または畳み込みの実行
-4. Metal shaderのAIR compileとcommand buffer実行
+3. MPS行列演算の実行
+4. Accelerate/vDSPの実行
 5. ANEを要求しなくても機能が成立すること
+
+極小fixtureではCPU-onlyがCPU+GPUより速かった。これはAVX-512ではなくCore i7-5820KのAVX2 + FMA / Apple CPU経路によるものであり、実LLM速度の代用値にはしない。詳細は[ローカル火力実測と小型MoE選定ノート](local-firepower-small-moe-notes.md)を参照する。
 
 OBS Virtual Cameraと`OND800 -> SAO800`ラインの日常稼働は、映像・音声を含む周辺I/O互換性の運用証跡として記録する。ただしMoE数値テストの合否とは分離し、Apple native配信・エージェント入出力ラインのend-to-end試験で利用する。
 
@@ -170,16 +172,24 @@ OBS Virtual Cameraと`OND800 -> SAO800`ラインの日常稼働は、映像・�
 | 候補 | 規模 | ローカル適性 | Sphere-aaeとの距離 | 判断 |
 |---|---:|---|---|---|
 | 極小Qwen2MoE fixture | hidden 64〜128、1〜2層、4 expert、top-2 | weight不要、CPUで高速 | 既存Qwen2MoEを直接利用 | **第一段階に採用** |
-| OLMoE-1B-7B-0125 | 7B total / 約1B active、64 expert / top-8 | Q4_K_M約4.21 GB、64 GB RAMで射程内 | OLMoEローダーは未実装 | **実weight第一候補** |
+| Granite-4.0-H-Tiny | 7B total / 1B active、64 expert / top-6 | Q4_K_M 4.23 GB、日本語・tool calling対応 | Mamba2 + MoEで追加要素が多い | **日常会話＋拡張の第一候補** |
+| OLMoE-1B-7B-0125-Instruct | 7B total / 約1.3B active、64 expert / top-8 | Q4_K_M 4.21 GB、64 GB RAMで射程内 | OLMoEローダーは未実装 | **router比較の第一候補** |
+| LFM2-8B-A1B | 8.3B total / 1.5B active | Q4_K_M 5.04 GB、日本語・tool use対応 | convolution + attentionのhybrid | edge会話の比較候補 |
 | Qwen1.5-MoE-A2.7B | 14.3B total / 2.7B active、60 expert / top-4 | CPU容量上は可能だが初手には重い | Qwen2MoE実装が既存 | **統合第二候補** |
-| Granite-4.0-H-Tiny | 7B total / 1B active | サイズは良い | Mamba2 + MoEで追加要素が多い | 今回は保留 |
 | Qwen3-30B-A3B | 30B total / 3B active | 4 GB VRAMでは不適、CPUでも重い | Qwen3MoE実装が既存 | クラウド段階へ延期 |
 
-OLMoEはApache-2.0で、学習コード・データ・checkpoint・ログまで公開されている。GGUF Q4_K_Mは約4.21 GBで、現状約70 GiBの空き容量にも収まる。ただし変換前weightは取らず、第二段階でもGGUF一種類だけに限定する。
+Granite H-TinyはApache-2.0で、日本語、128K context、tool callingを公式model cardで明記し、公式GGUF Q4_K_Mは4.23 GBである。4 GB VRAMへ全常駐はさせず、CPU/RAM主体とMetal partial offloadで開始する。
+
+OLMoEもApache-2.0で、学習コード・データ・checkpoint・ログまで公開されている。Instruct GGUF Q4_K_Mは4.21 GBで、MoE routerを追跡するreferenceに向く。ただし主言語は英語なので、日本語会話の第一候補にはしない。
 
 公式資料:
 
 - OLMoE model: https://huggingface.co/allenai/OLMoE-1B-7B-0125
+- OLMoE Instruct GGUF: https://huggingface.co/allenai/OLMoE-1B-7B-0125-Instruct-GGUF
+- Granite 4.0 H-Tiny: https://huggingface.co/ibm-granite/granite-4.0-h-tiny
+- Granite 4.0 H-Tiny GGUF: https://huggingface.co/ibm-granite/granite-4.0-h-tiny-GGUF
+- LFM2-8B-A1B: https://huggingface.co/LiquidAI/LFM2-8B-A1B
+- LFM2-8B-A1B GGUF: https://huggingface.co/LiquidAI/LFM2-8B-A1B-GGUF
 - OLMoE paper: https://arxiv.org/abs/2409.02060
 - Qwen2MoE仕様: https://huggingface.co/docs/transformers/model_doc/qwen2_moe
 - Granite 4.0仕様: https://www.ibm.com/granite/docs/models/granite
@@ -209,7 +219,8 @@ OLMoEはApache-2.0で、学習コード・データ・checkpoint・ログまで�
 6. 固定index、force-balanced、Core ML裁定、無効化の4ケースを通す。
 7. FAM裁定結果からexpert indexを作るadapter契約を追加する。
 8. 同じ契約をSphere-aaeのQwen2MoE gate直後へ接続する。
-9. native Metal / CPU / Core MLテストを通した後にだけ、OLMoE Q4_K_Mを取得して実weight基準を測る。
+9. native Metal / CPU / Core MLテストを通した後にだけ、Granite Q4_K_Mで日常会話・tool基準を測る。
+10. OLMoE Q4_K_Mはrouter比較が必要になった時だけ取得する。
 
 ## 7. 成功条件と停止条件
 
@@ -232,4 +243,4 @@ OLMoEはApache-2.0で、学習コード・データ・checkpoint・ログまで�
 
 ## 採用判断
 
-環境構成は「Sphere native + Python 3.12固定reference + 任意のllama.cpp実weight基準 + Apple native互換」の四層とし、モデルは「極小Qwen2MoE fixture -> OLMoE Q4 -> Qwen1.5-MoE」の順で進める。この構成なら、GPU購入前にrouter replayとFAM adapterの主要設計を検証しながら、Metal / MPS / Core ML / Accelerateを使うApple向けビルドラインも維持できる。
+環境構成は「Sphere native + Python 3.12固定reference + 任意のllama.cpp実weight基準 + Apple native互換」の四層とする。router/FAM実装は「極小Qwen2MoE fixture -> OLMoE reference -> Qwen1.5-MoE統合」、日常会話は「Granite H-Tiny -> 必要ならLFM2」の別レーンで進める。この構成なら、GPU購入前にrouter replayとFAM adapterの主要設計を検証しながら、軽量会話・tool useとApple向けビルドラインも評価できる。
