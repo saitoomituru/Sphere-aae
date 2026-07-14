@@ -39,6 +39,15 @@
 - 取得元: https://github.com/ggml-org/llama.cpp/releases/tag/b9637
 - 注意: 公式macOS x86_64配布物はMetal無効。Phase 1のCPU-only基準に使い、Metal版は必要になった段階でlocal buildへ分離する。
 
+固定model:
+
+- repository: `ibm-granite/granite-4.0-h-tiny-GGUF`
+- revision: `08d5a8a9741dd5c1a95d2d39e25253226aa1464e`
+- file: `granite-4.0-h-tiny-Q4_K_M.gguf`
+- size: `4,230,976,352 bytes`（約3.94 GiB）
+- LFS SHA256: `5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd`
+- 取得元: https://huggingface.co/ibm-granite/granite-4.0-h-tiny-GGUF/tree/08d5a8a9741dd5c1a95d2d39e25253226aa1464e
+
 ## Phase 2: MoE HEAD bypass baseline
 
 1. 既存Core ML `16 -> 32 -> 4` fixtureをFAM未接続HEADとしてbuildする。
