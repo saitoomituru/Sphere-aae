@@ -245,6 +245,17 @@ T0〜T2の結果を確認するまで、次は行わない。
 - PithTrain本体の導入
 - Core ML componentのSphere-aae本線接続
 
+### 火力実行時の保存・thermal policy
+
+- CPU/GPU負荷を掛ける前に、作業ツリーをcommitし`moe-test-edition`へpushする。
+- 未commit差分または未push commitがある場合、実行scriptは停止する。
+- 実行中はAMD driverのIORegistry telemetryからGPU温度、activity、power、fan、VRAM、recovery countを記録する。
+- 既定80 °Cでthermal guardを作動させ、対象workloadを終了する。
+- CPU温度は非root CLIで取得できないため、取得不可であることをreportへ明記する。
+- runごとに`logs/coreml/runs/<UTC timestamp>/`へ生ログとMarkdown reportを保存する。
+- reportをcommitし、`moe-test-edition`へpushしてから次の負荷試験へ進む。
+- OBS Virtual Camera等の日常系を自動で停止・再起動しない。
+
 ## 公式資料
 
 - Core ML compute units: https://developer.apple.com/documentation/coreml/mlcomputeunits
