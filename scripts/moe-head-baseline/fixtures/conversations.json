@@ -1,0 +1,97 @@
+{
+  "description_ja": "FAM未接続の上流MoE一般応答baseline。実在人物・機密情報を含まない合成promptのみを使う。",
+  "model_alias": "granite-4.0-h-tiny-q4km",
+  "generation": {
+    "temperature": 0.0,
+    "seed": 424242,
+    "max_tokens": 96
+  },
+  "cases": [
+    {
+      "id": "japanese_general",
+      "description_ja": "短い日本語の一般応答",
+      "messages": [
+        {
+          "role": "system",
+          "content": "あなたは簡潔で正確な日本語アシスタントです。"
+        },
+        {
+          "role": "user",
+          "content": "朝に温かい飲み物を用意する利点を、二点だけ日本語で説明してください。"
+        }
+      ],
+      "assertion": {
+        "kind": "non_empty_japanese_content"
+      }
+    },
+    {
+      "id": "japanese_multi_turn",
+      "description_ja": "会話履歴を使う複数turn応答",
+      "messages": [
+        {
+          "role": "system",
+          "content": "あなたは簡潔で正確な日本語アシスタントです。"
+        },
+        {
+          "role": "user",
+          "content": "この会話だけで使う合言葉は『青い星』です。覚えてください。"
+        },
+        {
+          "role": "assistant",
+          "content": "合言葉は『青い星』ですね。"
+        },
+        {
+          "role": "user",
+          "content": "先ほどの合言葉だけを答えてください。"
+        }
+      ],
+      "assertion": {
+        "kind": "content_contains",
+        "value": "青い星"
+      }
+    },
+    {
+      "id": "synthetic_tool_call",
+      "description_ja": "合成weather toolの呼び出し形式",
+      "messages": [
+        {
+          "role": "system",
+          "content": "必要な情報は提供されたtoolで取得してください。"
+        },
+        {
+          "role": "user",
+          "content": "架空都市Testvilleの現在の天気をget_current_weather toolで調べてください。"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_current_weather",
+            "description": "指定した架空都市の合成天気データを取得する",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "city": {
+                  "type": "string",
+                  "description": "架空都市名"
+                }
+              },
+              "required": [
+                "city"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      ],
+      "tool_choice": "required",
+      "assertion": {
+        "kind": "tool_call",
+        "function_name": "get_current_weather",
+        "argument_key": "city",
+        "argument_contains": "Testville"
+      }
+    }
+  ]
+}

@@ -27,9 +27,29 @@
 2. 配布物のhash、version、取得元をmanifestへ保存する。
 3. `Granite 4.0 H-Tiny Q4_K_M`を公式repositoryから取得する。
 4. model SHA256とsizeをmanifestへ保存する。
-5. CPU-only、context 2,048、temperature 0、thread 6で短い日本語会話を実行する。
+5. CPU-only、context 2,048、temperature 0、生成・batchともにthread 6で短い日本語会話を実行する。
 6. 一般応答、複数turn、tool call形式を確認する。
 7. 応答、load時間、token速度、RSS、GPU telemetryをrun noteへ保存する。
+
+実行command:
+
+```bash
+scripts/moe-head-baseline/run_upstream_baseline.sh
+```
+
+実行前checkはfail-closedとし、次のいずれかを満たさない場合はmodelをloadしない。
+
+- branchが`moe-test-edition`で、作業treeがcleanである。
+- `HEAD`がlocal upstreamと`origin`のlive remote SHAの両方に一致する。
+- 空き容量が40 GiB以上ある。
+- 固定runtime archive、`llama-server`、modelのSHA256が一致する。
+- runtimeがx86_64かつAccelerate CPU-onlyである。
+- AMD GPU温度telemetryを取得でき、実行開始時に75 °C未満である。
+- `127.0.0.1:18080`を確保できる。
+
+試験中はAMD GPU温度guardと`llama-server`のCPU/RSS監視を並走させる。CPU温度は非root CLIから直接取得できないため、physical core数と同じ6 threadへ制限し、load average、timeout、SIGTERMを併用する。会話応答は各case終了時に`note/`へ即時保存し、停電や熱停止時にも完了済みcaseを残す。
+
+会話caseは、短い日本語応答、複数turn履歴、単一の合成tool callの3件とする。toolは構造だけを検証し、実際には実行しない。
 
 固定runtime:
 
