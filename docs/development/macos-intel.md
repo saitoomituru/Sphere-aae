@@ -47,6 +47,26 @@ python -m pip install --upgrade pip build
 
 `USE_METAL=ON`、`USE_LLVM=OFF`、`BUILD_CPP_TEST=ON` の構成で、共有ライブラリ、静的ライブラリ、C++テスト実行ファイルのx86_64ビルドとテスト2件の通過を確認しています。実モデルを使った推論速度とMetalカーネルの動作は、この検証には含まれません。
 
+## Apple native互換ライン
+
+この環境では、Sphere-aaeのMetal backendに加えて、Apple純正のML・数値演算frameworkをx86_64 + AMD GPU向けビルドラインとして利用できます。
+
+2026-07-14に次を実測しました。
+
+- AMD Radeon RX 5500 XTをMetal deviceとして取得
+- `MTLDevice.supportsFamily(.metal3) == true`
+- `xcrun metal` 32023.404でAIR target向けcompile toolchainを確認
+- `MPSSupportsMTLDevice`がRX 5500 XTに対して`true`
+- Core ML frameworkをloadし、`MLComputeUnits.cpuAndGPU`を選択可能
+- Accelerate/vDSPのベクトル演算を実行
+- IORegistry上にApple Neural Engine deviceは見つからない
+
+従って、このマシンではANEを必須にせず、Metal / Metal Performance Shaders / Core MLのCPU+GPU / Accelerateを検証対象にします。Core MLの実モデル推論、`cpuOnly`と`cpuAndGPU`の結果一致、MPS kernel実行、Metal command buffer実行は次段のsmoke testとして追加します。
+
+OBS Virtual Cameraと`OND800 -> SAO800`ラインの日常稼働は、Apple nativeの映像・音声I/Oを含むend-to-end運用証跡として別枠で扱います。
+
+詳細は[MoEテスト環境・小型モデル調査](moe-test-stack-research.md)を参照してください。
+
 ## 現実的な利用範囲
 
 - C++ランタイム、FAMルーティング、LAST_ORDER、API層の開発と単体テスト: 十分可能

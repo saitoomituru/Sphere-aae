@@ -194,6 +194,8 @@ System
 
 ## 扁桃体MoE（検討中）
 
+> **調査メモ:** Intel Mac上の最小テスト環境、PithTrain `router_replay`の互換性、小型MoE候補の採否は [MoEテスト環境・小型モデル調査](docs/development/moe-test-stack-research.md) にまとめています。
+
 複数のFAM信号（例:「これはアストラルの何段目か」「エレメンタルの何段目か」）が同時に到着した場合、その結合順序・優先順位を裁定する専用の小型MoEを、既存のMoEルーター本体とは別に用意することを検討しています。
 
 ```text
