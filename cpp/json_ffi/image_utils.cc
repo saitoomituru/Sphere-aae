@@ -12,7 +12,7 @@ namespace json_ffi {
 
 using namespace tvm::runtime;
 
-class MemoryBufferStream : public dsphere_aae::Stream {
+class MemoryBufferStream : public dmlc::Stream {
  public:
   MemoryBufferStream(const char* data, size_t size) : data_(data), size_(size), pos_(0) {}
 

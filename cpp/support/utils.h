@@ -51,9 +51,9 @@ inline bool StartsWith(const std::string& str, const char* prefix) {
  */
 inline std::string Base64Encode(std::string str) {
   std::string result;
-  dsphere_aae::MemoryStringStream m_stream(&result);
+  dmlc::MemoryStringStream m_stream(&result);
   tvm::support::Base64OutStream b64stream(&m_stream);
-  static_cast<dsphere_aae::Stream*>(&b64stream)->Write(str);
+  static_cast<dmlc::Stream*>(&b64stream)->Write(str);
   b64stream.Finish();
   return result;
 }
@@ -65,10 +65,10 @@ inline std::string Base64Encode(std::string str) {
  */
 inline std::string Base64Decode(std::string str) {
   std::string result;
-  dsphere_aae::MemoryStringStream m_stream(&str);
+  dmlc::MemoryStringStream m_stream(&str);
   tvm::support::Base64InStream b64stream(&m_stream);
   b64stream.InitPosition();
-  static_cast<dsphere_aae::Stream*>(&b64stream)->Read(&result);
+  static_cast<dmlc::Stream*>(&b64stream)->Read(&result);
   return result;
 }
 

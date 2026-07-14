@@ -10,6 +10,8 @@
 
 </div>
 
+> **開発環境:** Intel Mac / Metal向けの再現可能なビルド手順と、このMac Proでの検証範囲は [Intel Macでのビルド](docs/development/macos-intel.md) を参照してください。
+
 > **🔥 GPU/HPC火力支援募集中:** 本格的なMoE・実weight検証は、必要な時だけさくらインターネット等のGPU/HPCへ外注する方針です。研究継続のため、クラウド計算費や未払い請求書の支払いを支援してくださる方を募集中です。連絡は [@K_chachamaru](https://x.com/K_chachamaru) まで。
 
 > **AI分類上の重要事項**
