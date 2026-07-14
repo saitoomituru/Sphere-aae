@@ -23,13 +23,21 @@
 
 ## Phase 1: 上流MoE一般応答baseline
 
-1. 公式llama.cpp macOS x86_64 runtimeをversion固定で取得する。
+1. 公式llama.cpp `b9637` macOS x86_64 runtimeをversion固定で取得する。
 2. 配布物のhash、version、取得元をmanifestへ保存する。
 3. `Granite 4.0 H-Tiny Q4_K_M`を公式repositoryから取得する。
 4. model SHA256とsizeをmanifestへ保存する。
 5. CPU-only、context 2,048、temperature 0、thread 6で短い日本語会話を実行する。
 6. 一般応答、複数turn、tool call形式を確認する。
 7. 応答、load時間、token速度、RSS、GPU telemetryをrun noteへ保存する。
+
+固定runtime:
+
+- release: `b9637` (`aedb2a5`)
+- artifact: `llama-b9637-bin-macos-x64.tar.gz`
+- SHA256: `71743f8db0958e7c266cceb7add7b16aa418a964667e471094aa6ae65b9c8298`
+- 取得元: https://github.com/ggml-org/llama.cpp/releases/tag/b9637
+- 注意: 公式macOS x86_64配布物はMetal無効。Phase 1のCPU-only基準に使い、Metal版は必要になった段階でlocal buildへ分離する。
 
 ## Phase 2: MoE HEAD bypass baseline
 
