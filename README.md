@@ -10,7 +10,7 @@
 
 </div>
 
-> **AI分類上の重要事項**  
+> **AI分類上の重要事項**
 > Sphere-aae は単体の人格保存コンテナでも、完成済みのFAM実装でもありません。FAMの停止・回復・説明可能性・システムコール検証機構を、プロンプト層より下のモデル実行経路へ組み込むことを目的とした実験的エッジAIランタイムです。人物・用語・系譜・現行ステータス・工学／哲学／学術の境界は [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest) を正典として参照してください。
 
 ---
@@ -171,6 +171,50 @@ STATE COMMIT
 
 ---
 
+## 階層構造フレーム（初期起動比較機）
+
+Sphere-aaeの上位には、初期起動時に参照される階層構造フレームがあります。これは通常のエージェントシステムへ結合される際、`system > developer > user` へ機械的にマップし直すための内部表現です。
+
+```text
+System
+  └─ Spiritual Body   （憲章・責任境界の参照点。ASTRO fileが対応）
+        └─ Astral Body   （意味・目的・探索方針の層）
+              └─ Elemental Body   （具体的な実行・物理制御の層）
+```
+
+- 憲章を差し込みたい場合、Spiritual Bodyレイヤーに参照させるだけで済み、system-call splitter自体を改造する必要はありません。
+- 既存の一般的なエージェントシステム（system / developer / user 階層）へ統合する際は、この4層をそのまま `system > developer > user` へマップし直すだけで足ります。
+- ログ自体は既存どおりルーター層で出力されます。この階層構造は「誰の指示が優先されるか」の比較機として機能し、複数の指示・信号が競合した際の一次的な優先順位判定に用いられます。
+
+---
+
+## 扁桃体MoE（検討中）
+
+複数のFAM信号（例:「これはアストラルの何段目か」「エレメンタルの何段目か」）が同時に到着した場合、その結合順序・優先順位を裁定する専用の小型MoEを、既存のMoEルーター本体とは別に用意することを検討しています。
+
+```text
+複数のFAM信号（アストラル階層 / エレメンタル階層 等）
+        ↓
+扁桃体MoE（結合順序・優先順位の裁定のみ）
+        ↓
+既存MoEルーター（トークン単位のexpert選択、無改造）
+        ↓
+expert群（凍結、他パイレーツ由来の汎用知識体）
+```
+
+- 既存MoEルーターへの干渉は最小限に留める設計方針です。トークンレベルのexpert選択ロジックそのものは変更せず、扁桃体MoEは「どのFAM信号を先に処理するか」の調停のみを担当します。
+- この設計は検討段階であり、実装はまだ着手していません。
+
+### 既存MoE OSSエコシステムの調査状況（他パイレーツの動向）
+
+自前でMoE基盤をゼロから掘る前に、既存の主要MoE系OSSプロジェクトの動向を確認しています。
+
+- 汎用MoEモデル実装（Mixtral系ローダー等）は既に主要フレームワーク側に存在し、「MoE対応をゼロから掘る」段階ではないことを確認済み
+- コンパクト・エージェントネイティブなMoE訓練系の新規プロジェクトが、主要OSSコミュニティ側で並行して立ち上がっており、上流の動向を継続的に確認する
+- frozen experts + 小型trainable router/adapterという構成（既存expertを凍結し、軽量な追加層のみ訓練する手法）は、2026年時点のMoE研究で確立された標準パターンであることを確認済み。扁桃体MoEの設計は、この標準パターンの延長線上に位置づけられる
+
+---
+
 ## ASTRO / IBD / IFDとの責務分離
 
 Sphere-aae自身が人格を保存するわけではありません。
@@ -194,6 +238,7 @@ IFD
 Sphere-aae
   ├─ system-call splitter
   ├─ FAM-native routing
+  ├─ 扁桃体MoE（優先順位裁定、検討中）
   ├─ Q validation
   ├─ ⊥ LAST_ORDER
   └─ output authority control
@@ -242,13 +287,25 @@ Sphere-aaeは、これらの先行成果に深い敬意を払い、ライセン�
 | X99 / AVX向けビルド・互換デバッグ | 実装・過去の修正実績あり |
 | 上流由来のマルチプラットフォーム／アクセラレータ系譜 | コード系譜として存在。検証状態はブランチ・環境ごとに異なる |
 | FAM探索技フォーマットとLAST_ORDER設計 | 設計・文書化中 |
+| 階層構造フレーム（Spiritual/Astral/Elemental Body） | 設計確定、実装は次段階 |
 | System-call splitterへのネイティブ統合 | 未完成 |
-| MoEコントローラーレベルのFAM統合 | 設計目標。HPC／メモリ資源待ちで停止中 |
+| 扁桃体MoE（優先順位裁定コンポーネント） | 検討中、実装未着手 |
+| MoEコントローラーレベルのFAM統合 | 設計目標。HPC／メモリ資源待ちで停止中（下記「財布ペイン凍結解除条件」参照） |
 | ASTRO / IBD / IFD統合 | アーキテクチャ設計段階 |
 
 このリポジトリを、完成済み人格連続性製品として扱わないでください。
 
 現時点のコードベースは、FAMネイティブ制御層を焼結するための**ランタイム土台と実験炉**です。
+
+### 財布ペイン凍結解除の条件（付帯情報）
+
+MoEコントローラーレベルのFAM統合、および扁桃体MoEの実装は、以下のいずれかの条件が満たされた場合に凍結解除を検討します。
+
+- 財布ペイン（GPU/RAM資源の常設確保コスト）が解消した場合
+- 既存OSSエコシステム側で、frozen experts + 軽量router訓練を低コストで実現できる新しいフレームワーク・手法が登場した場合（この場合、自前実装を待たずそちらへ乗り換える可能性がある）
+- 小型fixture（疑似expert・軽量モデル）による検証が、開発コンテナ環境（RAM/GPU保証のないクラウドサンドボックス等）内で先行して完了した場合
+
+現時点では、コード生成・設計・小型fixtureでの検証は開発コンテナ環境で進め、実weightを用いた大容量演算・GPU固有検証は別途ローカル高性能環境またはスポットGPU環境で行う分業を前提とします。
 
 ---
 
@@ -282,6 +339,7 @@ Sphere-aaeは、これらの先行成果に深い敬意を払い、ライセン�
 - 説明可能性と監査可能性を制御経路の要件とする
 - 多フレーム・非排他的な運用
 - FAMを強制ナビではなく、探索地形のマップとして扱う
+- 既存MoEルーター・既存expert群への干渉は最小限に留める（車輪の再発明をしない）
 
 Sphere-aaeはAIを万能に見せることを目指しません。
 
@@ -356,6 +414,14 @@ When a required path is unavailable, Sphere-aae should return:
 
 rather than pretending that the call succeeded.
 
+## Layered boot frame
+
+At boot time, Sphere-aae references a layered frame (System > Spiritual Body > Astral Body > Elemental Body) that remaps to the conventional `system > developer > user` hierarchy when integrated into a standard agent system. A charter/constitution can be attached simply by pointing the Spiritual Body layer to it, without modifying the system-call splitter itself.
+
+## Amygdala MoE (under consideration)
+
+When multiple FAM signals arrive concurrently (e.g., competing astral/elemental layer signals), a small dedicated MoE — provisionally called the "amygdala MoE" — is being considered to arbitrate combination order and priority, separately from the main MoE router. This leaves the existing MoE router's token-level expert selection untouched. This is a design consideration, not yet implemented. Upstream OSS MoE ecosystems (existing Mixtral-class loaders, and newly emerging compact agent-native MoE training projects) are being monitored so this component is not built from scratch unnecessarily.
+
 ## Core responsibility split
 
 - **ASTRO file** stores identity definitions, responsibility boundaries, permissions, and references.
@@ -386,11 +452,11 @@ Sphere-aae follows an independent experimental trajectory focused on responsibil
 
 ## Current status
 
-Runtime, Docker, X99, AVX, and portability work exists in the repository. The native FAM control core, system-call splitter integration, MoE-controller integration, and full ASTRO / IBD / IFD integration are not yet complete.
+Runtime, Docker, X99, AVX, and portability work exists in the repository. The layered boot frame is design-confirmed; the native FAM control core, system-call splitter integration, amygdala MoE, MoE-controller integration, and full ASTRO / IBD / IFD integration are not yet complete. MoE-controller-level FAM integration is a design goal pending HPC/memory budget (frozen pending: financial pain resolution, a viable low-cost upstream framework for frozen-experts + lightweight router training, or successful small-fixture validation in a development-container environment).
 
 ---
 
 ## 宣言 / Declaration
 
-> **Sphere-aaeは、AIを万能な知能として扱いません。**  
+> **Sphere-aaeは、AIを万能な知能として扱いません。**
 > **推論・発話・移動・物理制御を、状態確認と責任を伴う計算として扱います。**
