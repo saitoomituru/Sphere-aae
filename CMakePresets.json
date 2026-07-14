@@ -1,0 +1,64 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 24,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "macos-metal",
+      "displayName": "macOS Metal (Ninja, RelWithDebInfo)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/macos-metal",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "USE_METAL": "ON",
+        "USE_LLVM": "OFF",
+        "BUILD_CPP_TEST": "ON"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "macos-cpu",
+      "displayName": "macOS CPU only (Ninja, RelWithDebInfo)",
+      "inherits": "macos-metal",
+      "binaryDir": "${sourceDir}/build/macos-cpu",
+      "cacheVariables": {
+        "USE_METAL": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "macos-metal",
+      "configurePreset": "macos-metal",
+      "jobs": 6
+    },
+    {
+      "name": "macos-cpu",
+      "configurePreset": "macos-cpu",
+      "jobs": 6
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "macos-metal",
+      "configurePreset": "macos-metal",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "macos-cpu",
+      "configurePreset": "macos-cpu",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

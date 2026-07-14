@@ -73,11 +73,12 @@ add_subdirectory(${TOKENZIER_CPP_PATH} tokenizers EXCLUDE_FROM_ALL)
 set(XGRAMMAR_PATH 3rdparty/xgrammar)
 tvm_file_glob(GLOB_RECURSE SPHERE_AAE_SRCS cpp/*.cc)
 tvm_file_glob(GLOB_RECURSE XGRAMMAR_SRCS ${XGRAMMAR_PATH}/cpp/*.cc)
-list(FILTER XGRAMMAR_SRCS EXCLUDE REGEX "${XGRAMMAR_PATH}/cpp/pybind/.*\\.cc")
+list(FILTER XGRAMMAR_SRCS EXCLUDE REGEX "${XGRAMMAR_PATH}/cpp/(pybind|nanobind)/.*\\.cc")
 list(APPEND SPHERE_AAE_SRCS ${XGRAMMAR_SRCS})
 add_library(sphere_aae_objs OBJECT ${SPHERE_AAE_SRCS})
 
 set(SPHERE_AAE_INCLUDES
+    ${XGRAMMAR_PATH}/3rdparty/picojson
     ${TVM_SOURCE_DIR}/include ${TVM_SOURCE_DIR}/3rdparty/dlpack/include
     ${TVM_SOURCE_DIR}/3rdparty/dmlc-core/include
     ${TVM_SOURCE_DIR}/3rdparty/picojson)
@@ -125,6 +126,7 @@ endif()
 
 if(BUILD_CPP_TEST)
   message(STATUS "Building cpp unittests")
+  enable_testing()
   add_subdirectory(3rdparty/googletest)
   file(GLOB_RECURSE SPHERE_AAE_TEST_SRCS
        ${PROJECT_SOURCE_DIR}/tests/cpp/*unittest.cc)
@@ -132,9 +134,12 @@ if(BUILD_CPP_TEST)
   target_include_directories(sphere_aae_cpp_tests PRIVATE ${SPHERE_AAE_INCLUDES})
   target_include_directories(sphere_aae_cpp_tests
                              PRIVATE ${PROJECT_SOURCE_DIR}/cpp)
+  target_include_directories(sphere_aae_cpp_tests PRIVATE ${TOKENZIER_CPP_PATH}/include)
+  target_include_directories(sphere_aae_cpp_tests PRIVATE ${XGRAMMAR_PATH}/include)
   target_include_directories(
     sphere_aae_cpp_tests PRIVATE ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
   target_link_libraries(sphere_aae_cpp_tests PUBLIC sphere_aae gtest gtest_main)
+  add_test(NAME sphere_aae_cpp_tests COMMAND sphere_aae_cpp_tests)
 endif(BUILD_CPP_TEST)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Android")
