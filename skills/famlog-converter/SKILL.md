@@ -7,7 +7,7 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 
 ## 仕様メタデータ
 
-- version: `0.2.0`
+- version: `0.3.0`
 - status: `draft`
 - fold_signature: `ψ → ∇φ → λ → Q`
 - license: `CC-BY 4.0`（この仕様本文のみ。入力ログの権利を変更しない）
@@ -43,9 +43,11 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 - 話者を `user` / `assistant` だけで表現する
 - AIの同一人格、継続性、provider間同一性を推定する
 - `SIN_Temperature` を文章内容から算出する
+- リスク判定を文章内容から生成する
 - 明示的な検証根拠なしに `validated_in_context` を付ける
 - 旧FAMを上書き修復する
 - expert index、router優先度、最終的な⊥判定を決める
+- `declared_scope` の記述、world解決要否、world不明のいずれかだけを根拠に `⊥` を立てる
 - 生ログまたは変換済みレコードの本文を標準出力、Git、クラウドへ流す
 - PIIが露出しない構造だと主張する。`ψ` は原文を保持するためPIIを含み得る
 
@@ -98,7 +100,10 @@ Whoはactor参照、Whatは`ψ`、Where・When・Which World・Context/Constrain
 - 通常の一次記録は `draft`
 - 明示的な追試・合意・検証メタデータがある場合だけ `validated_in_context`
 - この変換器の管轄外の検証要求は `out_of_scope`
-- world解決が必要なのに不明なら `requires_conversion_layer` とし、`Q.result` を `⊥` にする
+
+worldが関与しない単純分類・ラベル付けでは、world条件を一切課さず、そのまま処理する。
+
+worldが関与し、かつ `Q.world == "unknown"` の場合も、world不明だけでは `Q.status` と `Q.result` を変更しない。上位FAMまたは呼び出し元から明示的に渡されたリスクゲートが探索継続を `block` とした場合だけ、`Q.status` を `requires_conversion_layer`、`Q.result` を `⊥` にする。`allow`、`not_evaluated`、`unknown` の場合は既存statusと非⊥resultを維持して次段へ渡す。明示的なrisk blockを伴わない旧版の⊥は派生レコードで`null`にし、`repair_ledger`へ記録する。スプリッター自身はリスク判定を生成しない。
 
 `SIN_Temperature` は入力または呼び出し元が明示した値だけを転記する。欠けていれば `unknown` とする。安全帯の解釈と最終エスカレーションは `declared_scope` を持つ上位FAMへ委ねる。
 
@@ -137,6 +142,8 @@ JSON Schema、一意ID、span境界、参照整合、条件付き制約を検査
 - 同じ入力から同じIDと構造が再生成される
 - Actor、AgentInstance、Runtime、RoleAssignmentが混同されない
 - world不明を現実へ補完しない
+- world不明、world解決要否、`declared_scope` だけを根拠に `⊥` を立てない
+- `⊥` は、worldが関与し、worldが不明で、明示的な上位リスクゲートが探索継続を `block` した場合だけ成立する
 - 複数FAM層と根拠spanが保持される
 - 変換・修復の出典と差分を追跡できる
 - 生データまたは変換済み本文がGit、クラウド、標準出力へ出ていない

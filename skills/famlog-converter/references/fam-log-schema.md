@@ -1,6 +1,22 @@
-# FAMログ・スプリッター構造契約 v0.2.0
+# FAMログ・スプリッター構造契約 v0.3.0
 
 この文書は `famlog-converter` の詳細な入出力契約である。実装、変換、教師データ設計、fixture作成の前に参照する。
+
+## 目次
+
+1. 責務境界
+2. エンティティ
+3. 関係候補
+4. 推奨レコード形
+5. FAM層ルーティング
+6. Q.statusの機械的決定
+7. SIN_Temperature
+8. Actor・Instance・Runtime
+9. 安定ID
+10. 非破壊修復
+11. 教師データのヘッド分離
+12. データ保護とGit
+13. 検証項目
 
 ## 1. 責務境界
 
@@ -48,7 +64,7 @@ edgeには必ず `evidence_span` または構造メタデータ由来の `eviden
 
 ```json
 {
-  "schema_version": "fam.log.splitter/0.2.0",
+  "schema_version": "fam.log.splitter/0.3.0",
   "record_id": "famrec:sha256-prefix:interaction-0001:claim-0003",
   "source": {
     "source_artifact_id": "source:sha256-prefix",
@@ -107,7 +123,13 @@ edgeには必ず `evidence_span` または構造メタデータ由来の `eviden
       "where": "unknown",
       "when": "unknown",
       "context": "unknown",
-      "result": "⊥",
+      "world_relevance": "not_involved",
+      "risk_gate": {
+        "decision": "not_evaluated",
+        "source": "upstream-or-caller",
+        "evidence_ref": null
+      },
+      "result": null,
       "source": {"SIN_Temperature": "unknown"},
       "declared_scope": "splitter_training"
     },
@@ -116,7 +138,7 @@ edgeには必ず `evidence_span` または構造メタデータ由来の `eviden
   "relations": [],
   "audit": {
     "converter": "famlog-converter",
-    "converter_version": "0.2.0",
+    "converter_version": "0.3.0",
     "generated_at": "RFC3339 timestamp",
     "repair_applied": false,
     "repair_ledger_ref": null
@@ -144,17 +166,27 @@ edgeには必ず `evidence_span` または構造メタデータ由来の `eviden
 | `draft` | 一次記録または明示検証メタデータなし |
 | `validated_in_context` | 原資料に追試、合意、sensor再観測等の検証メタデータが明示されている |
 | `out_of_scope` | 呼び出し元が、この変換器の担当外にある形式検証を要求している |
-| `requires_conversion_layer` | 必須world情報が欠け、world確定後でなければ処理を継続できない |
+| `requires_conversion_layer` | worldが関与し、worldが不明で、明示的な上位リスクゲートが探索継続を`block`した |
 
-不変条件:
+worldが関与しない処理（単純な分類・ラベル付け等）はworld判定の対象外とする。`Q.world`、`world_relevance`、`risk_gate`、`Q.result`へ追加条件を課さず、そのまま処理する。
+
+worldが関与する処理では、次の不変条件を適用する。
 
 ```text
-if Q.world == "unknown" and declared_scope requires world resolution:
-    Q.status == "requires_conversion_layer"
-    Q.result == "⊥"
+if world_relevance == "involved" and Q.world == "unknown":
+    if risk_gate.decision == "block":
+        Q.status = "requires_conversion_layer"
+        Q.result = "⊥"
+    else:
+        Q.status = existing_Q_status
+        Q.result = existing_Q_result if existing_Q_result != "⊥" else null
 ```
 
-world解決が不要な単純構文分類では、worldが`unknown`でもclaim自体を破棄しない。worldを必要とする後段へ渡す時点で上の条件を適用する。
+`risk_gate.decision` は上位FAMまたは呼び出し元が明示した `block|allow|not_evaluated|unknown` だけを転記する。スプリッターは文章内容からリスクを判定しない。
+
+`⊥` が成立するのは、worldが関与し、worldが不明で、明示的なリスクゲートが `block` を返した場合だけである。`declared_scope` の記述、world resolution要否の明示、world不明のいずれかだけを根拠に `⊥` を立ててはならない。`allow|not_evaluated|unknown` ではstatusを維持し、resultも非⊥値なら維持して次段へ渡す。
+
+v0.2系の入力に、明示的なrisk blockなしで `Q.result == "⊥"` が残っている場合、その⊥はv0.3.0の不変条件を満たさない。非破壊修復として派生レコード側を `null` にし、変更理由を`repair_ledger`へ記録する。原資料は変更しない。
 
 ## 7. SIN_Temperature
 
@@ -164,7 +196,7 @@ world解決が不要な単純構文分類では、worldが`unknown`でもclaim�
 - 呼び出し元が `declared_scope` と共に渡した値
 - `unknown`
 
-文章内容から値を推定しない。0側・2側のどちらが安全かも決めない。用途別の安全帯、gestalt維持、最終的な⊥判定は上位FAMの責務とする。
+文章内容から値を推定しない。0側・2側のどちらが安全かも決めない。用途別の安全帯、gestalt維持、リスクゲート、最終的な⊥判定は上位FAMの責務とする。
 
 ## 8. Actor・Instance・Runtime
 
@@ -249,6 +281,8 @@ graph adapterは候補をIBD schemaへ写像する決定的処理にする。学
 - 全参照先が存在する、または明示的に`unknown`/`null`である
 - layerに`matched_text`とspanがある
 - `validated_in_context`に明示検証根拠がある
-- world必須かつunknownなら`result == "⊥"`
+- world非関与の処理にworld条件が課されていない
+- world関与かつunknownでも、明示的な`risk_gate.decision == "block"`でなければstatusとresultが変更されていない
+- `result == "⊥"`なら、world関与・world unknown・明示的なrisk blockの3条件がすべて監査可能である
 - repair時に原本が不変でledgerがある
 - 標準出力、ログ、Git差分に実データ本文がない
