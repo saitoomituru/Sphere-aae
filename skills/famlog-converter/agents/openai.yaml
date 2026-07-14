@@ -1,0 +1,7 @@
+interface:
+  display_name: "FAMログ変換スプリッター"
+  short_description: "発話主体と関係を保持してFAM構造へ安全に非破壊変換"
+  default_prompt: "Use $famlog-converter to convert local dialogue records into actor-aware FAM splitter data without truth judgment."
+
+policy:
+  allow_implicit_invocation: true
