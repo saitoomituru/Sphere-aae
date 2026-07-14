@@ -1,0 +1,7 @@
+runtime_version=b9637
+archive_sha256=71743f8db0958e7c266cceb7add7b16aa418a964667e471094aa6ae65b9c8298
+llama-server: Mach-O 64-bit executable x86_64
+version: 9637 (aedb2a5e9)
+built with AppleClang 17.0.0.17000013 for Darwin x86_64
+Available devices:
+  BLAS: Accelerate (0 MiB, 0 MiB free)
