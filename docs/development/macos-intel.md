@@ -65,7 +65,7 @@ python -m pip install --upgrade pip build
 
 OBS Virtual Cameraと`OND800 -> SAO800`ラインの日常稼働は、Apple nativeの映像・音声I/Oを含むend-to-end運用証跡として別枠で扱います。
 
-詳細は[MoEテスト環境・小型モデル調査](moe-test-stack-research.md)を参照してください。
+詳細は[MoEテスト環境・小型モデル調査](moe-test-stack-research.md)と[Core ML火力を含むMoEテスト計画](coreml-moe-test-plan.md)を参照してください。
 
 ## 現実的な利用範囲
 

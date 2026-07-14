@@ -130,6 +130,8 @@ llama.cppのmacOS x64ビルドと、OLMoE GGUFを使う。llama.cppはMoE weight
 
 ### D. Apple native互換層（並行検証）
 
+Core ML火力を含む周辺ライブラリの再選定と段階テストは、[Core ML火力を含むMoEテスト計画](coreml-moe-test-plan.md)に分離して管理する。
+
 このHackintoshではApple Silicon専用経路だけを見るのではなく、Intel x86_64 + AMD GPUで利用できるApple純正APIを独立したビルドラインとして維持する。
 
 2026-07-14の実測:
@@ -200,12 +202,14 @@ OLMoEはApache-2.0で、学習コード・データ・checkpoint・ログまで�
 ## 6. 実装開始時の順序
 
 1. Python 3.12のMoE reference venvとlockファイルを追加する。
-2. 極小Qwen2MoE fixtureを作り、通常top-kの決定性を確認する。
-3. PithTrain互換の`router_replay(topk_idx) -> topk_idx`契約テストを追加する。
-4. 固定index、force-balanced、無効化の3ケースを通す。
-5. FAM裁定結果からexpert indexを作るadapter契約を追加する。
-6. 同じ契約をSphere-aaeのQwen2MoE gate直後へ接続する。
-7. native Metal / CPUテストを通した後にだけ、OLMoE Q4_K_Mを取得して実weight基準を測る。
+2. Core ML専用Python 3.12環境とMIL生成経路を追加する。
+3. 極小Qwen2MoE / FAM裁定fixtureを作り、通常top-kの決定性を確認する。
+4. Core ML `cpuOnly` / `cpuAndGPU`とNumPyの出力を比較する。
+5. PithTrain互換の`router_replay(topk_idx) -> topk_idx`契約テストを追加する。
+6. 固定index、force-balanced、Core ML裁定、無効化の4ケースを通す。
+7. FAM裁定結果からexpert indexを作るadapter契約を追加する。
+8. 同じ契約をSphere-aaeのQwen2MoE gate直後へ接続する。
+9. native Metal / CPU / Core MLテストを通した後にだけ、OLMoE Q4_K_Mを取得して実weight基準を測る。
 
 ## 7. 成功条件と停止条件
 
