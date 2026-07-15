@@ -2,6 +2,7 @@
 
 - 再検討日: 2026-07-14 (JST)
 - 対象: `moe-test-edition`
+- 実行基盤: X99ベースのx86_64 Hackintosh。`MacPro7,1`はSMBIOS互換identityであり、Apple純正Macを意味しない
 - 状態: T0〜T2のFAM非接続smoke完了。T3以降は未着手
 
 ## 結論
@@ -75,7 +76,7 @@ FAM非接続fixtureの実測は[`logs/coreml/runs/20260714T033727Z/REPORT.md`](.
 
 | 候補 | 判断理由 |
 |---|---|
-| PyTorch -> Core ML直接変換 | `torch.jit.trace`は有力だが、Intel Mac最終版PyTorch 2.2.2との組合せを実測してから採用 |
+| PyTorch -> Core ML直接変換 | `torch.jit.trace`は有力だが、macOS x86_64向け最終版PyTorch 2.2.2との組合せを実測してから採用 |
 | coremltools圧縮 / palettization | 数KB〜数MBの裁定器では効果が小さい。正しさ確立後に判断 |
 | `CompiledMLModel` Python API | 初期load時間が問題になった場合に追加 |
 | BNNS直接実装 | AccelerateとCore MLでCPU基準を作れるため初期段階では不要 |
@@ -86,7 +87,7 @@ FAM非接続fixtureの実測は[`logs/coreml/runs/20260714T033727Z/REPORT.md`](.
 |---|---|
 | ONNX / onnx-coreml | AppleがUnified Conversion APIへの移行を案内しており、onnx-coremlは更新停止 |
 | TensorFlow | 小型裁定器に対して依存が大きく、PyTorch / MILとの二重管理になる |
-| ExecuTorch | coremltools 9の対応対象だが、PyTorch 2.7世代とruntime追加を伴いIntel Mac制約に合わない |
+| ExecuTorch | coremltools 9の対応対象だが、PyTorch 2.7世代とruntime追加を伴い、このmacOS x86_64環境の制約に合わない |
 | MLX | Apple Silicon向けで、このx86_64環境の検証対象外 |
 | PithTrain本体 | CUDA 13 + Hopper / Blackwell前提。hook仕様だけ参照する |
 
@@ -229,11 +230,11 @@ T0〜T4通過後にのみQwen2MoE gateへ接続する。
 | レーン | 実行内容 | 必須性 |
 |---|---|---|
 | portable CI | NumPy fixture、top-k、router contract | 全環境必須 |
-| Intel Mac local | Core ML CPU/GPU、MPSGraph、Metal、TVM | この実機で必須 |
+| X99 Hackintosh local | Core ML CPU/GPU、MPSGraph、Metal、TVM | この実機で必須 |
 | Apple Silicon optional | ANEを含む`.all`比較 | 将来の互換確認 |
 | CUDA cloud | PithTrain、実weight訓練、分散MoE | 必要時のみ |
 
-Apple SiliconでのANE結果をIntel Macの成功条件へ混ぜない。一方、同じ`.mlpackage`とgolden vectorを使い、将来Apple Siliconでbackend差を追加測定できる形にする。
+Apple SiliconでのANE結果をX99 Hackintoshの成功条件へ混ぜない。一方、同じ`.mlpackage`とgolden vectorを使い、将来Apple Siliconでbackend差を追加測定できる形にする。
 
 ## 6. 次段の開始判断
 

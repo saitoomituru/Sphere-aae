@@ -1,5 +1,7 @@
 # Core ML最小ビルド実測レポート
 
+- 実行基盤: X99ベースのx86_64 Hackintosh（Apple純正Macではない）
+- macOS提示identity: `MacPro7,1`（SMBIOS互換identity）
 - Git commit: `e7a4e7281f6d1c6ac228d2fd0b5c2f128a9f0591`
 - 総合結果: **PASS**
 - Thermal guard: 75 °C

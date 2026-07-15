@@ -2,7 +2,8 @@
 
 - 調査日: 2026-07-14 (JST)
 - 対象ブランチ: `moe-test-edition`
-- 対象機: Intel x86_64 Mac Pro、6コア / 12スレッド、RAM 64 GB、AMD Radeon RX 5500 XT 4 GB
+- 対象機: X99ベースのx86_64 Hackintosh、Core i7-5820K、6コア / 12スレッド、RAM 64 GB、AMD Radeon RX 5500 XT 4 GB
+- identity境界: macOSは`MacPro7,1`を提示するが、これはSMBIOS互換identityであり物理的なApple Mac Proを意味しない
 - この文書の範囲: 実装前の採用判断。モデルweightの取得やPithTrain本体の導入はまだ行わない
 
 ## 結論
@@ -22,7 +23,7 @@ Sphere-aaeには、MoE試験に再利用できる次の資産がすでにある�
 - Qwen2MoE / Qwen3MoEのモデル、ローダー、量子化定義
 - `MixtralExperts`
 - `gating_softmax_topk`、expert dispatch、group GEMMなどのMoE演算
-- Intel Mac向けCMake Preset: `macos-metal` / `macos-cpu`
+- macOS x86_64向けCMake Preset: `macos-metal` / `macos-cpu`
 
 2026-07-14に`moe-test-edition`上で次を再実行し、MetalビルドとC++テスト1件の通過を確認した。
 
@@ -62,7 +63,7 @@ Callable[[topk_idx: Tensor[num_tokens, top_k]], Tensor[num_tokens, top_k]]
 - 同一token内の重複expertを許すか禁止するかを明示する
 - replay無効時は既存gate出力を完全に維持する
 
-### このMacでPithTrain本体を使わない理由
+### このX99 HackintoshでPithTrain本体を使わない理由
 
 PithTrain v0.1.3は次を必須としている。
 
@@ -72,7 +73,7 @@ PithTrain v0.1.3は次を必須としている。
 - NVIDIA Hopper (SM90) またはBlackwell (SM100)
 - DeepGEMM、FlashAttention 4、Flash Linear Attention
 
-このMacはPython 3.12を用意できるが、GPUはmacOS上のAMD MetalでありCUDAを利用できない。またPyTorchはmacOS x86_64バイナリの提供を2.2系で終了しており、PithTrainが要求する2.12以上と両立しない。従って本体のinstallやtrainingをローカル成功条件に含めない。
+このX99 HackintoshはPython 3.12を用意できるが、GPUはmacOS上のAMD MetalでありCUDAを利用できない。またPyTorchはmacOS x86_64バイナリの提供を2.2系で終了しており、PithTrainが要求する2.12以上と両立しない。従って本体のinstallやtrainingをローカル成功条件に含めない。
 
 公式資料:
 
@@ -128,11 +129,11 @@ llama.cppのmacOS x64ビルドと、OLMoE GGUFを使う。llama.cppはMoE weight
 - llama.cpp: https://github.com/ggml-org/llama.cpp
 - OLMoE GGUF: https://huggingface.co/allenai/OLMoE-1B-7B-0125-GGUF
 
-### D. Apple native互換層（並行検証）
+### D. Apple framework機能互換層（並行検証）
 
 Core ML火力を含む周辺ライブラリの再選定と段階テストは、[Core ML火力を含むMoEテスト計画](coreml-moe-test-plan.md)に分離して管理する。
 
-このHackintoshではApple Silicon専用経路だけを見るのではなく、Intel x86_64 + AMD GPUで利用できるApple純正APIを独立したビルドラインとして維持する。
+このHackintoshではApple Silicon専用経路だけを見るのではなく、Intel x86_64 + AMD GPUで利用できるmacOS組み込みのApple製APIを独立したビルドラインとして維持する。この機能互換は記録したAPIと負荷の範囲を指し、純正Macのハードウェアまたはセキュリティ同等性を意味しない。
 
 2026-07-14の実測:
 
@@ -156,9 +157,9 @@ FAM非接続の固定`.mlpackage`を使ったCore ML smoke testまで完了し�
 4. Accelerate/vDSPの実行
 5. ANEを要求しなくても機能が成立すること
 
-極小fixtureではCPU-onlyがCPU+GPUより速かった。これはAVX-512ではなくCore i7-5820KのAVX2 + FMA / Apple CPU経路によるものであり、実LLM速度の代用値にはしない。詳細は[ローカル火力実測と小型MoE選定ノート](local-firepower-small-moe-notes.md)を参照する。
+極小fixtureではCPU-onlyがCPU+GPUより速かった。これはAVX-512ではなくCore i7-5820KのAVX2 + FMA / Core ML・Accelerate CPU経路によるものであり、実LLM速度の代用値にはしない。詳細は[ローカル火力実測と小型MoE選定ノート](local-firepower-small-moe-notes.md)を参照する。
 
-OBS Virtual Cameraと`OND800 -> SAO800`ラインの日常稼働は、映像・音声を含む周辺I/O互換性の運用証跡として記録する。ただしMoE数値テストの合否とは分離し、Apple native配信・エージェント入出力ラインのend-to-end試験で利用する。
+OBS Virtual Cameraと`OND800 -> SAO800`ラインの日常稼働は、映像・音声を含む周辺I/O互換性の運用証跡として記録する。ただしMoE数値テストの合否とは分離し、macOS配信・エージェント入出力ラインのend-to-end試験で利用する。
 
 公式資料:
 
@@ -200,13 +201,13 @@ OLMoEもApache-2.0で、学習コード・データ・checkpoint・ログまで�
 |---|---|---|
 | TVM / Sphere-aae MoE ops | 最終runtimeとMoE演算 | 採用済み |
 | XGrammar | constrained generation | 採用済み、router試験からは分離 |
-| Metal / MPS / Core ML / Accelerate | Apple native GPU/CPU互換ライン | 採用、ANEなしを前提に継続検証 |
+| Metal / MPS / Core ML / Accelerate | Apple framework GPU/CPU機能互換ライン | 採用、ANEなしを前提に継続検証 |
 | pytest + NumPy | hook契約とfixture試験 | 採用 |
 | PyTorch 2.2.2 + Transformers 4.48.2 | CPU reference oracle | バージョン固定で採用 |
 | llama.cpp | GGUF実weightのCPU/Metal基準 | 第二段階で採用 |
 | PithTrain | router replay仕様、将来のGPU訓練 | 参照・クラウド用。ローカルinstall対象外 |
 | DeepSpeed / Megatron-Core / MegaBlocks / Tutel | 大規模分散MoE訓練 | 初期ローカル環境から除外 |
-| MLX | Apple Silicon向け | Intel Macのため除外 |
+| MLX | Apple Silicon向け | このx86_64 Hackintoshでは対象外 |
 | bitsandbytes / CUDA FlashAttention | CUDA量子化・kernel | macOS AMDのため除外 |
 
 ## 6. 実装開始時の順序
@@ -243,4 +244,4 @@ OLMoEもApache-2.0で、学習コード・データ・checkpoint・ログまで�
 
 ## 採用判断
 
-環境構成は「Sphere native + Python 3.12固定reference + 任意のllama.cpp実weight基準 + Apple native互換」の四層とする。router/FAM実装は「極小Qwen2MoE fixture -> OLMoE reference -> Qwen1.5-MoE統合」、日常会話は「Granite H-Tiny -> 必要ならLFM2」の別レーンで進める。この構成なら、GPU購入前にrouter replayとFAM adapterの主要設計を検証しながら、軽量会話・tool useとApple向けビルドラインも評価できる。
+環境構成は「Sphere native + Python 3.12固定reference + 任意のllama.cpp実weight基準 + Apple framework機能互換」の四層とする。router/FAM実装は「極小Qwen2MoE fixture -> OLMoE reference -> Qwen1.5-MoE統合」、日常会話は「Granite H-Tiny -> 必要ならLFM2」の別レーンで進める。この構成なら、GPU購入前にrouter replayとFAM adapterの主要設計を検証しながら、軽量会話・tool useとApple向けビルドラインも評価できる。

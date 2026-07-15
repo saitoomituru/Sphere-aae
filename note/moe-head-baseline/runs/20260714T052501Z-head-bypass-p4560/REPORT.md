@@ -1,5 +1,7 @@
 # MoE HEAD bypass baseline実測レポート
 
+- 実行基盤: X99ベースのx86_64 Hackintosh（Apple純正Macではない）
+- macOS提示identity: `MacPro7,1`（SMBIOS互換identity）
 - Git commit: `f9ebdf19a0937aa0baea71fd629829e1201ecbfd`
 - 総合結果: **PASS**
 - 対象: 上流MoE一般応答 + local Core ML HEAD（FAM未接続）

@@ -2,7 +2,8 @@
 
 - 作成日: 2026-07-14 (JST)
 - 対象branch: `moe-test-edition`
-- 対象機: Intel Core i7-5820K、6 core / 12 thread、RAM 64 GB、AMD Radeon RX 5500 XT 4 GB
+- 対象機: X99ベースのx86_64 Hackintosh、Intel Core i7-5820K、6 core / 12 thread、RAM 64 GB、AMD Radeon RX 5500 XT 4 GB
+- identity境界: macOSの`MacPro7,1`表示はSMBIOS互換identityであり、物理的なApple Mac Proを示さない
 - 空き容量: 71 GiB（調査時点）
 - 状態: FAM非接続の最小Core ML試験まで完了。実weight MoEは未取得・未実行
 

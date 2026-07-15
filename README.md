@@ -10,7 +10,7 @@
 
 </div>
 
-> **開発環境:** Intel Mac / Metal向けの再現可能なビルド手順と、このMac Proでの検証範囲は [Intel Macでのビルド](docs/development/macos-intel.md) を参照してください。
+> **開発環境:** 主検証機はApple純正Macではなく、X99上に構成したx86_64 Hackintoshです。macOSからは互換用SMBIOS identityとして`MacPro7,1`が提示されます。Metal / Core MLを含む実測範囲は [X99 HackintoshでのmacOSビルド](docs/development/macos-intel.md) を参照してください。
 
 > **🔥 GPU/HPC火力支援募集中:** 本格的なMoE・実weight検証は、必要な時だけさくらインターネット等のGPU/HPCへ外注する方針です。研究継続のため、クラウド計算費や未払い請求書の支払いを支援してくださる方を募集中です。連絡は [@K_chachamaru](https://x.com/K_chachamaru) まで。
 
@@ -194,7 +194,7 @@ System
 
 ## 扁桃体MoE（検討中）
 
-> **調査メモ:** Intel Mac上の最小テスト環境、PithTrain `router_replay`の互換性、小型MoE候補の採否は [MoEテスト環境・小型モデル調査](docs/development/moe-test-stack-research.md) にまとめています。
+> **調査メモ:** X99 Hackintosh上の最小テスト環境、PithTrain `router_replay`の互換性、小型MoE候補の採否は [MoEテスト環境・小型モデル調査](docs/development/moe-test-stack-research.md) にまとめています。
 
 > **火力実測:** Core ML / MPS / Accelerateの結果、AVX2 + FMAのCPU特性、日常会話＋tool拡張向けGranite / OLMoE / LFM2の用途別選定は [ローカル火力実測と小型MoE選定ノート](docs/development/local-firepower-small-moe-notes.md) を参照してください。
 
