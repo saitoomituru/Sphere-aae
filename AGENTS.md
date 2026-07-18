@@ -60,3 +60,17 @@ Context Dimension、D Fold、Registry／Context Register、Access Map、Transfor
 - 技術依存の上下は`L`、等価な意味軸の束は`D Fold`として区別する
 - FAMの`λ=出力層`、`Q.layer`、`claim.∇φ[].layer`は既存Presentation／互換fieldであり、技術Layer `L`やContext Dimension `D`の正本にしない
 - System／Spiritual／Astral／Elementalの起動順は明示的な実行優先・Access Map profileとして扱い、Context Dimensionの普遍的な上下関係へ昇格しない
+
+## MAGIポジショントーク監査（必読）
+
+計画提案、状態評価、README／技術文書の主張変更、component間の優先順位決定、
+複数repositoryへ波及する変更の前に、ZeroRoomLab-manifestの
+[AGENTS.md §0.4](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/AGENTS.md)、
+[Atlantis-MAGISDK 0.1.0](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/atlantis-magi-sdk.ja.md)、
+[Context定規・因果・OAE横断監査規約](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/operations/context-ruler-and-causality-audit.ja.md)
+を読むこと。
+
+Declared Position、Position-talk Risk、媒体とclaim scope、外部定規の出所を分離し、
+現在のrepository、cwd、vendor、binary実装、一般的な線形roadmapを暗黙のmainへ置かない。
+重大なstatus・責務・公開主張・横断変更では、監査結果とUser確認が必要な項目を記録し、
+計画をUserへ返してから実行する。
