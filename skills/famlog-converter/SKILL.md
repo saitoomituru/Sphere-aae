@@ -20,6 +20,8 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 
 このスキルの出力は、FAM MoEの前段に置く軽量スプリッター用教師データ、またはIBDグラフへ渡す決定的アダプターの入力である。expert選択やFAM間裁定は担当しない。IBDへ接続する場合も、Classification Registry、保存先IBD Database、Database間の混色、Last Order、評価基準は上位システムから受け取り、このスキルが発明しない。
 
+このスキルはZeroRoomLab標準のFAMLog変換profileであり、FAM Splitter汎用SPIやOAE共通Schemaの正本ではない。第三者Splitterの差替契約はIBDSDK、Context Dimension／OAEの共通意味はManifestを参照し、このprofileへ特定存在論を焼き込まない。
+
 変換またはテスト設計を始める前に、必ず [references/fam-log-schema.md](references/fam-log-schema.md) を読む。
 
 ## 運用モード
@@ -48,6 +50,8 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 - 旧FAMを上書き修復する
 - expert index、router優先度、最終的な⊥判定を決める
 - IBDのClassification Registry、Schema Bundle、保存先Databaseを内容から発明する
+- FAM層label数やmulti-label候補数からD Foldを推定する
+- legacy `layer` fieldを技術Layer `L`またはContext Dimension `D`へ無断renameする
 - 近いベクトル、同名ラベル、既定FAM層だけを根拠に別IBD Databaseを混色する
 - Composite FAM、Last Order、美醜・善悪・有用性等の評価を最終確定する
 - MMO、神学、哲学等の上位Registryが確定した存在状態を、科学・企業・vendor基準で降格する
@@ -56,6 +60,9 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 - Unix epoch、製造日、出荷日、future timeだけを根拠に時刻を無効・虚偽と判定する
 - NTP／GPS等の校正Evidenceがない時計を校正済みとして提示する
 - 時計の未校正・不確かさを、Claim本文やOntology Assertion全体の偽判定へ伝播する
+- Observer、Recorder、Interpreter、Initiator、Executor、Transformer、Causal Agencyを同一主体へ平板化する
+- 入出力差、runtime trace、相関だけからOAE、Transformer、Intent、Cause、責任を創作する
+- `AAE: Astro Agent Edge`を`OAE: Observer Agential Effect`へrenameまたはalias化する
 - `declared_scope` の記述、world解決要否、world不明のいずれかだけを根拠に `⊥` を立てる
 - 生ログまたは変換済みレコードの本文を標準出力、Git、クラウドへ流す
 - PIIが露出しない構造だと主張する。`ψ` は原文を保持するためPIIを含み得る
@@ -104,6 +111,8 @@ SNS投稿は宛先が存在しない場合があるため、無理に対話へ�
 - `spiritual`: 信仰、目的、宣言、祈願、誓約、教えへの従属
 - `cloud-chakra`: 先祖、神話、伝統、集合知等を参照する文法的標識
 
+既存`layer` keyはv0.3.0互換のFAM文法分類fieldである。技術依存の`L`でも、上位Registryが宣言するContext Dimension `D`でもない。multi-label数をD Foldの軸数として出力しない。
+
 ### 7. 文脈座標とQを機械的に付与する
 
 Whoはactor参照、Whatは`ψ`、Where・When・Which World・Context/Constraintは明示情報から抽出する。不明値は推測せず `unknown` とする。
@@ -140,6 +149,18 @@ graph adapterは原レコードを変更せず、Registry参照、分類候補�
 
 原資料または実行Systemが時計metadataを提供した場合、校正状態、NTP server、GPS最終受信、carrier／標準電波／FM／RTC module、分解能、不確かさをsource時刻と分離して転記する。採用可能な時間粒度は上位Qが決め、スプリッターとadapterはfact成立可否を裁定しない。詳細は [references/fam-log-schema.md §14.9](references/fam-log-schema.md#149-時系列時計校正metadataと上位粒度判断) を参照する。
 
+### 12. OAE候補は別sidecarへ出す
+
+OAE候補を要求された場合も、`fam.log.splitter/0.3.0`本体へfieldを追加せず、別sidecarとしてsource recordへ接続する。
+
+- 上位Registry、fact scope、source／target Foldを別入力として受ける
+- Observer、Recorder、Interpreter、Claimant、Initiator、Executor、Transformer、Attributed Causal Agencyを別roleにする
+- Access Map、Mapping FAM、transformation receiptの有無を区別する
+- causalityは採用済み事実ではなく、profile付き仮説参照として保持する
+- 入力にないAgency attributionとCauseを補完しない
+
+詳細は [references/fam-log-schema.md §15](references/fam-log-schema.md#15-context-dimensionoae-candidate-sidecar-draft) を参照する。
+
 ## 学習ヘッドと責務境界
 
 学習対象は次のヘッドへ分離できる。
@@ -149,6 +170,8 @@ graph adapterは原レコードを変更せず、Registry参照、分類候補�
 3. relation/metadata head: 主体、instance、役割、関係、明示文脈の候補抽出
 
 学習出力からIBDエンティティとedgeを確定する処理は、監査可能な決定的graph adapterへ分ける。MoE routerとFAM arbiterはその後段に置く。adapterが扱うClassification RegistryとDatabase Routingも、学習出力やスプリッター本文から推測せず上位入力として分離する。
+
+`layer head`は既存model／dataset互換名であり、technical Layer `L`やD Fold classifierを意味しない。
 
 ## ローカルデータ保護
 
@@ -174,4 +197,7 @@ graph adapterは原レコードを変更せず、Registry参照、分類候補�
 - source／domain／logical timeとconverter／IBD meta clockが分離されている
 - timezone不明値、未来予定、game time、未校正wall clockが推測で補正・棄却されていない
 - 時計校正metadataの採否と必要粒度を上位Qへ帰属させ、Claim本文の真偽へ伝播していない
+- FAM層label数をD Foldの軸数として扱っていない
+- OAE候補がbase recordと別sidecarで、Agency roleと因果仮説を創作せず保持している
+- AAE製品namespaceとOAE概念namespaceを混同していない
 - 生データまたは変換済み本文がGit、クラウド、標準出力へ出ていない

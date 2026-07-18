@@ -18,6 +18,7 @@
 12. データ保護とGit
 13. 検証項目
 14. IBD Season 0接続プロファイル
+15. Context Dimension／OAE candidate sidecar
 
 ## 1. 責務境界
 
@@ -52,6 +53,8 @@
 | `Utterance` | 一つの発話、投稿、event payload |
 | `Claim` | 1述語を原則とする最小主張 |
 | `World` | 現実物理、ゲーム、TRPG、2.5D空間等。未確定可 |
+
+`actor_kind`の既存enumはsource format上の粗い候補分類であり、Agency存在論の共通正本ではない。神、動物、自然現象、World等をこのenumへ追加して平板化せず、上位Registry付き`agency_kind_ref`をsidecarで扱う。
 
 ## 3. 関係候補
 
@@ -159,6 +162,10 @@ edgeには必ず `evidence_span` または構造メタデータ由来の `eviden
 | `cloud-chakra` | 集合知・伝統を参照する文法的標識 | 先祖が、神話では、伝統的に、古来より |
 
 名詞が特定テーマを指すだけでは層を決めない。一つのclaimが複数条件を満たす場合、すべてのラベルを保持する。
+
+`claim.∇φ[].layer`は`fam.log.splitter/0.3.0`の互換field名である。ここでの層は文法的なFAM label候補であり、技術依存のLayer `L`、上位Registryが宣言するContext Dimension `D`、embedding dimensionではない。
+
+multi-label候補が四つ揃っても、自動的に4D Foldとはしない。D Foldは別のFold ManifestがID、revision、Dimension refsを宣言する。
 
 ## 6. Q.statusの機械的決定
 
@@ -541,3 +548,176 @@ RTCだけで十分なQ、NTP校正後5分以内を要求するQ、game tick順�
 - 校正Evidenceがない時計を校正済みとして提示していない
 - 時計精度の採否と必要粒度を上位Qへ帰属させている
 - 時計の不確かさをClaim／Ontology Assertion全体の偽判定へ伝播していない
+
+## 15. Context Dimension／OAE candidate sidecar（DRAFT）
+
+### 15.1 位置づけ
+
+この節は`fam.log.splitter/0.3.0`の出力shapeを変更しない。上位Registryと決定的adapterが、既存splitter record、runtime trace、FAM、EventをOAE候補へ接続する別profileを定める。
+
+```text
+base splitter record / runtime trace / source Event
+  + upper Registry / fact scope / Fold Manifest
+  + explicit role attribution / Access Map / receipt
+      ↓ deterministic adapter
+OAE candidate sidecar
+      ↓ upper review / IBD binding
+OAE ref | unresolved candidate | rejected-in-scope
+```
+
+Sphere-aaeはOAE共通Schemaの正本ではない。sidecarはruntime adapter候補であり、共通意味定義はManifest、保存profileはIBDのversion済み契約へ委ねる。
+
+### 15.2 Event、trace、OAE候補を分ける
+
+```text
+Source Event
+  原資料またはSystemが記録した出来事の系列
+
+runtime trace
+  process、thread、call、duration、ACK等の低水準実行証跡
+
+OAE candidate
+  特定Observer／Registry／fact scopeからEffectとして記録する候補
+
+Causal Hypothesis
+  Causality Profileを用いてEvent間の因果を主張する別graph候補
+```
+
+Chrome Trace Event、FAM Claim、入出力差をそのままOAEへrenameしない。相関をCauseへ昇格しない。
+
+### 15.3 推奨sidecar形
+
+```yaml
+oae_candidate_sidecar:
+  profile_version: sphere.context.oae-candidate/0.1-draft
+  candidate_id: oae-candidate:sha256:...
+  source:
+    splitter_record_ref: famrec:...
+    source_event_refs: []
+    runtime_trace_refs: []
+    source_fam_refs: []
+  context:
+    registry_ref: registry://upper/oae@1
+    fact_scope_ref: world://target
+    source_fold_ref: fold://source@1
+    target_fold_ref: fold://target@1
+  effect:
+    effect_kind_ref: effect-kind://upper/observed-change
+    affected_entity_refs: []
+    status: observed|claimed|derived|unknown
+    evidence_refs: []
+  roles:
+    observers: []
+    recorders: []
+    interpreters: []
+    claimants: []
+    initiators: []
+    executors: []
+    transformers: []
+    attributed_causal_agencies: []
+  mapping:
+    access_map_ref: null
+    mapping_fam_ref: null
+    transformation_receipt_ref: null
+    crossing_status: same_fold|cross_fold|unmapped_crossing|unknown
+  causality:
+    causality_profile_ref: null
+    causal_hypothesis_refs: []
+    attribution_status: none|claimed|unknown
+  provenance:
+    adapter_ref: adapter://sphere-aae/oae-candidate@1
+    derived_from_refs: []
+    generated_at_ref: temporal-candidate:...
+    clock_observation_ref: clock-observation:...
+  review_status: candidate|accepted_in_scope|rejected_in_scope|unresolved
+```
+
+`source_fold_ref`と`target_fold_ref`が違う場合はcross-Fold候補にできる。ただし、Fold refが欠けている、同一性を解決できない、Access Mapがない場合にEffectを消さない。`unknown`または`unmapped_crossing`として保持する。
+
+### 15.4 Agency role entry
+
+各role配列のentryは、最低限次を持てる。
+
+```yaml
+role_entry:
+  agency_ref: agency://source-local/001
+  agency_kind_ref: agency-kind://upper/river-deity
+  registry_ref: registry://upper/ontology@3
+  asserted_by_ref: agency://claimant/004
+  assertion_status: explicit|derived|unknown
+  evidence_refs: []
+```
+
+`agency_kind_ref`は上位Registryの参照であり、base recordの`actor_kind` enumを拡張して存在論を確定するものではない。
+
+roleは分離する。
+
+- ObserverがRecorderとは限らない
+- RecorderがInterpreterとは限らない
+- InitiatorがExecutorとは限らない
+- ExecutorがTransformerとは限らない
+- TransformerがAttributed Causal Agencyとは限らない
+- 人間が観測した川の神のEffectを、人間起因へ書き換えない
+- runtimeがtraceを書いたことを、runtimeがsource Eventを起こした証拠にしない
+
+### 15.5 Access Mapと実行状態
+
+```text
+access_map_refあり
+  変換規則が参照可能
+
+transformation_receipt_refあり
+  特定の変換実行を参照可能
+
+effect.status == observed
+  指定RegistryからEffect観測が記録済み
+```
+
+三者は同義ではない。Access Mapだけで実行済みとせず、receiptだけで意味上のEffectを自動確定しない。
+
+### 15.6 解釈OAEと複数因果仮説
+
+神学、自然科学、安全工学、World設定等の解釈は、Source Eventを上書きせず別candidateとして接続できる。
+
+```text
+source observation candidate
+  ├─ theological interpretation candidate
+  ├─ physical analysis candidate
+  ├─ safety-engineering interpretation candidate
+  └─ world-config interpretation candidate
+```
+
+各candidateは別Registry、fact scope、Interpreter、Evidence、Causality Profileを持つ。confidenceを持つ場合は`scale_ref`を必須とし、異なるRegistryのraw値を直接比較しない。
+
+### 15.7 base contractとの互換
+
+- `schema_version: fam.log.splitter/0.3.0`を変更しない
+- `claim.∇φ[].layer`をrenameしない
+- `actor_kind` enumをOAE Agency ontologyへ拡張しない
+- base record、source hash、spanを変更しない
+- sidecar IDとsource refで接続する
+- 必須化する場合は別versionのprofileとして制定する
+
+### 15.8 禁止事項
+
+- FAM layer数からFold arityを生成する
+- 同じ4Dという理由で別Foldを接続する
+- Observer、Recorder、Interpreter、Initiator、Executor、Transformer、Causeを一つへ統合する
+- input／outputだけからIntent、Transformer、Causeを推測する
+- `AAE: Astro Agent Edge`をOAEのaliasとして使う
+- low-level traceをsemantic OAEと呼ぶ
+- 一つのCausal Hypothesisを普遍的な真理へ昇格する
+- 上位Registryなしに神、動物、自然現象、World等のAgency種別を確定する
+
+### 15.9 接続検証項目
+
+- base recordとsidecarを別versionで検証できる
+- Registry、fact scope、source／target Foldを追跡できる
+- D Foldがmulti-label数から推定されていない
+- Agency roleごとに`asserted_by`とEvidenceを追跡できる
+- Access Mapとtransformation receiptとEffect観測を区別できる
+- Transformer不明を架空Agencyで埋めていない
+- Source Eventと解釈candidateを上書き統合していない
+- Causal Hypothesisがprofileとscopeを持つ
+- runtime clockと上位timelineを混同していない
+- AAE製品namespaceを変更していない
