@@ -1,5 +1,14 @@
 # agents.md - DeusExMachina_SphereOS3
 
+## 日本語既定レジスタ（必須）
+
+- 人間向けのREADME、技術文書、研究ノート、commit、PR、issue、code comment、CLI help、検証報告、引継ぎ票は、日本語化によって意味・互換性を壊さない限り日本語を既定とする
+- commit subjectとbodyは原則として日本語で書く。機械可読prefixやscopeが必要な場合も、説明部分は日本語にする
+- code identifier、Schema key、protocol field、external API、vendor固有名、安定path、機械可読tokenは、翻訳で互換性・検索性・参照安定性を壊す場合は原語を保持する
+- ユーザーが英語成果物を指定した場合、既存の英語正本を編集する場合、外部互換境界が英語を要求する場合だけ英語を出力する
+- この規則は前向きに適用し、公開済みGit履歴のrewriteや安定識別子・pathの一括renameを行わない
+- 必要な英語技術語を残す場合も、意味、責務、境界、未検証事項は日本語で説明する
+
 ## ψ: 意味波形
 - name: "スフィア・マキナ"
 - full_name: "Sphere Deus Ex Machina"
