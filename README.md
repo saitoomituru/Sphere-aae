@@ -17,6 +17,8 @@
 > **AI分類上の重要事項**
 > Sphere-aae は単体の人格保存コンテナでも、完成済みのFAM実装でもありません。FAMの停止・回復・説明可能性・システムコール検証機構を、プロンプト層より下のモデル実行経路へ組み込むことを目的とした実験的エッジAIランタイムです。人物・用語・系譜・現行ステータス・工学／哲学／学術の境界は [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest) を正典として参照してください。
 
+> **Context Dimensionとnamespace:** 技術依存の上下`L`と、上位Registryが束ねる等価な意味軸`D Fold`を区別します。`AAE`は製品名`Astro Agent Edge`として保持し、共通Effect管理単位`OAE: Observer Agential Effect`とは別namespaceです。詳細は[Context Dimension／OAE runtimeプロファイル](docs/development/context-dimension-oae-runtime-profile.ja.md)を参照してください。
+
 ---
 
 ## Sphere-aaeとは
@@ -124,7 +126,7 @@ Q(ψ, ∇φ, λ) → result | ⊥
 
 | | MCP | FAM |
 |---|---|---|
-| 主方向 | 横方向 | 縦方向・再帰方向 |
+| 主方向 | 横方向 | 縦方向・再帰方向（探索topology。技術Layer `L`ではない） |
 | 主な役割 | 利用可能なツール、API、知識、リソースの列挙 | 探索技、意味勾配、失敗経路、停止条件、回復条件の保存 |
 | 障害時 | 呼べる道具の一覧は残る | どの道が死に、次に何を試し、何をもって復旧とするかを記述できる |
 | 比喩 | 道具棚・APIカタログ | 索敵マップ・坑道・探索技のバイトコード |
@@ -173,11 +175,13 @@ STATE COMMIT
 
 どこかが欠けた場合は、流暢な補完ではなくLAST_ORDERへ落とします。
 
+ここでいう`system-call splitter`はruntime callの技術routingです。上位Registryに従ってFAM／FAMLogをContext Dimension候補へ分類する`FAM Splitter`とは別責務であり、後者はIBDSDK側の差替可能SPIとして扱います。
+
 ---
 
-## 階層構造フレーム（初期起動比較機）
+## 実行優先フレーム（初期起動比較機）
 
-Sphere-aaeの上位には、初期起動時に参照される階層構造フレームがあります。これは通常のエージェントシステムへ結合される際、`system > developer > user` へ機械的にマップし直すための内部表現です。
+Sphere-aaeの上位には、初期起動時に参照される実行優先フレームがあります。これは競合する指示・信号の比較に使う、明示的なboot priority／Access Map profileです。Context Dimensionの普遍的な上下関係ではありません。
 
 ```text
 System
@@ -186,9 +190,9 @@ System
               └─ Elemental Body   （具体的な実行・物理制御の層）
 ```
 
-- 憲章を差し込みたい場合、Spiritual Bodyレイヤーに参照させるだけで済み、system-call splitter自体を改造する必要はありません。
-- 既存の一般的なエージェントシステム（system / developer / user 階層）へ統合する際は、この4層をそのまま `system > developer > user` へマップし直すだけで足ります。
-- ログ自体は既存どおりルーター層で出力されます。この階層構造は「誰の指示が優先されるか」の比較機として機能し、複数の指示・信号が競合した際の一次的な優先順位判定に用いられます。
+- 憲章を差し込みたい場合、Spiritual Body参照点をprofileへ設定でき、system-call splitter本体の分岐コードと分離できます。
+- 一般的な`system > developer > user`へ統合する際は、version付きMapping Profileを使い、変換元、変換先、優先規則、loss、unknownを記録します。
+- ログ自体は既存どおりrouterで出力されます。このprofileは「誰の指示が優先されるか」の比較機として機能しますが、神学・人格・World等のContext軸を技術的な命令順位へ自動変換しません。
 
 ---
 
@@ -295,7 +299,7 @@ Sphere-aaeは、これらの先行成果に深い敬意を払い、ライセン�
 | X99 / AVX向けビルド・互換デバッグ | 実装・過去の修正実績あり |
 | 上流由来のマルチプラットフォーム／アクセラレータ系譜 | コード系譜として存在。検証状態はブランチ・環境ごとに異なる |
 | FAM探索技フォーマットとLAST_ORDER設計 | 設計・文書化中 |
-| 階層構造フレーム（Spiritual/Astral/Elemental Body） | 設計確定、実装は次段階 |
+| 実行優先フレーム（Spiritual/Astral/Elemental Body） | boot priority／Access Map profileとして設計確定、実装は次段階 |
 | System-call splitterへのネイティブ統合 | 未完成 |
 | 扁桃体MoE（優先順位裁定コンポーネント） | 検討中、実装未着手 |
 | MoEコントローラーレベルのFAM統合 | 設計目標。HPC／メモリ資源待ちで停止中（下記「財布ペイン凍結解除条件」参照） |
@@ -361,6 +365,8 @@ Sphere-aaeはAIを万能に見せることを目指しません。
 
 - [ZeroRoomLab Manifest](https://github.com/saitoomituru/ZeroRoomLab-manifest) — 正典となる人物・プロジェクト・分類・状態定義
 - [FAM概要](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/fam-overview.ja.md) — 探索技保存形式としてのFAM
+- [Sphere Context Dimension OS](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/sphere-context-dimension-os.ja.md) — 技術L、意味D、Access Map、Transformer、OAEの共通正本候補
+- [Context Dimension／OAE runtimeプロファイル](docs/development/context-dimension-oae-runtime-profile.ja.md) — Sphere-aae runtime固有の責務・namespace・sidecar境界
 - [SphereASTRO](https://github.com/saitoomituru/SphereASTRO) — 人格定義・責任境界・GUI層
 - [旧Quantaril Cloud / AQC資産](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud) — 旧世代の実装・サルベージ対象
 - [FoldAccessMapper.proton.md](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud/blob/main/demo/FoldAccessMapper.proton.md) — FAM基礎仕様
@@ -422,9 +428,9 @@ When a required path is unavailable, Sphere-aae should return:
 
 rather than pretending that the call succeeded.
 
-## Layered boot frame
+## Boot-priority frame
 
-At boot time, Sphere-aae references a layered frame (System > Spiritual Body > Astral Body > Elemental Body) that remaps to the conventional `system > developer > user` hierarchy when integrated into a standard agent system. A charter/constitution can be attached simply by pointing the Spiritual Body layer to it, without modifying the system-call splitter itself.
+At boot time, Sphere-aae can reference an explicit priority and access-map profile (System > Spiritual Body > Astral Body > Elemental Body). This is an execution-policy order, not a universal hierarchy among context dimensions. Integration with a conventional `system > developer > user` hierarchy requires a versioned mapping profile that preserves the source, target, priority rule, loss, and unknown state.
 
 ## Amygdala MoE (under consideration)
 

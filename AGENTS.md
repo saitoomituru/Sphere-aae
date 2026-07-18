@@ -51,3 +51,12 @@
 ## ZeroRoomLab言語レジスタ（必読）
 
 README、技術文書、翻訳、主張表現を編集する前に、ZeroRoomLab-manifestの[コーディングAI向け日本語意訳レジスタ](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/operations/coding-ai-japanese-paraphrase-register.ja.md)を読み、背景ベクトルを取得すること。英語出力は明示がない限りen-USとし、単語の直訳ではなく、日本語原文の意図・読み手の責務・事実強度をen-USで同じ働きをする表現へ写像する。
+
+## Sphere共通概念レジスタ（必読）
+
+Context Dimension、D Fold、Registry／Context Register、Access Map、Transformer、OAEを編集する前に、Manifestの[Sphere Context Dimension OSアーキテクチャ](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/sphere-context-dimension-os.ja.md)と[Sphere Context SDK共通契約](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/sphere-context-sdk-contract.ja.md)を読むこと。
+
+- `AAE`は本リポジトリの製品名`Astro Agent Edge`として保持する。共通Effect管理単位`OAE: Observer Agential Effect`へrename、alias、置換しない
+- 技術依存の上下は`L`、等価な意味軸の束は`D Fold`として区別する
+- FAMの`λ=出力層`、`Q.layer`、`claim.∇φ[].layer`は既存Presentation／互換fieldであり、技術Layer `L`やContext Dimension `D`の正本にしない
+- System／Spiritual／Astral／Elementalの起動順は明示的な実行優先・Access Map profileとして扱い、Context Dimensionの普遍的な上下関係へ昇格しない
