@@ -424,7 +424,104 @@ ontology_assertion_candidate:
 
 上位入力が存在状態を明示していない場合、文章内容だけから`confirmed`または`denied`を生成しない。発話としての`神は存在する`はClaim本文として保持し、存在確定metadataとは分ける。
 
-### 14.9 接続検証項目
+### 14.9 時系列・時計校正metadataと上位粒度判断
+
+`fam.log.splitter/0.3.0`の`claim.Q.when`と`audit.generated_at`は同じ時計ではない。後段IBD adapterは少なくとも次を分離する。
+
+```text
+upstream timeline
+  source_created / source_modified / occurred / observed
+  scheduled / validity / business period
+  game day / turn / tick / narrative position
+
+converter / IBD meta timeline
+  converted / repaired / imported / exported / indexed
+```
+
+importや変換が2026年に行われても、2020年のsource作成時刻を`generated_at`で上書きしない。未来予定を異常値にせず、game worldの暦やtickを明示的なMapping FAMなしにUTCへ変換しない。timezoneが欠けていれば、実行環境のtimezoneを補わず`unknown`のまま渡す。
+
+adapter向けsidecar候補:
+
+```yaml
+temporal_candidate:
+  source_record_ref: famrec:...
+  upstream_timeline:
+    - role: source_created_at
+      timeline_kind: upstream_domain
+      raw_value: "2020-04-01 09:00"
+      normalized_value: null
+      timezone_status: unknown
+      managed_by: source:legacy-system
+    - role: world_position
+      timeline_kind: upstream_domain
+      coordinate_system: mmo-a.calendar.v2
+      raw_value: "第12年403日"
+      real_time_mapping_status: not_mapped
+  converter_audit:
+    timeline_kind: converter_meta
+    operation: convert_record
+    generated_at: "2026-07-18T10:30:00+09:00"
+    runtime_ref: runtime:converter-local
+    clock_observation_ref: clock-observation:converter-local:0001
+```
+
+エッジ環境のwall clockは、NTP／GPS／5G等の受信前にUnix epoch、マザーボード製造日、vendor出荷日、firmware build日等を返し得る。値の見た目だけで校正済み・未校正を推測せず、Systemから取得できたmetadataを転記する。
+
+```yaml
+clock_observation_candidate:
+  observation_id: clock-observation:converter-local:0001
+  runtime_ref: runtime:converter-local
+  raw_wall_clock: "2024-09-01T00:00:00+00:00"
+  clock_state: unsynchronized
+  calibrated: false
+  calibration_evidence_status: unavailable
+  calibration_authority_ref: null
+  clock_initialization_basis: vendor_shipped_at
+  boot_id: boot:edge-01:1
+  monotonic_ns: 3824000
+  sequence: 2
+  reported_resolution_ns: 1000000
+  estimated_accuracy_ms: null
+  uncertainty_ms: null
+  sources:
+    - source_kind: ntp_server
+      server_name: ntp.internal.example
+      last_success_at: null
+      evidence_status: unavailable
+    - source_kind: gps_receiver
+      device_ref: gps:edge-01
+      last_received_at: null
+      evidence_status: unavailable
+    - source_kind: carrier_network_time
+      carrier_ref: carrier:sim-01
+    - source_kind: radio_controlled_clock
+      device_ref: radio-clock:edge-01
+    - source_kind: fm_time_signal
+      station_ref: fm:station-01
+    - source_kind: rtc_module
+      device_ref: rtc:edge-01
+```
+
+NTP serverが設定済みであることと、当該event前に校正成功Evidenceがあることを分ける。Systemから同期ログを取得できない場合は`calibration_evidence_status: unavailable`とし、校正済みとは提示しない。同期後も過去eventを上書きせず、anchor／correction eventを追加する。同期前の局所順序には`boot_id + monotonic_ns + sequence`を使用できる。
+
+時計metadataはClaim本文、Ontology Assertion、World内factの真偽と独立である。`calibrated: false`はwall clockの立証範囲を示し、データ内容全体が偽であることを意味しない。
+
+どの精度を十分とするかは上位SystemがQとして与える。
+
+```yaml
+routing_Q:
+  temporal_acceptance:
+    evaluation_authority_ref: system:upper:clock-policy
+    required_granularity: minute
+    accepted_clock_sources: [ntp_server, gps_receiver]
+    maximum_age_since_calibration_seconds: 300
+    maximum_uncertainty_ms: 1000
+    ordering_fallback: [monotonic_ns, sequence]
+```
+
+RTCだけで十分なQ、NTP校正後5分以内を要求するQ、game tick順だけを使うQを同じconverter／adapterで扱う。スプリッターは必要粒度、時計sourceの優先順位、fact成立可否を発明しない。
+
+### 14.10 接続検証項目
 
 - Registryなしでclassや保存先を生成していない
 - splitterのFAM層labelを物理Databaseへ直結していない
@@ -436,3 +533,11 @@ ontology_assertion_candidate:
 - Actor、AgentInstance、Runtime、continuity claim候補が平板化されていない
 - 上位入力のexistence statusとfact scopeを別の世界・科学・企業・vendor基準で矯正していない
 - 発話Claimと上位システムによる存在確定metadataを混同していない
+- source／domain／logical timeとconverter／IBD meta timelineを混同していない
+- import／変換時刻でsource作成・変更・予定時刻を上書きしていない
+- timezone不明値を実行環境timezoneで補っていない
+- Unix epoch、製造日、出荷日、future timeだけを根拠に時刻または本文を棄却していない
+- NTP／GPS／carrier／標準電波／FM／RTC等のsourceと最終成功・Evidence状態を監査できる
+- 校正Evidenceがない時計を校正済みとして提示していない
+- 時計精度の採否と必要粒度を上位Qへ帰属させている
+- 時計の不確かさをClaim／Ontology Assertion全体の偽判定へ伝播していない

@@ -7,7 +7,7 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 
 ## 仕様メタデータ
 
-- version: `0.3.0`
+- version: `0.3.1`
 - status: `draft`
 - fold_signature: `ψ → ∇φ → λ → Q`
 - license: `CC-BY 4.0`（この仕様本文のみ。入力ログの権利を変更しない）
@@ -51,6 +51,11 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 - 近いベクトル、同名ラベル、既定FAM層だけを根拠に別IBD Databaseを混色する
 - Composite FAM、Last Order、美醜・善悪・有用性等の評価を最終確定する
 - MMO、神学、哲学等の上位Registryが確定した存在状態を、科学・企業・vendor基準で降格する
+- source／domain／logical timeをconverterの`generated_at`、import、export時刻で上書きする
+- timezone不明値へ実行環境のtimezoneを補う
+- Unix epoch、製造日、出荷日、future timeだけを根拠に時刻を無効・虚偽と判定する
+- NTP／GPS等の校正Evidenceがない時計を校正済みとして提示する
+- 時計の未校正・不確かさを、Claim本文やOntology Assertion全体の偽判定へ伝播する
 - `declared_scope` の記述、world解決要否、world不明のいずれかだけを根拠に `⊥` を立てる
 - 生ログまたは変換済みレコードの本文を標準出力、Git、クラウドへ流す
 - PIIが露出しない構造だと主張する。`ψ` は原文を保持するためPIIを含み得る
@@ -83,6 +88,8 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 `authored`、`addressed_to`、`replied_to`、`quoted`、`mentioned`、`generated_by`、`relayed_by`、`observed_by`、`executed_on`、`participated_in`、`derived_from`、`located_in_world`、`held_role_during` の候補を、明示的なヘッダー、ID、引用構文、時系列、メタデータから抽出する。
 
 SNS投稿は宛先が存在しない場合があるため、無理に対話へ変換しない。公開範囲しか分からない場合は `audience_scope` を保持し、`addressed_to` は `unknown` または空集合にする。
+
+原資料のsource作成・変更・発生・観測時刻、未来予定、game day／turn／tick等は、roleとraw valueを保持する。converterの`audit.generated_at`とは別timelineにし、timezoneや実時間対応を推測しない。
 
 ### 5. 最小主張へ分割する
 
@@ -131,6 +138,8 @@ graph adapterは原レコードを変更せず、Registry参照、分類候補�
 
 原資料または上位Registryが存在状態とfact scopeを明示した場合、その値を転記できる。ただしスプリッター自身は存在を確定・否定せず、別Worldや自然科学等の定規で値を矯正しない。
 
+原資料または実行Systemが時計metadataを提供した場合、校正状態、NTP server、GPS最終受信、carrier／標準電波／FM／RTC module、分解能、不確かさをsource時刻と分離して転記する。採用可能な時間粒度は上位Qが決め、スプリッターとadapterはfact成立可否を裁定しない。詳細は [references/fam-log-schema.md §14.9](references/fam-log-schema.md#149-時系列時計校正metadataと上位粒度判断) を参照する。
+
 ## 学習ヘッドと責務境界
 
 学習対象は次のヘッドへ分離できる。
@@ -162,4 +171,7 @@ graph adapterは原レコードを変更せず、Registry参照、分類候補�
 - source recordを変更せず派生Infoton Cluster候補を生成できる
 - 明示的なmix命令なしにcross-database候補が生成されていない
 - 明示された存在状態、World、fact scopeが別の定規で降格・普遍化されていない
+- source／domain／logical timeとconverter／IBD meta clockが分離されている
+- timezone不明値、未来予定、game time、未校正wall clockが推測で補正・棄却されていない
+- 時計校正metadataの採否と必要粒度を上位Qへ帰属させ、Claim本文の真偽へ伝播していない
 - 生データまたは変換済み本文がGit、クラウド、標準出力へ出ていない
