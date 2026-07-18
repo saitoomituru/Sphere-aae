@@ -17,6 +17,7 @@
 11. 教師データのヘッド分離
 12. データ保護とGit
 13. 検証項目
+14. IBD Season 0接続プロファイル
 
 ## 1. 責務境界
 
@@ -286,3 +287,122 @@ graph adapterは候補をIBD schemaへ写像する決定的処理にする。学
 - `result == "⊥"`なら、world関与・world unknown・明示的なrisk blockの3条件がすべて監査可能である
 - repair時に原本が不変でledgerがある
 - 標準出力、ログ、Git差分に実データ本文がない
+
+## 14. IBD Season 0接続プロファイル（DRAFT）
+
+この節は`fam.log.splitter/0.3.0`の出力Schemaを変更しない。既存splitter recordを、IBD Season 0のClassification Registry、Schema Bundle、IBD Database、Infoton Clusterへ接続する後段adapter契約を定める。
+
+### 14.1 責務分離
+
+```text
+famlog-converter
+  claim境界、FAM層候補、Actor／Instance／Runtime、根拠spanを抽出
+        ↓
+upper system
+  Classification Registry、λ、Q、Database範囲、mix、評価規約を提供
+        ↓
+deterministic IBD graph adapter
+  Registry内で分類候補を対応づけ、派生Infoton Cluster候補を作る
+        ↓
+IBD
+  指定Databaseへ隔離保存し、明示されたQの範囲だけを検索・結合
+```
+
+スプリッターは次を決めない。
+
+- Classification Registryの語彙、意味、閾値
+- Schema BundleとIBD Databaseの対応
+- `Vendor / System / Assistant / User`、業務分類、FAM身体層、神学、自我等の優先順位
+- Database間の混色可否
+- Composite FAMの採否・評価
+- Last Orderの発行・取消・継承
+
+### 14.2 FAM層候補とIBD Routingを同一視しない
+
+本契約の`elemental / astral / spiritual / cloud-chakra`は、原資料中の文法的根拠から抽出したFAM層候補である。これらを物理graph store名、IBD Database ID、権限境界へ自動変換しない。
+
+上位Classification Registryが同名classを持つ場合も、Registry ID、version、mapping ruleを明示して対応づける。同じ`spiritual`文字列や近いembeddingだけを根拠に同一視しない。
+
+### 14.3 adapter入力
+
+IBD graph adapterは最低限、次を別入力として受け取る。
+
+```yaml
+splitter_record_ref:
+  record_id: famrec:...
+  source_sha256: hex
+  schema_version: fam.log.splitter/0.3.0
+
+classification_registry_ref:
+  registry_id: upper-system.registry.v1
+  version: 1
+
+database_manifests:
+  - database_id: ibd://example-a
+    schema_bundle_ref: schema://example-a/v1
+
+routing_Q:
+  allowed_database_scopes:
+    - ibd://example-a
+  composition:
+    enabled: false
+```
+
+`classification_registry_ref`または`database_manifests`がない場合、adapterは保存先を創作せず`routing_required`候補として返す。
+
+### 14.4 派生Infoton Cluster候補
+
+```yaml
+infoton_cluster_candidate:
+  source_record_ref: famrec:...
+  source_claim_ref: fam:node:...
+  source_hash: sha256:...
+  registry_ref: upper-system.registry.v1
+  classification:
+    classifier_profile: embedding.fam.v1
+    candidates:
+      - class_id: example
+        score: 0.82
+    selected: []
+    decision: routing_required
+    evidence_refs:
+      - source-span:...
+  database_candidates:
+    - ibd://example-a
+  adapter_audit:
+    adapter_id: famlog-to-ibd-season-0
+    adapter_version: 0.1.0-draft
+```
+
+分類候補と最終routingを分離する。上位Registryがauto-select条件を明示した場合だけ`selected`を確定できる。adapter自身の社会的常識、vendor default、安全・善悪判断を選択根拠にしない。
+
+### 14.5 非破壊隔離と明示的混色
+
+- splitter recordと原資料を変更しない
+- 派生clusterへsource record、claim、hash、spanを残す
+- QにないDatabaseをvector候補集合へ入れない
+- 同名classや近いvectorだけでcross-database edgeを作らない
+- mixにはsource Database群とMapping FAMの明示を要求する
+- mix結果はsource clusterを変更せず、Composite FAM候補として返す
+- mix結果の美醜、善悪、リスク、有用性をadapterが判定しない
+
+### 14.6 Last OrderとEvidence
+
+スプリッターは原資料に明示された停止、要求、証拠不足をclaim候補として抽出できるが、それだけでIBD Last Orderを発行しない。Last Orderは上位λ、Q、実行Trace、Evidence状態を束ねる後段契約である。
+
+RDB等のEvidence Observationも、query fingerprint、parameter hash、result hash、observed_at、依存branchをIBD側で記録する。スプリッターが原文からRDB鮮度や再探索要否を推定しない。
+
+### 14.7 自我対応
+
+Actor、AgentInstance、Runtime、RoleAssignment、continuity claim候補を分離したままIBDへ渡す。これらはSubject／SelfModel／BodyBindingの候補材料になり得るが、adapterとスプリッターは自我の同一性、実在性、連続性を確定しない。
+
+### 14.8 接続検証項目
+
+- Registryなしでclassや保存先を生成していない
+- splitterのFAM層labelを物理Databaseへ直結していない
+- Registry ID、version、classifier profile、根拠を監査できる
+- source recordとsource hashが変化していない
+- QにないDatabaseが候補・検索・mixへ入っていない
+- Mapping FAMなしでcross-database compositionを行っていない
+- Last OrderとEvidence鮮度をsplitterが独自判定していない
+- Actor、AgentInstance、Runtime、continuity claim候補が平板化されていない

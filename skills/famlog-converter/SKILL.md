@@ -18,7 +18,7 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 
 発話主体を `user` / `assistant` の二値へ潰さず、自然言語記録を最小主張、FAM層、主体・インスタンス・役割・関係候補へ機械的に分解する。内容の真偽、科学的妥当性、危険性、実在性、人格継続性は判定しない。
 
-このスキルの出力は、FAM MoEの前段に置く軽量スプリッター用教師データ、またはIBDグラフへ渡す決定的アダプターの入力である。expert選択やFAM間裁定は担当しない。
+このスキルの出力は、FAM MoEの前段に置く軽量スプリッター用教師データ、またはIBDグラフへ渡す決定的アダプターの入力である。expert選択やFAM間裁定は担当しない。IBDへ接続する場合も、Classification Registry、保存先IBD Database、Database間の混色、Last Order、評価基準は上位システムから受け取り、このスキルが発明しない。
 
 変換またはテスト設計を始める前に、必ず [references/fam-log-schema.md](references/fam-log-schema.md) を読む。
 
@@ -47,6 +47,9 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 - 明示的な検証根拠なしに `validated_in_context` を付ける
 - 旧FAMを上書き修復する
 - expert index、router優先度、最終的な⊥判定を決める
+- IBDのClassification Registry、Schema Bundle、保存先Databaseを内容から発明する
+- 近いベクトル、同名ラベル、既定FAM層だけを根拠に別IBD Databaseを混色する
+- Composite FAM、Last Order、美醜・善悪・有用性等の評価を最終確定する
 - `declared_scope` の記述、world解決要否、world不明のいずれかだけを根拠に `⊥` を立てる
 - 生ログまたは変換済みレコードの本文を標準出力、Git、クラウドへ流す
 - PIIが露出しない構造だと主張する。`ψ` は原文を保持するためPIIを含み得る
@@ -119,6 +122,12 @@ worldが関与し、かつ `Q.world == "unknown"` の場合も、world不明だ�
 
 JSON Schema、一意ID、span境界、参照整合、条件付き制約を検査する。ログには件数、hash、エラーコード、処理時間だけを出し、`ψ` や固有名詞を表示しない。
 
+### 11. IBD接続時は外部Registryを分離する
+
+IBD接続では、スプリッターのv0.3.0レコード、上位システムが提供したClassification Registry、IBD Database Manifestを別入力として決定的graph adapterへ渡す。既存の`elemental / astral / spiritual / cloud-chakra`ラベルはFAM層候補と根拠spanであり、物理保存先や最終routingを自動決定しない。
+
+graph adapterは原レコードを変更せず、Registry参照、分類候補、score、根拠、保存先候補、source hashを持つ派生Infoton Cluster候補を出力する。詳細は [references/fam-log-schema.md §14](references/fam-log-schema.md#14-ibd-season-0接続プロファイルdraft) を参照する。
+
 ## 学習ヘッドと責務境界
 
 学習対象は次のヘッドへ分離できる。
@@ -127,7 +136,7 @@ JSON Schema、一意ID、span境界、参照整合、条件付き制約を検査
 2. layer head: 4層のmulti-label分類
 3. relation/metadata head: 主体、instance、役割、関係、明示文脈の候補抽出
 
-学習出力からIBDエンティティとedgeを確定する処理は、監査可能な決定的graph adapterへ分ける。MoE routerとFAM arbiterはその後段に置く。
+学習出力からIBDエンティティとedgeを確定する処理は、監査可能な決定的graph adapterへ分ける。MoE routerとFAM arbiterはその後段に置く。adapterが扱うClassification RegistryとDatabase Routingも、学習出力やスプリッター本文から推測せず上位入力として分離する。
 
 ## ローカルデータ保護
 
@@ -146,4 +155,7 @@ JSON Schema、一意ID、span境界、参照整合、条件付き制約を検査
 - `⊥` は、worldが関与し、worldが不明で、明示的な上位リスクゲートが探索継続を `block` した場合だけ成立する
 - 複数FAM層と根拠spanが保持される
 - 変換・修復の出典と差分を追跡できる
+- IBD接続時にRegistry、Database Manifest、splitter recordが別入力として監査できる
+- source recordを変更せず派生Infoton Cluster候補を生成できる
+- 明示的なmix命令なしにcross-database候補が生成されていない
 - 生データまたは変換済み本文がGit、クラウド、標準出力へ出ていない
