@@ -367,6 +367,7 @@ Sphere-aaeはAIを万能に見せることを目指しません。
 - [FAM概要](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/fam-overview.ja.md) — 探索技保存形式としてのFAM
 - [Sphere Context Dimension OS](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/sphere-context-dimension-os.ja.md) — 技術L、意味D、Access Map、Transformer、OAEの共通正本候補
 - [Context Dimension／OAE runtimeプロファイル](docs/development/context-dimension-oae-runtime-profile.ja.md) — Sphere-aae runtime固有の責務・namespace・sidecar境界
+- [Python／Venv運用profile.proton](docs/development/python-venv-operations.proton.md) — ML／TVM／accelerator依存、運用tool、使い捨てBrowser観測を別profileへ分離する採用契約
 - [SphereASTRO](https://github.com/saitoomituru/SphereASTRO) — 人格定義・責任境界・GUI層
 - [旧Quantaril Cloud / AQC資産](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud) — 旧世代の実装・サルベージ対象
 - [FoldAccessMapper.proton.md](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud/blob/main/demo/FoldAccessMapper.proton.md) — FAM基礎仕様
