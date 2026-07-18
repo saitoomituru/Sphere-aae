@@ -50,6 +50,7 @@ description: ローカルの自然言語ログ、チャット、AI間対話、SN
 - IBDのClassification Registry、Schema Bundle、保存先Databaseを内容から発明する
 - 近いベクトル、同名ラベル、既定FAM層だけを根拠に別IBD Databaseを混色する
 - Composite FAM、Last Order、美醜・善悪・有用性等の評価を最終確定する
+- MMO、神学、哲学等の上位Registryが確定した存在状態を、科学・企業・vendor基準で降格する
 - `declared_scope` の記述、world解決要否、world不明のいずれかだけを根拠に `⊥` を立てる
 - 生ログまたは変換済みレコードの本文を標準出力、Git、クラウドへ流す
 - PIIが露出しない構造だと主張する。`ψ` は原文を保持するためPIIを含み得る
@@ -128,6 +129,8 @@ IBD接続では、スプリッターのv0.3.0レコード、上位システム�
 
 graph adapterは原レコードを変更せず、Registry参照、分類候補、score、根拠、保存先候補、source hashを持つ派生Infoton Cluster候補を出力する。詳細は [references/fam-log-schema.md §14](references/fam-log-schema.md#14-ibd-season-0接続プロファイルdraft) を参照する。
 
+原資料または上位Registryが存在状態とfact scopeを明示した場合、その値を転記できる。ただしスプリッター自身は存在を確定・否定せず、別Worldや自然科学等の定規で値を矯正しない。
+
 ## 学習ヘッドと責務境界
 
 学習対象は次のヘッドへ分離できる。
@@ -158,4 +161,5 @@ graph adapterは原レコードを変更せず、Registry参照、分類候補�
 - IBD接続時にRegistry、Database Manifest、splitter recordが別入力として監査できる
 - source recordを変更せず派生Infoton Cluster候補を生成できる
 - 明示的なmix命令なしにcross-database候補が生成されていない
+- 明示された存在状態、World、fact scopeが別の定規で降格・普遍化されていない
 - 生データまたは変換済み本文がGit、クラウド、標準出力へ出ていない

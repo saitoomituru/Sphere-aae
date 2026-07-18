@@ -396,7 +396,35 @@ RDB等のEvidence Observationも、query fingerprint、parameter hash、result h
 
 Actor、AgentInstance、Runtime、RoleAssignment、continuity claim候補を分離したままIBDへ渡す。これらはSubject／SelfModel／BodyBindingの候補材料になり得るが、adapterとスプリッターは自我の同一性、実在性、連続性を確定しない。
 
-### 14.8 接続検証項目
+### 14.8 Ontology Assertionとfact scope
+
+スプリッターが存在論を確定しないことは、上位システムの存在確定を拒否・弱化することを意味しない。
+
+原資料の構造metadataまたは上位入力が次を明示した場合、改変せず派生候補へ渡す。
+
+```yaml
+ontology_assertion_candidate:
+  subject_ref: source-local-entity-ref
+  predicate: exists
+  existence_status: confirmed
+  fact_scope:
+    world_ref: world:mmo-a
+    scope_kind: world_internal_fact
+  declared_by: system:mmo-a-authority
+  registry_ref: mmo-a.ontology.v3
+  evidence_refs:
+    - source-structure-ref
+```
+
+- MMO World内で確定した神、霊、キャラクター、神話Entityを、現実世界にいないという理由で不存在へ変換しない
+- 神学・哲学Registryの存在確定を、自然科学で未証明という理由で`unknown`へ降格しない
+- 特定企業、国家、AI vendorのfact基準を既定値として注入しない
+- scope内の`confirmed`を全Worldの普遍命題へ拡張しない
+- `existence_status`、World、fact scope、declared by、Registry、Evidenceを分離する
+
+上位入力が存在状態を明示していない場合、文章内容だけから`confirmed`または`denied`を生成しない。発話としての`神は存在する`はClaim本文として保持し、存在確定metadataとは分ける。
+
+### 14.9 接続検証項目
 
 - Registryなしでclassや保存先を生成していない
 - splitterのFAM層labelを物理Databaseへ直結していない
@@ -406,3 +434,5 @@ Actor、AgentInstance、Runtime、RoleAssignment、continuity claim候補を分�
 - Mapping FAMなしでcross-database compositionを行っていない
 - Last OrderとEvidence鮮度をsplitterが独自判定していない
 - Actor、AgentInstance、Runtime、continuity claim候補が平板化されていない
+- 上位入力のexistence statusとfact scopeを別の世界・科学・企業・vendor基準で矯正していない
+- 発話Claimと上位システムによる存在確定metadataを混同していない
