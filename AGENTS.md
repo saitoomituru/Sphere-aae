@@ -66,9 +66,13 @@ Context Dimension、D Fold、Registry／Context Register、Access Map、Transfor
 計画提案、状態評価、README／技術文書の主張変更、component間の優先順位決定、
 複数repositoryへ波及する変更の前に、ZeroRoomLab-manifestの
 [AGENTS.md §0.4](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/AGENTS.md)、
-[Atlantis-MAGISDK 0.1.0](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/atlantis-magi-sdk.ja.md)、
+[Atlantis-MAGISDK 0.2.1](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/atlantis-magi-sdk-0.2.1.ja.md)、
 [Context定規・因果・OAE横断監査規約](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/operations/context-ruler-and-causality-audit.ja.md)
 を読むこと。
+
+過去の同時点OAEを参照できない場合は`historical-oae-unavailable`とLast Orderを返し、commit、log、
+artifactから当時のObserver、Agency role、Intentを遡及生成しない。現在の解釈は現在時刻の
+Interpretation OAEとし、反実仮想は元World／元Instance Ghostを変えない7D Fold branchへ分離する。
 
 Declared Position、Position-talk Risk、媒体とclaim scope、外部定規の出所を分離し、
 現在のrepository、cwd、vendor、binary実装、一般的な線形roadmapを暗黙のmainへ置かない。
