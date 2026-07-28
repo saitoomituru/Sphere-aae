@@ -1,0 +1,94 @@
+# Issue Draft: [Architecture] Neat Runner: 火力探索型二段ロケット・ビルド制御面
+
+> GitHub Issuesが有効化された際に、この本文をIssueとして起票する。
+>
+> 関連仕様: [`docs/architecture/neat-runner.md`](../architecture/neat-runner.md)
+
+## 概要
+
+Sphere-aaeへ同梱可能な、火力探索型メタビルド制御面 **Neat Runner（ニートランナー）** の調査・試作Issue。
+
+このIssueでは具体コードを先に固定しない。実装言語、GitHub Actions構成、クラウド／無料GPU Provider、SDK、料金取得方法、Q4巨大MoEからのhidden state抽出方法は、実際の開発環境で調査・試用して決定する。
+
+## 基本アイデア
+
+```text
+Fork
+  ↓
+GitHub Actions Secrets / Variablesへ自分の火力設定を登録
+  ↓
+第一段: GitHub Actionsが要求火力・資格情報・財布上限を解決
+  ↓
+Neat Runner CLIがResolved Build Planを生成
+  ↓
+第二段: 無料炉 / 爆安炉 / self-hosted runner / 支援Runnerへ投入
+  ↓
+checkpoint・成果物回収
+```
+
+CLIはモデル学習器ではなく、静的YAML、Secret Pointer、Actions注入値、火力詳細を混ぜて実行可能なYAML / JSONを生成する「餡子製造機」として扱う。
+
+## 初期対象
+
+- Q4巨大MoE母艦からのhidden state抽出
+- 扁桃体MoE
+- FAM-IN / FAM-OUT
+- Router / Reject / LAST_ORDER Head
+- 小型Expert Head
+- Adapter / LoRA
+- 評価、checkpoint、成果物検証
+
+巨大MoE母艦のフル学習は初期対象外。
+
+## 調査項目
+
+- [ ] GitHub Actionsのdynamic matrix / reusable workflow / repository_dispatch比較
+- [ ] Secret Pointerの安全な解決方法
+- [ ] Actions VariablesとSecretsの責務分離
+- [ ] OIDCおよび短命資格情報の利用可否
+- [ ] Provider Descriptorスキーマ案
+- [ ] Build Recipeスキーマ案
+- [ ] Resolved Build Plan中間表現
+- [ ] hard budgetと財布ペイン評価
+- [ ] 無料GPU環境への正規な投入方法
+- [ ] 低価格GPU Providerの起動・停止・価格取得API
+- [ ] self-hosted runnerの一時登録・破棄
+- [ ] 支援Runnerを安全に受けるCompute Request形式
+- [ ] Q4巨大MoEからのhidden state取得方法
+- [ ] hidden stateキャッシュ形式と圧縮
+- [ ] checkpointを別Providerへ移して再開できる条件
+- [ ] source SHA / container digest / artifact hash検証
+- [ ] Actions SummaryまたはIssueへの「火力ちょうだい」出力
+
+## 最小実証条件
+
+- [ ] Fork上のworkflow_dispatchから開始できる
+- [ ] Secret値をYAMLやログへ残さずProviderへ渡せる
+- [ ] 同一Build Planを2種類以上の実行先へ投げられる
+- [ ] hard budget超過前に停止できる
+- [ ] 中断後、別の実行先でcheckpointから再開できる
+- [ ] 火力不足時に機械可読なCompute Requestを生成できる
+- [ ] 扁桃体MoEまたはFAM Headを1件焼ける
+- [ ] 成果物をsource SHAとhash付きで回収できる
+
+## 設計上の境界
+
+- 無料枠制限の不正回避や多重アカウント運用は対象外
+- Fork由来の未信頼コードへ上流Secretを渡さない
+- Secret名は明示的なPointerとして扱い、総当たり探索しない
+- 有料火力はhard budgetを超えて自動継続しない
+- ビルド成功とモデル品質評価は分離する
+
+## LAST_ORDER候補
+
+```text
+⊥_BUILD_NO_PROVIDER
+⊥_BUILD_NO_CREDENTIAL
+⊥_BUILD_INSUFFICIENT_VRAM
+⊥_BUILD_BUDGET_PAIN
+⊥_BUILD_RUNNER_UNTRUSTED
+⊥_BUILD_CHECKPOINT_LOST
+⊥_BUILD_ARTIFACT_UNVERIFIED
+```
+
+失敗時は単に赤いCIで終了せず、別Provider、ジョブ分割、火力降格、支援要求、再試行へ接続する。
