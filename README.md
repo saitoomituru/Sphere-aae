@@ -310,7 +310,9 @@ Sphere-aaeは、これらの先行成果に深い敬意を払い、ライセン�
 | System-call splitterへのネイティブ統合 | 未完成 |
 | 扁桃体MoE（優先順位裁定コンポーネント） | 検討中、実装未着手 |
 | MoEコントローラーレベルのFAM統合 | 設計目標。HPC／メモリ資源待ちで停止中（下記「財布ペイン凍結解除条件」参照） |
-| ASTRO / IBD / IFD統合 | アーキテクチャ設計段階 |
+| ASTRO / IBD / IFD統合 | ASTRO実測先行。Stage 0実機receipt待ち、統合はアーキテクチャ設計段階 |
+| Model Family固定／AAE Bake | ASTRO Stage 1／2 receipt待ち。受入境界を文書化、実装未着手 |
+| Neat Runner | Architecture NoteとIssue Draftあり。model／runtime／資源実測後に実装判定 |
 
 このリポジトリを、完成済み人格連続性製品として扱わないでください。
 
@@ -374,6 +376,8 @@ Sphere-aaeはAIを万能に見せることを目指しません。
 - [FAM概要](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/fam-overview.ja.md) — 探索技保存形式としてのFAM
 - [Sphere Context Dimension OS](https://github.com/saitoomituru/ZeroRoomLab-manifest/blob/main/docs/theory/sphere-context-dimension-os.ja.md) — 技術L、意味D、Access Map、Transformer、OAEの共通正本候補
 - [Context Dimension／OAE runtimeプロファイル](docs/development/context-dimension-oae-runtime-profile.ja.md) — Sphere-aae runtime固有の責務・namespace・sidecar境界
+- [ASTRO実測からAAE Bakeへ進む開発マイルストーン](docs/development/astro-aae-bake-milestone.ja.md) — 実機receipt、Model Family固定、Bake、Neat Runnerへの受け渡し
+- [Neat Runnerアーキテクト仕様書](docs/architecture/neat-runner.md) — 実測後に開始する火力探索型メタビルド制御面
 - [Python／Venv運用profile.proton](docs/development/python-venv-operations.proton.md) — ML／TVM／accelerator依存、運用tool、使い捨てBrowser観測を別profileへ分離する採用契約
 - [SphereASTRO](https://github.com/saitoomituru/SphereASTRO) — 人格定義・責任境界・GUI層
 - [旧Quantaril Cloud / AQC資産](https://github.com/HIPSTAR-IScompany/astro.quantaril.cloud) — 旧世代の実装・サルベージ対象
