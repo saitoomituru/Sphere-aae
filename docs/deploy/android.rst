@@ -21,7 +21,7 @@ Prerequisite
 
 **Rust** (`install <https://www.rust-lang.org/tools/install>`__) is needed to cross-compile HuggingFace tokenizers to Android. Make sure rustc, cargo, and rustup are available in ``$PATH``.
 
-**Android Studio** (`install <https://developer.android.com/studio>`__) with NDK and CMake. To install NDK and CMake, on the Android Studio welcome page, click "Projects → SDK Manager → SDK Tools". If you have already installed NDK in your development environment, please update your NDK to avoid build android package fail(`#2696 <https://github.com/sphere-aae/sphere-aae/issues/2696>`__). The current demo Android APK is built with NDK 27.0.11718014. Once you have installed or updated the NDK, set up the following environment variables:
+**Android Studio** (`install <https://developer.android.com/studio>`__) with NDK and CMake. To install NDK and CMake, on the Android Studio welcome page, click "Projects → SDK Manager → SDK Tools". If you have already installed NDK in your development environment, please update your NDK to avoid build android package fail(`#2696 <https://github.com/mlc-ai/mlc-llm/issues/2696>`__). The current demo Android APK is built with NDK 27.0.11718014. Once you have installed or updated the NDK, set up the following environment variables:
 
 
 - ``ANDROID_NDK`` so that ``$ANDROID_NDK/build/cmake/android.toolchain.cmake`` is available.
@@ -364,4 +364,4 @@ One known issue that has been observed on Android devices equipped with Adreno G
 It has been observed that models with a ``_0`` suffix do not experience this issue.
 The two suffixes denote the layouts of weights in the models that differ by a transpose operation.
 In case you encounter the freeze issue, the workaround to avoid this problem is to use a model in the ``_0`` weight layout.
-For more details, please consult `issue #3363 <https://github.com/sphere-aae/sphere-aae/issues/3363>`_.
+For more details, please consult `upstream issue #3363 <https://github.com/mlc-ai/mlc-llm/issues/3363>`_.

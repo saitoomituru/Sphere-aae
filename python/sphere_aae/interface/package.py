@@ -121,7 +121,7 @@ def build_model_library(  # pylint: disable=too-many-branches,too-many-locals,to
                         "Please follow https://llm.sphere_aae.ai/docs/compilation/convert_weights.html to "
                         "convert model weights."
                         if is_local_model
-                        else "Please report this issue to https://github.com/sphere-aae/sphere-aae/issues."
+                        else "Please report this issue to https://github.com/saitoomituru/Sphere-aae/issues."
                     )
                 )
             # Overwrite the model weight directory in bundle.

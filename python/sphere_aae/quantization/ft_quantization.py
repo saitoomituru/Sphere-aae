@@ -134,7 +134,7 @@ class FTQuantize:  # pylint: disable=too-many-instance-attributes
                         or (self.config.quantize_dtype == "int8" and node.out_features % 4 != 0)
                     ):
                         # Under any of the conditions we fall back to GroupQuantize
-                        # For `is_final_fc()` see https://github.com/sphere-aae/sphere-aae/issues/1723
+                        # For `is_final_fc()` see https://github.com/mlc-ai/mlc-llm/issues/1723
                         # If simply skipping lm_head quantization degrades performance
                         # Other requirements are from CUTLASS
                         logger.info(

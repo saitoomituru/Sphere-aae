@@ -287,6 +287,13 @@ Sphere-aaeは、これらの先行成果に深い敬意を払い、ライセン�
 
 したがってSphere-aaeは、MLC LLMの技術的系譜へ敬意を持ちながら、**責任モデル、回復モデル、FAMネイティブ制御という別の進化経路**を選択します。
 
+### Issueと上流境界
+
+- Sphere-aae固有の不具合、設計、FAM、MoE、Neat Runner、研究noteは[`saitoomituru/Sphere-aae`のIssues](https://github.com/saitoomituru/Sphere-aae/issues)へ記録します。
+- 親repo[`mlc-ai/mlc-llm`](https://github.com/mlc-ai/mlc-llm)は、上流由来コードと既存Issueのread-only参照先です。
+- 上流へIssue、PR、commentを送る場合は、Sphere-aae固有概念を除いた上流再現可能な事象へ分離し、人間の個別承認を得ます。
+- `#1723`等の上流Issueリンクは履歴・実装根拠の参照であり、Sphere-aaeの新規投稿先ではありません。
+
 ---
 
 ## 現在の実装状況

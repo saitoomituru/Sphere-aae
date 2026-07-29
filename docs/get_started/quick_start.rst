@@ -188,4 +188,4 @@
 
 - 独自モデルを実行したい場合は :ref:`convert-weights-via-AAE` を参照してください。
 - Web/iOS/Android へのデプロイやモデル最適化の制御を行いたい場合は :ref:`compile-model-libraries` を参照してください。
-- 問題報告や質問は `GitHub リポジトリ <https://github.com/sphere-aae/sphere-aae/issues>`_ に新しい Issue を作成してください。
+- Sphere-aae固有の問題報告や質問は `Sphere-aae forkのIssue tracker <https://github.com/saitoomituru/Sphere-aae/issues>`_ に作成してください。親repoへの投稿は、上流で再現可能な事象へ分離し、人間の個別承認を得た場合だけ行います。

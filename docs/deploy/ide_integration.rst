@@ -176,4 +176,4 @@ After everything is all set, the extension will be ready to use the responses fr
 Conclusion
 ----------
 
-Please, let us know if you have any questions. Feel free to open an issue on the `Astro Agent Edge (AAE) repo <https://github.com/sphere-aae/sphere-aae/issues>`__!
+Sphere-aae固有の質問は `Sphere-aae forkのIssue tracker <https://github.com/saitoomituru/Sphere-aae/issues>`__ へ投稿してください。親repoへの投稿は、上流で再現可能な事象へ分離し、人間の個別承認を得た場合だけ行います。

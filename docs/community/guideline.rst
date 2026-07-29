@@ -19,7 +19,7 @@ Participate in Community Discussions
 ------------------------------------
 
 We encourage open discussions. If you encounter a bug or have a feature request, please file an issue in Sphere-aae's
-GitHub `issue tracker <https://github.com/sphere-aae/sphere-aae/issues>`__. You are encouraged to tag the issue with labels
+GitHub `issue tracker <https://github.com/saitoomituru/Sphere-aae/issues>`__. You are encouraged to tag the issue with labels
 such as "bug," "feature request," or "iOS" so that the relevant developers can quickly notice your concern.
 
 Additionally, we maintain a `community forum <https://forum.i-s.dev/landing#/>`__ for online discussions.
