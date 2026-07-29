@@ -10,16 +10,23 @@
 
 2026-07-29時点のInterpretation OAEでは、Neat Runnerの実装を先行させない。
 
-1. SphereASTROで既存Ollamaを共通Adapter境界へ接続する
-2. 手元に存在するモデルで日本語、structured output、tool call、実機推論を評価する
-3. `llama.cpp`と既存Sphere-aae / MLC系runtimeを同一receiptで比較する
-4. 母艦モデルと推論runtimeを選定する
-5. 選定結果から必要VRAM、実行時間、成果物形式を測定する
-6. 測定値を入力としてNeat Runnerの最小実証を開始する
+1. SphereASTRO Stage 0でiPad M4またはiPhone 15 Pro Maxの実機build receiptを取る
+2. Stage 1で共通Engine Adapterを通し、Chat、管理slot、一往復の実推論を成立させる
+3. 既存Ollama、`llama.cpp`、Sphere-aae／MLC系runtimeを同一receiptで比較する
+4. Stage 2で同じ御霊、Body、promptへ複数modelを接続し、`COSPLAY_MANJU_DRIFT`を観測する
+5. 日本語、structured output、tool call、FAM、LAST_ORDERの結果からModel Familyを固定する
+6. Sphere-aaeでAAE Bakeのtarget artifact、評価fixture、再現条件を確定する
+7. 必要VRAM、実行時間、checkpoint、成果物形式を測定する
+8. 測定値を入力としてNeat Runnerの最小実証を開始する
 
 安定推論の主依代はiPad Pro 13-inch (M4)、実機クライアント兼軽量推論先はiPhone 15 Pro Maxとする。Hackintoshは開発、変換、互換観測の炉として残すが、常設の安定推論サーバーには位置づけない。
 
 この順序はNeat Runnerを中止する判断ではない。推論runtime未選定のままProviderやGPU構成を先に固定し、ビルド環境の維持自体が研究資源を圧迫することを避けるための依存関係整理である。
+
+AAE側の受入条件、Model Evaluation Receipt、Bake段階は
+[ASTRO実測からAAE Bakeへ進む開発マイルストーン](../development/astro-aae-bake-milestone.ja.md)を
+正本とする。Ollamaは既存環境を利用するbaseline候補であり、portable `.astro`または正式実機の
+暗黙必須Engineにはしない。
 
 ## 1. 概要
 

@@ -12,16 +12,24 @@ Sphere-aaeへ同梱可能な、火力探索型メタビルド制御面 **Neat Ru
 
 ## 先行する作業
 
-- [ ] SphereASTROへ既存OllamaをAdapter経由で接続する
+- [ ] SphereASTRO Stage 0で正式実機のbuild receiptを取る
+- [ ] Stage 1で共通Engine Adapter、Chat、管理slot、一往復の実推論を成立させる
+- [ ] 既存Ollamaを開発炉のbaseline Adapterとして接続する
 - [ ] iPad Pro 13-inch (M4)を安定推論の主依代として実機receiptを取る
 - [ ] iPhone 15 Pro Maxでclient / 軽量推論境界を確認する
 - [ ] 手元モデルの日本語、structured output、tool callを同一条件で比較する
 - [ ] `llama.cpp`と既存Sphere-aae / MLC系runtimeを比較する
-- [ ] 母艦モデルと推論runtimeを選定する
+- [ ] Stage 2で`COSPLAY_MANJU_DRIFT`を観測する
+- [ ] Model Family、tokenizer、quantization profile、推論runtimeを選定する
+- [ ] AAE Bakeのtarget artifact、評価fixture、再現条件を確定する
 
 上記が完了するまでNeat RunnerのProvider実装は開始しない。Hackintoshは開発、変換、互換観測に利用できるが、常設の安定推論サーバーとして要求しない。
 
 ビルド環境、Simulator、GPU Providerを先に増やすことは非目標とする。手元実機で閉じない検証は、必要な実機、GPU時間、予算、期待成果をCompute Requestとして提示し、人間の承認後に実行する。
+
+AAE側の受入条件は
+[`docs/development/astro-aae-bake-milestone.ja.md`](../development/astro-aae-bake-milestone.ja.md)を
+参照する。Ollamaはbaseline候補であり、portable `.astro`または正式実機の暗黙必須Engineではない。
 
 ## 基本アイデア
 
@@ -57,6 +65,8 @@ CLIはモデル学習器ではなく、静的YAML、Secret Pointer、Actions注�
 
 - [ ] M4実機receiptから必要メモリ、発熱、電力、token速度を採取
 - [ ] iPhone 15 Pro MaxとiPad Pro 13-inch (M4)の役割分担を確定
+- [ ] target artifact、評価fixture、source SHA、入力hashを固定
+- [ ] checkpoint間隔とProvider間の再開条件を固定
 - [ ] GitHub Actionsのdynamic matrix / reusable workflow / repository_dispatch比較
 - [ ] Secret Pointerの安全な解決方法
 - [ ] Actions VariablesとSecretsの責務分離
