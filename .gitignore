@@ -150,6 +150,9 @@ perf
 ## IOS
 DerivedData/
 
+## Swift Package Manager
+**/.build/
+
 ## Java
 *.class
 jvm/*/target/
