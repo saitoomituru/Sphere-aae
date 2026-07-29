@@ -1,10 +1,25 @@
 # Neat Runner アーキテクト仕様書
 
-> Status: Architecture Note / 実装方式未確定
+> Status: Architecture Note / モデル・推論runtime選定後に実装判定
 >
 > 対象: Sphere-aae の扁桃体MoE、FAM入出力系、量子化母艦に対する軽量ヘッド類のビルド制御面
 >
 > この文書は具体的なクラウド事業者、CLI実装言語、SDK、料金、GPU型番を固定しない。実装候補の調査、試用、コード生成、プロバイダ別アダプタの選定は、実際の開発環境側で行う。
+
+## 0. 現在の開発順序
+
+2026-07-29時点のInterpretation OAEでは、Neat Runnerの実装を先行させない。
+
+1. SphereASTROで既存Ollamaを共通Adapter境界へ接続する
+2. 手元に存在するモデルで日本語、structured output、tool call、実機推論を評価する
+3. `llama.cpp`と既存Sphere-aae / MLC系runtimeを同一receiptで比較する
+4. 母艦モデルと推論runtimeを選定する
+5. 選定結果から必要VRAM、実行時間、成果物形式を測定する
+6. 測定値を入力としてNeat Runnerの最小実証を開始する
+
+安定推論の主依代はiPad Pro 13-inch (M4)、実機クライアント兼軽量推論先はiPhone 15 Pro Maxとする。Hackintoshは開発、変換、互換観測の炉として残すが、常設の安定推論サーバーには位置づけない。
+
+この順序はNeat Runnerを中止する判断ではない。推論runtime未選定のままProviderやGPU構成を先に固定し、ビルド環境の維持自体が研究資源を圧迫することを避けるための依存関係整理である。
 
 ## 1. 概要
 
@@ -349,6 +364,9 @@ LAST_ORDERは停止だけでなく、別Provider、ジョブ分割、火力降�
 
 具体実装は、実際の開発環境で次を調査して決定する。
 
+- SphereASTROのM4実機receiptから得られる必要メモリ、発熱、電力、token速度
+- iPhone 15 Pro Maxで許容できるモデル規模とclient / local inference境界
+- Hackintoshを安定推論系から外した場合に残す変換・互換試験の範囲
 - GitHub Actionsのdynamic matrix、reusable workflow、repository_dispatchの使い分け
 - Secret Pointer解決方法と式評価の制約
 - OIDC対応状況

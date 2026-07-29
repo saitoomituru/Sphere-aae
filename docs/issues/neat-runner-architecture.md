@@ -1,6 +1,6 @@
-# Issue Draft: [Architecture] Neat Runner: 火力探索型二段ロケット・ビルド制御面
+# Issue Draft: [計画] Neat Runnerをモデル・runtime選定後の火力制御面として実装する
 
-> GitHub Issuesが有効化された際に、この本文をIssueとして起票する。
+> Status: model-and-runtime-selection-wait
 >
 > 関連仕様: [`docs/architecture/neat-runner.md`](../architecture/neat-runner.md)
 
@@ -9,6 +9,19 @@
 Sphere-aaeへ同梱可能な、火力探索型メタビルド制御面 **Neat Runner（ニートランナー）** の調査・試作Issue。
 
 このIssueでは具体コードを先に固定しない。実装言語、GitHub Actions構成、クラウド／無料GPU Provider、SDK、料金取得方法、Q4巨大MoEからのhidden state抽出方法は、実際の開発環境で調査・試用して決定する。
+
+## 先行する作業
+
+- [ ] SphereASTROへ既存OllamaをAdapter経由で接続する
+- [ ] iPad Pro 13-inch (M4)を安定推論の主依代として実機receiptを取る
+- [ ] iPhone 15 Pro Maxでclient / 軽量推論境界を確認する
+- [ ] 手元モデルの日本語、structured output、tool callを同一条件で比較する
+- [ ] `llama.cpp`と既存Sphere-aae / MLC系runtimeを比較する
+- [ ] 母艦モデルと推論runtimeを選定する
+
+上記が完了するまでNeat RunnerのProvider実装は開始しない。Hackintoshは開発、変換、互換観測に利用できるが、常設の安定推論サーバーとして要求しない。
+
+ビルド環境、Simulator、GPU Providerを先に増やすことは非目標とする。手元実機で閉じない検証は、必要な実機、GPU時間、予算、期待成果をCompute Requestとして提示し、人間の承認後に実行する。
 
 ## 基本アイデア
 
@@ -42,6 +55,8 @@ CLIはモデル学習器ではなく、静的YAML、Secret Pointer、Actions注�
 
 ## 調査項目
 
+- [ ] M4実機receiptから必要メモリ、発熱、電力、token速度を採取
+- [ ] iPhone 15 Pro MaxとiPad Pro 13-inch (M4)の役割分担を確定
 - [ ] GitHub Actionsのdynamic matrix / reusable workflow / repository_dispatch比較
 - [ ] Secret Pointerの安全な解決方法
 - [ ] Actions VariablesとSecretsの責務分離
