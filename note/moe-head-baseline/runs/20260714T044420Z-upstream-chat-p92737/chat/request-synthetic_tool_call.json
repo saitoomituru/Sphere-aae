@@ -1,0 +1,46 @@
+{
+  "model": "granite-4.0-h-tiny-q4km",
+  "messages": [
+    {
+      "role": "system",
+      "content": "必要な情報は提供されたtoolで取得してください。"
+    },
+    {
+      "role": "user",
+      "content": "架空都市Testvilleの現在の天気をget_current_weather toolで調べてください。"
+    }
+  ],
+  "temperature": 0.0,
+  "seed": 424242,
+  "max_tokens": 96,
+  "stream": false,
+  "cache_prompt": false,
+  "n": 1,
+  "top_k": 1,
+  "top_p": 1.0,
+  "min_p": 0.0,
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_current_weather",
+        "description": "指定した架空都市の合成天気データを取得する",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "架空都市名"
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ],
+  "tool_choice": "required",
+  "parallel_tool_calls": false
+}

@@ -1,0 +1,46 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "type": "function",
+            "function": {
+              "name": "get_current_weather",
+              "arguments": "{\"city\": \"Testville\"}"
+            },
+            "id": "EC70NrzLrGGllF31l4pRBGAe8M7EmkiQ"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 1784004297,
+  "model": "granite-4.0-h-tiny-q4km",
+  "system_fingerprint": "b9637-aedb2a5e9",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 22,
+    "prompt_tokens": 256,
+    "total_tokens": 278,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-8oB24kVijhhcBbKSnHsfcETqVL6nCkv6",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 256,
+    "prompt_ms": 4295.861,
+    "prompt_per_token_ms": 16.78070703125,
+    "prompt_per_second": 59.59224472113972,
+    "predicted_n": 22,
+    "predicted_ms": 1403.137,
+    "predicted_per_token_ms": 63.778954545454546,
+    "predicted_per_second": 15.679153211696363
+  }
+}

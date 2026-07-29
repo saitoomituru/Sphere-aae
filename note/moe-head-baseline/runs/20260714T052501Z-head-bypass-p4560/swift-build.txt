@@ -1,0 +1,7 @@
+Building for production...
+[0/4] Write sources
+[1/4] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Compiling MoeHeadBaseline main.swift
+[3/5] Write Objects.LinkFileList
+[4/5] Linking moe-head-baseline
+Build of product 'moe-head-baseline' complete! (14.22s)

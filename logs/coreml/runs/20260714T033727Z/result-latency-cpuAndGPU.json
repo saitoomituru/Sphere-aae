@@ -1,0 +1,21 @@
+{
+  "accelerate_passed" : true,
+  "accelerated_device" : "AMD Radeon RX 5500 XT",
+  "batch_size" : 1,
+  "compute_devices" : [
+    "<MLGPUComputeDevice: 0x7f7e46f978c0> AMD Radeon RX 5500 XT",
+    "<MLCPUComputeDevice: 0x7f7e46f96ad0>"
+  ],
+  "compute_units" : "cpuAndGPU",
+  "iterations" : 200,
+  "max_abs_error" : 6.705522537231445e-08,
+  "metal3" : true,
+  "mps_max_abs_error" : 0,
+  "mps_supported" : true,
+  "p50_ms" : 0.21893,
+  "p95_ms" : 0.335711,
+  "p99_ms" : 0.448962,
+  "passed" : true,
+  "profile" : "latency",
+  "warmup" : 5
+}

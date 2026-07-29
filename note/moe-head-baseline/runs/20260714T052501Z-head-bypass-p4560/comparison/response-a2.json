@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1. 温かい飲み物は体を温め、朝の冷えを防ぎます。\n2. 温かい飲み物は消化を助け、朝の食事の準備をスムーズにします。"
+      }
+    }
+  ],
+  "created": 1784006760,
+  "model": "granite-4.0-h-tiny-q4km",
+  "system_fingerprint": "b9637-aedb2a5e9",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 69,
+    "prompt_tokens": 72,
+    "total_tokens": 141,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-Lfq3OkYP5PVa3eANghd3FR2e9eP3RjvD",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 72,
+    "prompt_ms": 1447.401,
+    "prompt_per_token_ms": 20.10279166666667,
+    "prompt_per_second": 49.744334845699285,
+    "predicted_n": 69,
+    "predicted_ms": 4745.766,
+    "predicted_per_token_ms": 68.77921739130434,
+    "predicted_per_second": 14.539275640644737
+  }
+}

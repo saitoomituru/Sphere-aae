@@ -1,0 +1,25 @@
+{
+  "kind": "runtime_verification",
+  "timestamp_utc": "2026-07-14T04:09:58Z",
+  "git_commit": "2a4edecebdead24e9638764fce329f0759bfc2f5",
+  "runtime": {
+    "project": "llama.cpp",
+    "release": "b9637",
+    "commit": "aedb2a5e9",
+    "archive": "llama-b9637-bin-macos-x64.tar.gz",
+    "archive_sha256": "71743f8db0958e7c266cceb7add7b16aa418a964667e471094aa6ae65b9c8298",
+    "source_url": "https://github.com/ggml-org/llama.cpp/releases/tag/b9637",
+    "architecture": "x86_64",
+    "compiler": "AppleClang 17.0.0.17000013",
+    "metal_enabled": false,
+    "devices": [
+      "BLAS: Accelerate"
+    ],
+    "binary_sha256": {
+      "llama-server": "d762020bad249d1c74bb6883b7cee178db8ebb48e1872b626280dd1eebb07c39",
+      "llama-cli": "73532cd76a28d0e324c4d4b1d65f68efcca5a226f1988299df0ef0833217b475",
+      "llama-bench": "57066bd41f31e7b2a38654beea4775135bf706ba3266cae1ca8bb2968645dbe4"
+    }
+  },
+  "result": "PASS"
+}

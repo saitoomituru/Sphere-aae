@@ -1,0 +1,15 @@
+{
+  "kind": "model_verification",
+  "timestamp_utc": "2026-07-14T04:16:33Z",
+  "git_commit": "73d223887e7b024b55632fce4077df35c438acbc",
+  "model": {
+    "repository": "ibm-granite/granite-4.0-h-tiny-GGUF",
+    "revision": "08d5a8a9741dd5c1a95d2d39e25253226aa1464e",
+    "filename": "granite-4.0-h-tiny-Q4_K_M.gguf",
+    "size_bytes": 4230976352,
+    "sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+    "source_url": "https://huggingface.co/ibm-granite/granite-4.0-h-tiny-GGUF/tree/08d5a8a9741dd5c1a95d2d39e25253226aa1464e"
+  },
+  "free_space_after_download_gib": 64,
+  "result": "PASS"
+}

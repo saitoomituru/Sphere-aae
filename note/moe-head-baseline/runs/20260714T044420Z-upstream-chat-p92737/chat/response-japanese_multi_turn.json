@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "青い星"
+      }
+    }
+  ],
+  "created": 1784004291,
+  "model": "granite-4.0-h-tiny-q4km",
+  "system_fingerprint": "b9637-aedb2a5e9",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 5,
+    "prompt_tokens": 111,
+    "total_tokens": 116,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-9wDyCzDNMzw7kAV0Uhwb0gWC5DeoxzJx",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 111,
+    "prompt_ms": 1854.343,
+    "prompt_per_token_ms": 16.705792792792792,
+    "prompt_per_second": 59.859475835916,
+    "predicted_n": 5,
+    "predicted_ms": 255.478,
+    "predicted_per_token_ms": 51.095600000000005,
+    "predicted_per_second": 19.571156811936838
+  }
+}

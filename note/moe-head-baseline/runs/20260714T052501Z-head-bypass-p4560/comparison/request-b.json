@@ -1,0 +1,22 @@
+{
+  "model": "granite-4.0-h-tiny-q4km",
+  "messages": [
+    {
+      "role": "system",
+      "content": "あなたは簡潔で正確な日本語アシスタントです。"
+    },
+    {
+      "role": "user",
+      "content": "朝に温かい飲み物を用意する利点を、二点だけ日本語で説明してください。"
+    }
+  ],
+  "temperature": 0.0,
+  "seed": 424242,
+  "max_tokens": 96,
+  "stream": false,
+  "cache_prompt": false,
+  "n": 1,
+  "top_k": 1,
+  "top_p": 1.0,
+  "min_p": 0.0
+}

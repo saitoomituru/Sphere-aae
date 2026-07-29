@@ -1,0 +1,30 @@
+{
+  "model": "granite-4.0-h-tiny-q4km",
+  "messages": [
+    {
+      "role": "system",
+      "content": "あなたは簡潔で正確な日本語アシスタントです。"
+    },
+    {
+      "role": "user",
+      "content": "この会話だけで使う合言葉は『青い星』です。覚えてください。"
+    },
+    {
+      "role": "assistant",
+      "content": "合言葉は『青い星』ですね。"
+    },
+    {
+      "role": "user",
+      "content": "先ほどの合言葉だけを答えてください。"
+    }
+  ],
+  "temperature": 0.0,
+  "seed": 424242,
+  "max_tokens": 96,
+  "stream": false,
+  "cache_prompt": false,
+  "n": 1,
+  "top_k": 1,
+  "top_p": 1.0,
+  "min_p": 0.0
+}

@@ -1,0 +1,376 @@
+{
+  "kind": "moe_head_bypass_baseline",
+  "started_utc": "2026-07-14T05:25:01Z",
+  "finished_utc": "2026-07-14T05:26:09.845630+00:00",
+  "git_commit": "f9ebdf19a0937aa0baea71fd629829e1201ecbfd",
+  "scope": {
+    "fam_connected": false,
+    "head_mode": "observe_only",
+    "input_mode": "zero",
+    "router_override_applied": false,
+    "moe_response_mutation_allowed": false
+  },
+  "input_documents": {
+    "preflight": {
+      "path": "preflight.json",
+      "exists": true,
+      "valid_json_object": true,
+      "read_error": false
+    },
+    "fixture_manifest": {
+      "path": "head/fixture-manifest.json",
+      "exists": true,
+      "valid_json_object": true,
+      "read_error": false
+    },
+    "comparison_summary": {
+      "path": "comparison/summary.json",
+      "exists": true,
+      "valid_json_object": true,
+      "read_error": false
+    },
+    "head_result": {
+      "path": "comparison/head-result.json",
+      "exists": true,
+      "valid_json_object": true,
+      "read_error": false
+    }
+  },
+  "preflight": {
+    "result": "PASS",
+    "git_saved_remotely": true
+  },
+  "statuses": {
+    "fixture_build": 0,
+    "fixture_guard": 0,
+    "coremlcompiler": 0,
+    "coremlcompiler_guard": 0,
+    "swift_build": 0,
+    "swift_build_guard": 0,
+    "comparison": 0,
+    "server_guard": 0,
+    "process_monitor": 0,
+    "server_after_shutdown": 0
+  },
+  "shutdown": {
+    "requested_by_runner": true,
+    "server_forced_kill": false,
+    "normal_sigterm_exit": true
+  },
+  "artifacts": {
+    "compiled_model": {
+      "path": "build/moe-head-baseline/head-runs/20260714T052501Z-head-bypass-p4560/compiled/MinimalArbiterZeroB1.mlmodelc",
+      "exists": true,
+      "is_directory": true,
+      "hash_complete": true,
+      "sha256_tree": "344042abfb65b5d4a197e01a949f3fe186c64e230610f581610441039eed3134",
+      "file_count": 5,
+      "size_bytes": 7139
+    },
+    "head_binary": {
+      "path": "build/moe-head-baseline/head-swift/x86_64-apple-macosx/release/moe-head-baseline",
+      "exists": true,
+      "is_executable": true,
+      "hash_complete": true,
+      "sha256": "b72289e53fb696d3bd7b59262a93c5763a1f9b50c420b582f80182617c09d43c",
+      "size_bytes": 104344
+    }
+  },
+  "fixture": {
+    "model_name": "MinimalArbiterZeroB1",
+    "coremltools_version": "9.0",
+    "numpy_version": "1.26.4",
+    "batch_size": 1,
+    "input_mode": "zero",
+    "fam_enabled": false,
+    "head_mode": "observe_only",
+    "router_override_applied": false,
+    "source_model_sha256_tree": "c84a60aaab7c9578d1fc6ffa9d5b4217ec773f55de3ca4ed57a20fc54def1fc6",
+    "fixture_sha256": "b13e8845faaabdd708d2191b00dda69e3c3fbe01761fd821dfe27534cb226678",
+    "weights_sha256": "79c6ac6a9da4e68d4b9f2fbe57b2f97f03643983b0d4d8e94d23efed11a7cc56",
+    "checks": {
+      "document_valid": true,
+      "input_mode_zero": true,
+      "fam_disabled": true,
+      "head_observe_only": true,
+      "router_override_disabled": true,
+      "model_sha256_recorded": true,
+      "fixture_sha256_recorded": true,
+      "weights_sha256_recorded": true
+    }
+  },
+  "head_result": {
+    "model_name": "MinimalArbiterZeroB1",
+    "head_mode": "observe_only",
+    "fam_enabled": false,
+    "input_mode": "zero",
+    "input_all_zero": true,
+    "compute_units": "cpuOnly",
+    "router_override_applied": false,
+    "inference_count": 2,
+    "latency_ms": 3.393062,
+    "actual_output_shape": [
+      1,
+      4
+    ],
+    "expected_output_shape": [
+      1,
+      4
+    ],
+    "output_shape_matches": true,
+    "logits_finite": true,
+    "actual_logits": [
+      0.016245579347014427,
+      0.03444136306643486,
+      0.051066651940345764,
+      0.06537085771560669
+    ],
+    "expected_logits": [
+      0.016245581209659576,
+      0.03444136679172516,
+      0.051066651940345764,
+      0.06537085771560669
+    ],
+    "actual_top_k": [
+      3,
+      2
+    ],
+    "expected_top_k": [
+      3,
+      2
+    ],
+    "top_k_match": true,
+    "deterministic_repeat_match": true,
+    "repeat_max_abs_error": 0,
+    "max_abs_error": 3.725290298461914e-09,
+    "passed": true,
+    "checks": {
+      "document_valid": true,
+      "head_passed": true,
+      "head_observe_only": true,
+      "fam_disabled": true,
+      "input_mode_zero": true,
+      "input_all_zero": true,
+      "cpu_only": true,
+      "router_override_disabled": true,
+      "logits_finite_flag": true,
+      "actual_logits_finite": true,
+      "expected_logits_finite": true,
+      "shape_match_flag": true,
+      "shape_values_match": true,
+      "top_k_match_flag": true,
+      "top_k_values_match": true,
+      "repeat_match_flag": true,
+      "repeat_error_within_tolerance": true,
+      "reference_error_within_tolerance": true,
+      "inference_repeated": true
+    }
+  },
+  "comparison": {
+    "a1_a2_match": true,
+    "a1_b_match": true,
+    "a2_b_match": true,
+    "all_responses_match": true,
+    "responses": {
+      "a1": {
+        "status_code": 200,
+        "elapsed_seconds": 6.467840713914484,
+        "passed": true,
+        "assertion_message_ja": "日本語応答あり",
+        "canonical_message_sha256": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce"
+      },
+      "a2": {
+        "status_code": 200,
+        "elapsed_seconds": 6.212004307191819,
+        "passed": true,
+        "assertion_message_ja": "日本語応答あり",
+        "canonical_message_sha256": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce"
+      },
+      "b": {
+        "status_code": 200,
+        "elapsed_seconds": 7.1162764870096,
+        "passed": true,
+        "assertion_message_ja": "日本語応答あり",
+        "canonical_message_sha256": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce"
+      }
+    },
+    "canonical_message_sha256": {
+      "a1": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce",
+      "a2": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce",
+      "b": "a8cf53e4d013e02e13c9c445e95951d3ee36621af10938024a8316fab11d9fce"
+    },
+    "health_check_count": 5,
+    "initial_health_ready": true,
+    "all_health_checks_passed": true,
+    "server_alive_final": true,
+    "head": {
+      "exit_code": 0,
+      "timed_out": false,
+      "result_available": true,
+      "result_passed": true,
+      "fam_disabled": true,
+      "input_zero": true,
+      "override_disabled": true,
+      "observe_only": true,
+      "passed": true
+    },
+    "all_passed": true,
+    "checks": {
+      "document_valid": true,
+      "response_records_complete": true,
+      "initial_health_ready": true,
+      "health_checks_complete": true,
+      "server_alive_final": true,
+      "a1_a2_match": true,
+      "a1_b_match": true,
+      "a2_b_match": true,
+      "all_responses_match": true,
+      "canonical_hashes_complete": true,
+      "canonical_hashes_equal": true,
+      "head_exit_zero": true,
+      "head_summary_consistent": true,
+      "all_passed": true
+    }
+  },
+  "thermal_limit_c": 75.0,
+  "gpu_telemetry": {
+    "expected_minimum_file_count": 4,
+    "file_count": 4,
+    "sample_count": 38,
+    "global_recovery_delta": 0.0,
+    "all_files_passed": true,
+    "files": [
+      {
+        "path": "telemetry-gpu-build-fixture.jsonl",
+        "exists": true,
+        "line_count": 2,
+        "blank_line_count": 0,
+        "invalid_line_count": 0,
+        "read_error": false,
+        "valid_sample_count": 2,
+        "complete_sample_count": 2,
+        "all_samples_complete": true,
+        "temperature_c": {
+          "minimum": 56.0,
+          "maximum": 56.0
+        },
+        "recovery_count": {
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "recovery_delta": 0.0,
+        "thermal_abort": false,
+        "telemetry_abort": false,
+        "sample_limit_abort": false,
+        "below_thermal_limit": true,
+        "passed": true
+      },
+      {
+        "path": "telemetry-gpu-compile-model.jsonl",
+        "exists": true,
+        "line_count": 1,
+        "blank_line_count": 0,
+        "invalid_line_count": 0,
+        "read_error": false,
+        "valid_sample_count": 1,
+        "complete_sample_count": 1,
+        "all_samples_complete": true,
+        "temperature_c": {
+          "minimum": 56.0,
+          "maximum": 56.0
+        },
+        "recovery_count": {
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "recovery_delta": 0.0,
+        "thermal_abort": false,
+        "telemetry_abort": false,
+        "sample_limit_abort": false,
+        "below_thermal_limit": true,
+        "passed": true
+      },
+      {
+        "path": "telemetry-gpu-server.jsonl",
+        "exists": true,
+        "line_count": 21,
+        "blank_line_count": 0,
+        "invalid_line_count": 0,
+        "read_error": false,
+        "valid_sample_count": 21,
+        "complete_sample_count": 21,
+        "all_samples_complete": true,
+        "temperature_c": {
+          "minimum": 57.0,
+          "maximum": 59.0
+        },
+        "recovery_count": {
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "recovery_delta": 0.0,
+        "thermal_abort": false,
+        "telemetry_abort": false,
+        "sample_limit_abort": false,
+        "below_thermal_limit": true,
+        "passed": true
+      },
+      {
+        "path": "telemetry-gpu-swift-build.jsonl",
+        "exists": true,
+        "line_count": 14,
+        "blank_line_count": 0,
+        "invalid_line_count": 0,
+        "read_error": false,
+        "valid_sample_count": 14,
+        "complete_sample_count": 14,
+        "all_samples_complete": true,
+        "temperature_c": {
+          "minimum": 56.0,
+          "maximum": 57.0
+        },
+        "recovery_count": {
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "recovery_delta": 0.0,
+        "thermal_abort": false,
+        "telemetry_abort": false,
+        "sample_limit_abort": false,
+        "below_thermal_limit": true,
+        "passed": true
+      }
+    ]
+  },
+  "server_process_telemetry": {
+    "path": "telemetry-process-server.jsonl",
+    "exists": true,
+    "line_count": 27,
+    "blank_line_count": 0,
+    "invalid_line_count": 0,
+    "read_error": false,
+    "valid_sample_count": 27,
+    "complete_sample_count": 27,
+    "all_samples_complete": true,
+    "sample_index_sequence_complete": true,
+    "single_process": true,
+    "maximum_cpu_percent": 460.1,
+    "maximum_rss_kib": 7492924.0,
+    "maximum_vsz_kib": 42946388.0,
+    "maximum_load_average_1m": 8.02685546875,
+    "passed": true
+  },
+  "checks": {
+    "preflight_and_remote_save": true,
+    "all_build_guard_comparison_statuses_zero": true,
+    "compiled_model_and_head_binary_hashed": true,
+    "fixture_manifest_fam_free": true,
+    "head_zero_input_observe_only": true,
+    "a1_a2_b_identical": true,
+    "all_gpu_telemetry_complete": true,
+    "server_process_telemetry_complete": true,
+    "server_sigterm_shutdown_without_kill": true
+  },
+  "failures_ja": [],
+  "result": "PASS"
+}
