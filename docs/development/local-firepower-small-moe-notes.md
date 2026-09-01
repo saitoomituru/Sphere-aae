@@ -139,6 +139,14 @@ weight取得と負荷試験は別指示で行う。実行前に必ずcommit / pu
 
 高火力MoEは、この通常火力レーンでrouter契約、prompt、tool schema、fallback、logを固めた後に同じinterfaceのままcloudへscaleする。ローカル成功条件へtraining、CUDA kernel、expert parallelを混ぜない。
 
+## 7. 2026-09-01 RVC CPU学習ベンチマーク（外部実験の返却）
+
+別repositoryのデルタもん歌唱model実験で、40k / F0 / v2、65音声805.442秒を233 clipへ前処理し、F0・HuBERTを233/233完了した。GPUなしのCPU single-process、DataLoader worker 0で学習を継続でき、1 epoch約24分、epoch 3完了まで到達した（batch 1、20 epoch設定）。これは「軽量またはactive parameterの小さい処理は、火力調達を待たずCPUへ退避できる」ことの実測例である。
+
+ただし、これはRVCの一構成に限る。LLM MoEのhead、router、active expertがCPU焼き（学習・変換・推論）の射程に入るかは、model family、quantization、RAM、context、operator対応、所要時間を個別に測る必要がある。未測定のLLMについてCPU実行可能・実用速度・品質合格とは断言しない。
+
+Neat Runnerでは「全量を高火力へ送る／送れない」の二択にせず、workload size、active parameter、memory、推定時間、checkpoint間隔からCPU lane／高火力 lane／RESOURCE-WAITを選び、CPUで進められる段階を先に焼く制御が有効である。
+
 ## 公式資料
 
 - Granite 4.0 H-Tiny: https://huggingface.co/ibm-granite/granite-4.0-h-tiny
